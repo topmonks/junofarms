@@ -1,0 +1,14 @@
+{
+  "name": "@topmonks/junofarms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test -w @topmonks/junofarms-app"
+  },
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "package/*"
+  ]
+}
