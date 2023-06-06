@@ -5,10 +5,8 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import { Provider as RollbarProvider, ErrorBoundary } from "@rollbar/react";
 import { RecoilRoot } from "recoil";
 import AppLayout from "./layout/app";
-import rollbar from "./lib/rollbar";
 import Error from "./pages/error";
 
 const Game = lazy(() => import("./pages/game/index"));
@@ -43,15 +41,11 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <RollbarProvider instance={rollbar}>
-      <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <ErrorBoundary>
-            <RouterProvider router={router} />
-          </ErrorBoundary>
-        </QueryClientProvider>
-      </RecoilRoot>
-    </RollbarProvider>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 
