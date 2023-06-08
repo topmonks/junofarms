@@ -1,0 +1,5 @@
+encryptionsalt: v1:epBq5wSpRyU=:v1:luQdNQOOk16n0J4O:YNFVWxPG/d3dPbSWPBga5WmhZwKVSA==
+config:
+  aws:region: eu-central-1
+  webapp:API_DOMAIN: junofarms.dev.topmonks.com
+  webapp:ROUTE53_ZONE_NAME: topmonks.com
