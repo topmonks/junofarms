@@ -6,8 +6,18 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import { ChainProvider } from "@cosmos-kit/react";
+import { GasPrice } from "@cosmjs/stargate";
+import { assets, chains } from "chain-registry";
+import { wallets as keplrWallets } from "@cosmos-kit/keplr-extension";
+import { wallets as leapWallets } from "@cosmos-kit/leap-extension";
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation-extension";
+
 import AppLayout from "./layout/app";
 import Error from "./pages/error";
+import { ENABLED_TESTNETS, TESTNET } from "./lib/config";
+import { ChakraProvider } from "@chakra-ui/react";
+import { theme } from "./lib/theme";
 
 const Game = lazy(() => import("./pages/game/index"));
 
@@ -43,7 +53,32 @@ function App() {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <ChakraProvider theme={theme}>
+          <ChainProvider
+            chains={chains.filter((c) =>
+              ENABLED_TESTNETS.includes(c.chain_id as TESTNET)
+            )}
+            assetLists={assets}
+            wallets={[...keplrWallets, ...leapWallets, ...cosmostationWallets]} // supported wallets
+            endpointOptions={{
+              endpoints: {},
+              isLazy: true,
+            }}
+            signerOptions={{
+              signingCosmwasm: (chain) => {
+                if (chain.chain_id === TESTNET.JUNO) {
+                  return {
+                    gasPrice: GasPrice.fromString("0.01untrn"),
+                  };
+                }
+
+                return {};
+              },
+            }}
+          >
+            <RouterProvider router={router} />
+          </ChainProvider>
+        </ChakraProvider>
       </QueryClientProvider>
     </RecoilRoot>
   );

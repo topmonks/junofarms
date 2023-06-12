@@ -1,4 +1,5 @@
 import { Fragment, useCallback } from "react";
+import { v4 as uuid } from "uuid";
 import * as gs from "../../components/game-assets";
 
 const CELL_SIZE = 48;
@@ -162,7 +163,7 @@ export default function Game() {
       return;
     }
 
-    const inst = crypto.randomUUID();
+    const inst = uuid();
     canvas.dataset.inst = inst;
     startGame({ canvas, inst });
   }, []);
