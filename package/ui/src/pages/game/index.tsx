@@ -133,15 +133,19 @@ interface StartGameProps {
 }
 
 function startGame({ canvas, inst }: StartGameProps) {
-  const state: GameState = {
-    canvas,
-    grid: new Array(GRID_SIZE)
-      .fill(undefined)
-      .map(() => new Array(GRID_SIZE).fill({ type: SLOT_MEADOW })),
-    prevTime: performance.now(),
-    inst,
-    events: [],
-  };
+  const oldState = (window as any)._state;
+
+  const state: GameState = oldState
+    ? { ...oldState, inst, canvas }
+    : {
+        canvas,
+        grid: new Array(GRID_SIZE)
+          .fill(undefined)
+          .map(() => new Array(GRID_SIZE).fill({ type: SLOT_MEADOW })),
+        prevTime: performance.now(),
+        inst,
+        events: [],
+      };
 
   (window as any)._state = state;
 
