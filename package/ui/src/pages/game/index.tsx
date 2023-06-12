@@ -53,7 +53,24 @@ function update(state: GameState, delta: number) {
       case "click":
         {
           const coord = cellCoord(event.x, event.y);
-          state.grid[coord[0]][coord[1]] = { type: SLOT_FIELD };
+
+          const cell = state.grid[coord[0]][coord[1]];
+          switch (cell.type) {
+            case SLOT_MEADOW:
+              state.grid[coord[0]][coord[1]] = { type: SLOT_FIELD };
+              break;
+            case SLOT_FIELD:
+              if (cell.plant == null) {
+                cell.plant = {
+                  type: "sunflower",
+                  currentStage: 1,
+                  stages: gs.sunflowerImg.length,
+                };
+              } else if (cell.plant.currentStage < cell.plant.stages) {
+                cell.plant.currentStage++;
+              }
+              break;
+          }
         }
         break;
     }
@@ -70,12 +87,29 @@ function render(state: GameState, delta: number) {
   ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
-      switch (grid[row][col].type) {
+      const cell = grid[row][col];
+      switch (cell.type) {
         case SLOT_MEADOW:
           ctx.drawImage(gs.meadowImg, col * CELL_SIZE, row * CELL_SIZE);
           break;
         case SLOT_FIELD:
           ctx.drawImage(gs.fieldImg, col * CELL_SIZE, row * CELL_SIZE);
+          switch (cell.plant?.type) {
+            case "sunflower":
+              {
+                const img = gs.sunflowerImg[cell.plant.currentStage - 1];
+                for (let prow = 0; prow < 2; prow++) {
+                  for (let pcol = 0; pcol < 3; pcol++) {
+                    ctx.drawImage(
+                      img,
+                      col * CELL_SIZE + 16 * pcol,
+                      row * CELL_SIZE + 16 * prow
+                    );
+                  }
+                }
+              }
+              break;
+          }
           break;
       }
     }
@@ -108,6 +142,8 @@ function startGame({ canvas, inst }: StartGameProps) {
     inst,
     events: [],
   };
+
+  (window as any)._state = state;
 
   canvas.onclick = function (e) {
     state.events.push({ type: "click", x: e.offsetX, y: e.offsetY });
