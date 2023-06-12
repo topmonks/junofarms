@@ -22,11 +22,11 @@ interface GameState {
   events: Event[];
 }
 
-const SLOT_EMPTY = "empty";
+const SLOT_MEADOW = "meadow";
 const SLOT_FIELD = "field";
 
-interface EmptySlot {
-  type: typeof SLOT_EMPTY;
+interface MeadowSlot {
+  type: typeof SLOT_MEADOW;
 }
 
 interface Plant {
@@ -40,10 +40,10 @@ interface FieldSlot {
   plant?: Plant;
 }
 
-type Slot = EmptySlot | FieldSlot;
+type Slot = MeadowSlot | FieldSlot;
 
 function cellCoord(x: number, y: number): [number, number] {
-  return [Math.floor(x / CELL_SIZE), Math.floor(y / CELL_SIZE)];
+  return [Math.floor(y / CELL_SIZE), Math.floor(x / CELL_SIZE)];
 }
 
 function update(state: GameState, delta: number) {
@@ -53,7 +53,7 @@ function update(state: GameState, delta: number) {
       case "click":
         {
           const coord = cellCoord(event.x, event.y);
-          console.log("==coord", coord);
+          state.grid[coord[0]][coord[1]] = { type: SLOT_FIELD };
         }
         break;
     }
@@ -71,8 +71,11 @@ function render(state: GameState, delta: number) {
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
       switch (grid[row][col].type) {
-        case "empty":
-          ctx.drawImage(gs.emptyImg, col * CELL_SIZE, row * CELL_SIZE);
+        case SLOT_MEADOW:
+          ctx.drawImage(gs.meadowImg, col * CELL_SIZE, row * CELL_SIZE);
+          break;
+        case SLOT_FIELD:
+          ctx.drawImage(gs.fieldImg, col * CELL_SIZE, row * CELL_SIZE);
           break;
       }
     }
@@ -98,9 +101,9 @@ interface StartGameProps {
 function startGame({ canvas, inst }: StartGameProps) {
   const state: GameState = {
     canvas,
-    grid: new Array(GRID_SIZE).fill(
-      new Array(GRID_SIZE).fill({ type: SLOT_EMPTY })
-    ),
+    grid: new Array(GRID_SIZE)
+      .fill(undefined)
+      .map(() => new Array(GRID_SIZE).fill({ type: SLOT_MEADOW })),
     prevTime: performance.now(),
     inst,
     events: [],
