@@ -13,7 +13,17 @@ interface ClickEvent {
   y: number;
 }
 
-type Event = ClickEvent;
+interface HoverEvent {
+  type: "hover";
+  x: number;
+  y: number;
+}
+
+interface LeaveEvent {
+  type: "leave";
+}
+
+type Event = ClickEvent | HoverEvent | LeaveEvent;
 
 const SLOT_MEADOW = "meadow";
 const SLOT_FIELD = "field";
@@ -76,6 +86,7 @@ interface GameState {
     coord: [number, number];
     items: { type: keyof typeof categories; image: HTMLImageElement }[][];
   };
+  hovered?: [number, number];
 }
 
 const factories = {
@@ -97,8 +108,15 @@ const slotOptions = {
   ],
 } as const;
 
+function clip(min: number, max: number, n: number): number {
+  return Math.max(min, Math.min(max, n));
+}
+
 function cellCoord(x: number, y: number): [number, number] {
-  return [Math.floor(y / CELL_SIZE), Math.floor(x / CELL_SIZE)];
+  return [
+    clip(0, GRID_SIZE - 1, Math.floor(y / CELL_SIZE)),
+    clip(0, GRID_SIZE - 1, Math.floor(x / CELL_SIZE)),
+  ];
 }
 
 function partitionAll<T>(array: readonly T[], n: number): any {
@@ -111,7 +129,7 @@ function partitionAll<T>(array: readonly T[], n: number): any {
 }
 
 function update(state: GameState, delta: number) {
-  let event = state.events.pop();
+  let event = state.events.shift();
   while (event != null) {
     switch (event.type) {
       case "click":
@@ -157,10 +175,66 @@ function update(state: GameState, delta: number) {
           }
         }
         break;
+      case "hover":
+        {
+          const coord = cellCoord(event.x, event.y);
+          state.hovered = coord;
+        }
+        break;
+      case "leave":
+        delete state.hovered;
+        break;
     }
 
-    event = state.events.pop();
+    event = state.events.shift();
   }
+}
+
+function showTextBubble(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number
+) {
+  ctx.fillStyle = "rgb(0, 0, 0)";
+  ctx.font = "16px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const measurement = ctx.measureText(text);
+
+  const baseBubbleWidth = gs.bubbleLeftImg.width + gs.bubbleRightImg.width;
+  const textWidth = measurement.width;
+  const requiredExtraSpace = Math.max(0, textWidth - baseBubbleWidth);
+  const middleTimes =
+    Math.ceil(requiredExtraSpace / gs.bubbleMiddleImg.width) + 1;
+
+  let xOffset = x;
+  let yOffset = y;
+  const bubbleWidth = baseBubbleWidth + middleTimes * gs.bubbleMiddleImg.width;
+  const bubbleHeight = gs.bubbleLeftImg.height;
+  if (xOffset + bubbleWidth > CANVAS_W) {
+    xOffset = xOffset - bubbleWidth;
+  }
+  if (yOffset + bubbleHeight > CANVAS_H) {
+    yOffset = yOffset - bubbleHeight;
+  }
+
+  let width = 0;
+  ctx.drawImage(gs.bubbleLeftImg, xOffset + width, yOffset);
+  width += gs.bubbleLeftImg.width;
+  for (let i = 0; i < middleTimes; i++) {
+    ctx.drawImage(gs.bubbleMiddleImg, xOffset + width, yOffset);
+    width += gs.bubbleMiddleImg.width;
+  }
+  ctx.drawImage(gs.bubbleRightImg, xOffset + width, yOffset);
+  width += gs.bubbleRightImg.width;
+
+  ctx.fillText(
+    text,
+    xOffset + width / 2,
+    yOffset + gs.bubbleLeftImg.height / 2
+  );
 }
 
 function render(state: GameState, delta: number) {
@@ -204,6 +278,16 @@ function render(state: GameState, delta: number) {
         );
       }
     }
+  }
+
+  const hovered = state.hovered;
+  if (hovered != null) {
+    showTextBubble(
+      ctx,
+      "Testing cell bubble.",
+      hovered[1] * CELL_SIZE + CELL_SIZE / 2,
+      hovered[0] * CELL_SIZE + CELL_SIZE / 2
+    );
   }
 }
 
@@ -249,6 +333,12 @@ function startGame({ canvas, inst }: StartGameProps) {
   };
   canvas.onclick = function (e) {
     state.events.push({ type: "click", x: e.offsetX, y: e.offsetY });
+  };
+  canvas.onmousemove = function (e) {
+    state.events.push({ type: "hover", x: e.offsetX, y: e.offsetY });
+  };
+  canvas.onmouseleave = function () {
+    state.events.push({ type: "leave" });
   };
 
   requestAnimationFrame((currentTime) => loop(state, currentTime));

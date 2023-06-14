@@ -16,6 +16,13 @@ const sunflower = [
 const modal =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAJZJREFUaIHt2rENwjAQRuEzspQeiYIV3HoJz0ZFyyYsQcsKKFNciigDRBRPlt5Xubzn+i+ZGb2NjAl9vu9Sexv5fD3ielvoe07rbWSNiFjXX0Tc4XPOOT78At/xNwNoBtAMoBlAM4BmAM0AmgE0A2gG0AygGUAzgGYAzQCaATQDaAbQDKAZQDOAVo/HvpeYyb7tKLPPbTaXBBlaHJGJFAAAAABJRU5ErkJggg==";
 
+const bubbleLeft =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAABACAYAAAB7jnWuAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAN1JREFUaIHt2cENAyEMBEBzSQEpMEWkA4sOroj0SV6cSBDIKMD6sfs96XZsxIuQUpLVUT2bJfdVPy4T47P5bRhQlvZ+bI0ZkItnlA4DVM80u9gEWDW1CbBy6jIHsrwJ2JkKsHP6CrC7vAIgcgEQ038BUPEBQK3/AiBDAAFwwC2lB+wKijjYAAEEEEAAAQQQQAABR4yvoPrGAWDNBBDgCoC8ij424AKAOgY/GxDBbKHawG6EryPI2bmF0Hs53fFo1QWUkFUIEyAjROZvwwz4hczCDANamF560L8A1vSgH0jucCU88EI/AAAAAElFTkSuQmCC";
+const bubbleMiddle =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAABACAYAAAATffeWAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAADxJREFUWIXtzDERACAMADHKoRskYAJ3iCgSGLrm90/MubMVisxbAnplBgAAAAAAAAAAAAAAAPBvrHVKwAMriwiVREl7MgAAAABJRU5ErkJggg==";
+const bubbleRight =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAABACAYAAAB7jnWuAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAONJREFUaIHt2cEJwzAMBVC5ZMwO0QkiPEE7RLbrEO7JIIIlHGLLBX1dA/HL1yX4p31/F1Im51fSno2aVMpXBTAfXS+5AzUBvSOhVzFDAC1ML2Q4QEJ6ENMAFUFkpzEVICEa4jH7cCKinJ/E/Gl+qAvAGjeAloJrAi1EnBXUOacQL4G/AMg1xEwAAADkuPwPaMN8rE8AAAAAAAAAAAAAAIBlgHpvFDcBAABYCpBXtzETWAo435zHSqDVG7gBtNIixgqsymabfTCRXVpNA/TWdsMBV4vLIYA71a0J8CivN+sQj/r+Bx6JbI3nr0+gAAAAAElFTkSuQmCC";
+
 export const meadowImg = new Image();
 meadowImg.src = meadow;
 
@@ -31,3 +38,12 @@ export const sunflowerImg = sunflower.map((src) => {
 
 export const modalImg = new Image();
 modalImg.src = modal;
+
+export const bubbleLeftImg = new Image();
+bubbleLeftImg.src = bubbleLeft;
+
+export const bubbleMiddleImg = new Image();
+bubbleMiddleImg.src = bubbleMiddle;
+
+export const bubbleRightImg = new Image();
+bubbleRightImg.src = bubbleRight;
