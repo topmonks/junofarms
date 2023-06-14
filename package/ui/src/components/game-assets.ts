@@ -13,6 +13,9 @@ const sunflower = [
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAgCAYAAAAbifjMAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAATdJREFUSIntlC1uw0AQhd9allrJUklYYaUAGwT7AkFeWMnLo9zANCg0N4jKDQLNfAGjggITS4UtCqyUgmoK6t3M+E+qgvozkiXvruebN89jKyLCJeFdlP0P+HMAE2kyke5NnT+VwNf7zczt53Wh7L4aGmUTabIJNqryBACIl9dYb4+wkFEFVXnC0/MV22nvW1CvBS55v5m5io+vX2r94AOLG8+d21aEglUc4KF6c+vF3fu5Mrx2LUN4MKaCR9eDnokm0pTv5jBZ45xfb4/iGf4W/G5l3g5P5EmihTRMKN/NpYqsESDuSxek0jChVRwMwUUs728FXHhgIt2D2KpWgT3noLwulDOx60NeF8qCOYwrMllzHqQxk4aAAFAeXgBMjPIURBQloskrDROaOh/8Gr8TP+iX9osBn/S/xR6ccg2fAAAAAElFTkSuQmCC",
 ];
 
+const modal =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAJZJREFUaIHt2rENwjAQRuEzspQeiYIV3HoJz0ZFyyYsQcsKKFNciigDRBRPlt5Xubzn+i+ZGb2NjAl9vu9Sexv5fD3ielvoe07rbWSNiFjXX0Tc4XPOOT78At/xNwNoBtAMoBlAM4BmAM0AmgE0A2gG0AygGUAzgGYAzQCaATQDaAbQDKAZQDOAVo/HvpeYyb7tKLPPbTaXBBlaHJGJFAAAAABJRU5ErkJggg==";
+
 export const meadowImg = new Image();
 meadowImg.src = meadow;
 
@@ -25,3 +28,6 @@ export const sunflowerImg = sunflower.map((src) => {
 
   return img;
 });
+
+export const modalImg = new Image();
+modalImg.src = modal;
