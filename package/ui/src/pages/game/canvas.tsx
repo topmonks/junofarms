@@ -352,11 +352,15 @@ export default function Canvas({ options }: { options: GameOptions }) {
         return;
       }
 
+      if (canvas.dataset.inst == null) {
+        canvas
+          .getContext("2d")
+          ?.scale(window.devicePixelRatio, window.devicePixelRatio);
+      }
+
       const inst = uuid();
       canvas.dataset.inst = inst;
-      canvas
-        .getContext("2d")
-        ?.scale(window.devicePixelRatio, window.devicePixelRatio);
+
       startGame({ canvas, inst, size: options?.size });
     },
     [options]
