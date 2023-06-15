@@ -1,7 +1,6 @@
 import { Fragment, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 import * as gs from "../../components/game-assets";
-import useJunoQueryClient from "../../hooks/use-juno-query-client";
 import { useChain } from "@cosmos-kit/react";
 import { useRecoilValue } from "recoil";
 import { chainState } from "../../state/cosmos";
@@ -11,7 +10,6 @@ import {
 } from "../../codegen/Junofarms.react-query";
 import { Button } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
-import useJunoSignClient from "../../hooks/use-juno-sign-client";
 import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
 import useJunofarmsSignClient from "../../hooks/use-juno-junofarms-sign-client";
 
@@ -92,6 +90,9 @@ const categories = {
 interface GameState {
   canvas: HTMLCanvasElement;
   prevTime: number;
+  size: number;
+  canvasWidth: number;
+  canvasHeight: number;
   grid: Slot[][];
   inst: string;
   events: Event[];
@@ -125,10 +126,10 @@ function clip(min: number, max: number, n: number): number {
   return Math.max(min, Math.min(max, n));
 }
 
-function cellCoord(x: number, y: number): [number, number] {
+function cellCoord(x: number, y: number, grid_size: number): [number, number] {
   return [
-    clip(0, GRID_SIZE - 1, Math.floor(y / CELL_SIZE)),
-    clip(0, GRID_SIZE - 1, Math.floor(x / CELL_SIZE)),
+    clip(0, grid_size - 1, Math.floor(y / CELL_SIZE)),
+    clip(0, grid_size - 1, Math.floor(x / CELL_SIZE)),
   ];
 }
 
@@ -147,7 +148,7 @@ function update(state: GameState, delta: number) {
     switch (event.type) {
       case "click":
         {
-          const coord = cellCoord(event.x, event.y);
+          const coord = cellCoord(event.x, event.y, state.size);
           const cell = state.grid[coord[0]][coord[1]];
 
           const select = state.select;
@@ -157,7 +158,7 @@ function update(state: GameState, delta: number) {
               if (items != null) {
                 state.select = {
                   coord,
-                  items: partitionAll<any>(items, GRID_SIZE),
+                  items: partitionAll<any>(items, state.size),
                 };
               }
             } else {
@@ -190,7 +191,7 @@ function update(state: GameState, delta: number) {
         break;
       case "hover":
         {
-          const coord = cellCoord(event.x, event.y);
+          const coord = cellCoord(event.x, event.y, state.size);
           state.hovered = coord;
         }
         break;
@@ -207,7 +208,9 @@ function showTextBubble(
   ctx: CanvasRenderingContext2D,
   text: string,
   x: number,
-  y: number
+  y: number,
+  canvasWidth: number,
+  canvasHeight: number
 ) {
   ctx.fillStyle = "rgb(0, 0, 0)";
   ctx.font = "16px sans-serif";
@@ -226,10 +229,10 @@ function showTextBubble(
   let yOffset = y;
   const bubbleWidth = baseBubbleWidth + middleTimes * gs.bubbleMiddleImg.width;
   const bubbleHeight = gs.bubbleLeftImg.height;
-  if (xOffset + bubbleWidth > CANVAS_W) {
+  if (xOffset + bubbleWidth > canvasWidth) {
     xOffset = xOffset - bubbleWidth;
   }
-  if (yOffset + bubbleHeight > CANVAS_H) {
+  if (yOffset + bubbleHeight > canvasHeight) {
     yOffset = yOffset - bubbleHeight;
   }
 
@@ -256,9 +259,9 @@ function render(state: GameState, delta: number) {
 
   const ctx = canvas.getContext("2d")!;
 
-  ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-  for (let row = 0; row < GRID_SIZE; row++) {
-    for (let col = 0; col < GRID_SIZE; col++) {
+  ctx.clearRect(0, 0, state.canvasWidth, state.canvasHeight);
+  for (let row = 0; row < state.size; row++) {
+    for (let col = 0; col < state.size; col++) {
       const cell = grid[row][col];
       ctx.drawImage(cell.image, col * CELL_SIZE, row * CELL_SIZE);
       const plant = cell.plant;
@@ -299,7 +302,9 @@ function render(state: GameState, delta: number) {
       ctx,
       "Testing cell bubble.",
       hovered[1] * CELL_SIZE + CELL_SIZE / 2,
-      hovered[0] * CELL_SIZE + CELL_SIZE / 2
+      hovered[0] * CELL_SIZE + CELL_SIZE / 2,
+      state.canvasWidth,
+      state.canvasHeight
     );
   }
 }
@@ -318,21 +323,23 @@ function loop(state: GameState, currentTime: number) {
 interface StartGameProps {
   canvas: HTMLCanvasElement;
   inst: string;
+  size?: number;
 }
 
-function startGame({ canvas, inst }: StartGameProps) {
+function startGame({ canvas, inst, size = GRID_SIZE }: StartGameProps) {
   const oldState = (window as any)._state;
 
   const state: GameState = oldState
     ? { ...oldState, inst, canvas }
     : {
         canvas,
-        grid: new Array(GRID_SIZE)
+        size,
+        canvasHeight: size * CELL_SIZE,
+        canvasWidth: size * CELL_SIZE,
+        grid: new Array(size)
           .fill(undefined)
           .map(() =>
-            new Array(GRID_SIZE)
-              .fill(undefined)
-              .map(() => factories[SLOT_MEADOW]())
+            new Array(size).fill(undefined).map(() => factories[SLOT_MEADOW]())
           ),
         prevTime: performance.now(),
         inst,
@@ -357,22 +364,29 @@ function startGame({ canvas, inst }: StartGameProps) {
   requestAnimationFrame((currentTime) => loop(state, currentTime));
 }
 
-function Canvas() {
-  const canvasRef = useCallback((canvas: HTMLCanvasElement) => {
-    if (!canvas) {
-      return;
-    }
+type GameOptions = {
+  size: number;
+};
 
-    const inst = uuid();
-    canvas.dataset.inst = inst;
-    startGame({ canvas, inst });
-  }, []);
+function Canvas({ options }: { options: GameOptions }) {
+  const canvasRef = useCallback(
+    (canvas: HTMLCanvasElement) => {
+      if (!canvas) {
+        return;
+      }
+
+      const inst = uuid();
+      canvas.dataset.inst = inst;
+      startGame({ canvas, inst, size: options?.size });
+    },
+    [options]
+  );
 
   return (
     <Fragment>
       <canvas
-        width={`${CANVAS_W}px`}
-        height={`${CANVAS_H}px`}
+        width={`${options.size * CELL_SIZE}px`}
+        height={`${options.size * CELL_SIZE}px`}
         tabIndex={1}
         style={{ border: "1px solid", display: "block", margin: "0 auto" }}
         ref={canvasRef}
@@ -426,7 +440,7 @@ export default function Game() {
           </Button>
         </Fragment>
       )}
-      <Canvas />
+      <Canvas options={{ size: farmProfile.data?.plots.length || GRID_SIZE }} />
     </Fragment>
   );
 }
