@@ -377,6 +377,9 @@ function Canvas({ options }: { options: GameOptions }) {
 
       const inst = uuid();
       canvas.dataset.inst = inst;
+      canvas
+        .getContext("2d")
+        ?.scale(window.devicePixelRatio, window.devicePixelRatio);
       startGame({ canvas, inst, size: options?.size });
     },
     [options]
@@ -385,10 +388,16 @@ function Canvas({ options }: { options: GameOptions }) {
   return (
     <Fragment>
       <canvas
-        width={`${options.size * CELL_SIZE}px`}
-        height={`${options.size * CELL_SIZE}px`}
+        width={options.size * CELL_SIZE * window.devicePixelRatio}
+        height={options.size * CELL_SIZE * window.devicePixelRatio}
         tabIndex={1}
-        style={{ border: "1px solid", display: "block", margin: "0 auto" }}
+        style={{
+          border: "1px solid",
+          display: "block",
+          margin: "0 auto",
+          width: `${options.size * CELL_SIZE}px`,
+          height: `${options.size * CELL_SIZE}px`,
+        }}
         ref={canvasRef}
       />
     </Fragment>
