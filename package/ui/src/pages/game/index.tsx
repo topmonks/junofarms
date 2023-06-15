@@ -12,29 +12,13 @@ import { Button } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
 import useJunofarmsSignClient from "../../hooks/use-juno-junofarms-sign-client";
+import { Event } from "../../types/types";
+import { dispatchEvent } from "../../hooks/use-canvas-bridge";
+import Menu from "../../components/menu";
+import { canvasCoordToCartesian } from "../../lib/game";
 
 const CELL_SIZE = 48;
 const GRID_SIZE = 9;
-const CANVAS_W = CELL_SIZE * GRID_SIZE;
-const CANVAS_H = CANVAS_W;
-
-interface ClickEvent {
-  type: "click";
-  x: number;
-  y: number;
-}
-
-interface HoverEvent {
-  type: "hover";
-  x: number;
-  y: number;
-}
-
-interface LeaveEvent {
-  type: "leave";
-}
-
-type Event = ClickEvent | HoverEvent | LeaveEvent;
 
 const SLOT_MEADOW = "meadow";
 const SLOT_FIELD = "field";
@@ -153,6 +137,10 @@ function update(state: GameState, delta: number) {
 
           const select = state.select;
           if (select == null) {
+            dispatchEvent("click", {
+              coord: canvasCoordToCartesian(coord[1], coord[0], state.size),
+            });
+
             if (cell.plant == null) {
               const items = slotOptions[cell.type];
               if (items != null) {
@@ -169,6 +157,7 @@ function update(state: GameState, delta: number) {
           } else {
             const selected = select.items[coord[0]]?.[coord[1]];
             if (selected == null) {
+              dispatchEvent("click", { coord: null });
               delete state.select;
             } else {
               const selectedCoord = select.coord;
@@ -283,7 +272,7 @@ function render(state: GameState, delta: number) {
   const select = state.select;
   if (select != null) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    ctx.fillRect(0, 0, state.canvasWidth, state.canvasHeight);
     for (let row = 0; row < select.items.length; row++) {
       for (let col = 0; col < select.items[0].length; col++) {
         ctx.drawImage(gs.modalImg, col * CELL_SIZE, row * CELL_SIZE);
@@ -445,11 +434,12 @@ export default function Game() {
               });
             }}
           >
-            Build new farm
+            Build a new farm
           </Button>
         </Fragment>
       )}
       <Canvas options={{ size: farmProfile.data?.plots.length || GRID_SIZE }} />
+      <Menu />
     </Fragment>
   );
 }
