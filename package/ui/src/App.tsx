@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createBrowserRouter,
@@ -15,9 +15,10 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation-extensi
 
 import AppLayout from "./layout/app";
 import Error from "./pages/error";
-import { ENABLED_TESTNETS, TESTNET } from "./lib/config";
+import { ENABLED_TESTNETS, MAINNET, TESTNET } from "./lib/config";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "./lib/theme";
+import Loading from "./components/loading";
 
 const Game = lazy(() => import("./pages/game/index"));
 
@@ -37,7 +38,11 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Game />,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <Game />
+              </Suspense>
+            ),
           },
         ],
       },
@@ -68,7 +73,13 @@ function App() {
               signingCosmwasm: (chain) => {
                 if (chain.chain_id === TESTNET.JUNO) {
                   return {
-                    gasPrice: GasPrice.fromString("0.01untrn"),
+                    gasPrice: GasPrice.fromString("0.075ujunox"),
+                  };
+                }
+
+                if (chain.chain_id === MAINNET.JUNO) {
+                  return {
+                    gasPrice: GasPrice.fromString("0.075ujuno"),
                   };
                 }
 

@@ -1,6 +1,19 @@
 import { Fragment, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 import * as gs from "../../components/game-assets";
+import useJunoQueryClient from "../../hooks/use-juno-query-client";
+import { useChain } from "@cosmos-kit/react";
+import { useRecoilValue } from "recoil";
+import { chainState } from "../../state/cosmos";
+import {
+  useJunofarmsGetFarmProfileQuery,
+  useJunofarmsStartMutation,
+} from "../../codegen/Junofarms.react-query";
+import { Button } from "@chakra-ui/react";
+import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
+import useJunoSignClient from "../../hooks/use-juno-sign-client";
+import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
+import useJunofarmsSignClient from "../../hooks/use-juno-junofarms-sign-client";
 
 const CELL_SIZE = 48;
 const GRID_SIZE = 9;
@@ -344,7 +357,7 @@ function startGame({ canvas, inst }: StartGameProps) {
   requestAnimationFrame((currentTime) => loop(state, currentTime));
 }
 
-export default function Game() {
+function Canvas() {
   const canvasRef = useCallback((canvas: HTMLCanvasElement) => {
     if (!canvas) {
       return;
@@ -364,6 +377,56 @@ export default function Game() {
         style={{ border: "1px solid", display: "block", margin: "0 auto" }}
         ref={canvasRef}
       />
+    </Fragment>
+  );
+}
+
+export default function Game() {
+  const junofarmsQueryClient = useJunofarmsQueryClient();
+  const junofarmsSignClient = useJunofarmsSignClient();
+
+  const chain = useRecoilValue(chainState);
+  const { address } = useChain(chain.chain_name);
+  const reactQueryClient = useReactQueryClient();
+
+  const farmProfile = useJunofarmsGetFarmProfileQuery({
+    client: junofarmsQueryClient,
+    args: {
+      address: address!,
+    },
+    options: {
+      staleTime: 300000,
+      suspense: true,
+      enabled: Boolean(address),
+    },
+  });
+
+  const startMutation = useJunofarmsStartMutation({
+    onSuccess: () => {
+      reactQueryClient.invalidateQueries([{ method: "get_farm_profile" }]);
+    },
+  });
+
+  return (
+    <Fragment>
+      {farmProfile.data === null && (
+        <Fragment>
+          <Button
+            onClick={() => {
+              if (!junofarmsSignClient) {
+                return;
+              }
+              startMutation.mutate({
+                client: junofarmsSignClient,
+                args: {},
+              });
+            }}
+          >
+            Build new farm
+          </Button>
+        </Fragment>
+      )}
+      <Canvas />
     </Fragment>
   );
 }
