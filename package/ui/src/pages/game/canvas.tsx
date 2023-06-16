@@ -293,6 +293,7 @@ export default function Canvas({
     () => [game.size * CELL_SIZE, game.size * CELL_SIZE],
     [game]
   );
+
   useEffect(() => {
     const canvas = forwardRef.current;
     if (!canvas) {
