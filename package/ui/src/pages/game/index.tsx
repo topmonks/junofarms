@@ -1,17 +1,21 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useChain } from "@cosmos-kit/react";
-import { useRecoilValue } from "recoil";
+import { v4 as uuid } from "uuid";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { Button } from "@chakra-ui/react";
+
 import { chainState } from "../../state/cosmos";
 import {
   useJunofarmsGetFarmProfileQuery,
   useJunofarmsStartMutation,
 } from "../../codegen/Junofarms.react-query";
-import { Button } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
 import useJunofarmsSignClient from "../../hooks/use-juno-junofarms-sign-client";
 import Menu from "../../components/menu";
-import Canvas, { GRID_SIZE } from "./canvas";
+import Canvas from "./canvas";
+import { factories, gameState } from "../../state/junofarms";
+import { SLOT_MEADOW } from "../../types/types";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -39,6 +43,32 @@ export default function Game() {
     },
   });
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [game, setGame] = useRecoilState(gameState);
+  const resetGame = useResetRecoilState(gameState);
+
+  useEffect(() => {
+    if (farmProfile.data == null) {
+      resetGame();
+      return;
+    }
+
+    const height = farmProfile.data.plots.length;
+    const width = farmProfile.data.plots[0].length;
+
+    setGame({
+      size: height,
+      grid: new Array(height)
+        .fill(undefined)
+        .map(() =>
+          new Array(width).fill(undefined).map(() => factories[SLOT_MEADOW]())
+        ),
+      prevTime: performance.now(),
+      inst: uuid(),
+      events: [],
+    });
+  }, [farmProfile.data, setGame, resetGame]);
+
   return (
     <Fragment>
       {farmProfile.data === null && (
@@ -58,7 +88,7 @@ export default function Game() {
           </Button>
         </Fragment>
       )}
-      <Canvas options={{ size: farmProfile.data?.plots.length || GRID_SIZE }} />
+      <Canvas forwardRef={canvasRef} game={game} />
       <Menu />
     </Fragment>
   );

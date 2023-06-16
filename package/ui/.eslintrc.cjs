@@ -31,5 +31,13 @@ module.exports = {
         additionalHooks: "(useRecoilCallback|useRecoilTransaction_UNSTABLE)",
       },
     ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn", // or "error"
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrorsIgnorePattern: "^_",
+      },
+    ],
   },
 };

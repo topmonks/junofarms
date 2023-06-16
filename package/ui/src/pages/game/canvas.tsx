@@ -1,98 +1,14 @@
-import { Fragment, useCallback } from "react";
-import { v4 as uuid } from "uuid";
+import { Fragment, useEffect, useMemo } from "react";
 import * as gs from "../../components/game-assets";
-import { Event } from "../../types/types";
+import { GameState, PLANT_SUNFLOWER, Slot } from "../../types/types";
 import { dispatchEvent } from "../../hooks/use-canvas-bridge";
 import { canvasCoordToCartesian } from "../../lib/game";
-
-const CELL_SIZE = 48;
-export const GRID_SIZE = 9;
-
-const SLOT_MEADOW = "meadow";
-const SLOT_FIELD = "field";
-
-interface MeadowSlot {
-  type: typeof SLOT_MEADOW;
-  plant?: Plant;
-  image: HTMLImageElement;
-}
-
-const PLANT_SUNFLOWER = "sunflower";
-
-type PLANT_TYPE = typeof PLANT_SUNFLOWER;
-
-interface Plant {
-  type: PLANT_TYPE;
-  currentStage: number;
-  stages: number;
-  images: HTMLImageElement[];
-}
-
-interface FieldSlot {
-  type: typeof SLOT_FIELD;
-  plant?: Plant;
-  image: HTMLImageElement;
-}
-
-type Slot = MeadowSlot | FieldSlot;
-
-const CATEGORY_PLANT = "plant";
-const CATEGORY_TERRAIN = "terrain";
-
-const categories = {
-  [SLOT_MEADOW]: {
-    type: SLOT_MEADOW,
-    category: CATEGORY_TERRAIN,
-    image: gs.meadowImg,
-  },
-  [SLOT_FIELD]: {
-    type: SLOT_FIELD,
-    category: CATEGORY_TERRAIN,
-    image: gs.fieldImg,
-  },
-  [PLANT_SUNFLOWER]: {
-    type: PLANT_SUNFLOWER,
-    category: CATEGORY_PLANT,
-    images: gs.sunflowerImg,
-    currentStage: 1,
-    stages: gs.sunflowerImg.length,
-  },
-} as const;
-
-interface GameState {
-  canvas: HTMLCanvasElement;
-  prevTime: number;
-  size: number;
-  canvasWidth: number;
-  canvasHeight: number;
-  grid: Slot[][];
-  inst: string;
-  events: Event[];
-  select?: {
-    coord: [number, number];
-    items: { type: keyof typeof categories; image: HTMLImageElement }[][];
-  };
-  hovered?: [number, number];
-}
-
-const factories = {
-  [SLOT_MEADOW]: () => Object.assign({}, categories[SLOT_MEADOW]),
-  [SLOT_FIELD]: () => Object.assign({}, categories[SLOT_FIELD]),
-  [PLANT_SUNFLOWER]: () => Object.assign({}, categories[PLANT_SUNFLOWER]),
-};
-
-const slotOptions = {
-  [SLOT_MEADOW]: [{ type: SLOT_FIELD, image: categories[SLOT_FIELD].image }],
-  [SLOT_FIELD]: [
-    {
-      type: PLANT_SUNFLOWER,
-      image:
-        categories[PLANT_SUNFLOWER].images[
-          categories[PLANT_SUNFLOWER].stages - 2
-        ],
-    },
-  ],
-} as const;
+import {
+  CELL_SIZE,
+  categories,
+  factories,
+  slotOptions,
+} from "../../state/junofarms";
 
 function clip(min: number, max: number, n: number): number {
   return Math.max(min, Math.min(max, n));
@@ -114,7 +30,13 @@ function partitionAll<T>(array: readonly T[], n: number): any {
   return result;
 }
 
-function update(state: GameState, delta: number) {
+function update(
+  state: GameState,
+  _canvas: HTMLCanvasElement,
+  _canvasWidth: number,
+  _canvasHeight: number,
+  _delta: number
+) {
   let event = state.events.shift();
   while (event != null) {
     switch (event.type) {
@@ -230,13 +152,18 @@ function showTextBubble(
   );
 }
 
-function render(state: GameState, delta: number) {
-  const canvas = state.canvas;
+function render(
+  state: GameState,
+  canvas: HTMLCanvasElement,
+  canvasWidth: number,
+  canvasHeight: number,
+  _delta: number
+) {
   const grid = state.grid;
 
   const ctx = canvas.getContext("2d")!;
 
-  ctx.clearRect(0, 0, state.canvasWidth, state.canvasHeight);
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   for (let row = 0; row < state.size; row++) {
     for (let col = 0; col < state.size; col++) {
       const cell = grid[row][col];
@@ -260,7 +187,7 @@ function render(state: GameState, delta: number) {
   const select = state.select;
   if (select != null) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-    ctx.fillRect(0, 0, state.canvasWidth, state.canvasHeight);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     for (let row = 0; row < select.items.length; row++) {
       for (let col = 0; col < select.items[0].length; col++) {
         ctx.drawImage(gs.modalImg, col * CELL_SIZE, row * CELL_SIZE);
@@ -280,50 +207,62 @@ function render(state: GameState, delta: number) {
       "Testing cell bubble.",
       hovered[1] * CELL_SIZE + CELL_SIZE / 2,
       hovered[0] * CELL_SIZE + CELL_SIZE / 2,
-      state.canvasWidth,
-      state.canvasHeight
+      canvasWidth,
+      canvasHeight
     );
   }
 }
 
-function loop(state: GameState, currentTime: number) {
-  if (state.canvas.dataset.inst !== state.inst) {
+function loop(
+  state: GameState,
+  canvas: HTMLCanvasElement,
+  canvasWidth: number,
+  canvasHeight: number,
+  currentTime: number
+) {
+  if (canvas.dataset.inst !== state.inst) {
     return;
   }
 
   const delta = currentTime - state.prevTime;
-  requestAnimationFrame((currentTime) => loop(state, currentTime));
-  update(state, delta);
-  render(state, delta);
+  requestAnimationFrame((currentTime) =>
+    loop(state, canvas, canvasWidth, canvasHeight, currentTime)
+  );
+  update(state, canvas, canvasWidth, canvasHeight, delta);
+  render(state, canvas, canvasWidth, canvasHeight, delta);
 }
 
 interface StartGameProps {
+  state: GameState;
   canvas: HTMLCanvasElement;
-  inst: string;
-  size?: number;
+  canvasHeight: number;
+  canvasWidth: number;
 }
 
-function startGame({ canvas, inst, size = GRID_SIZE }: StartGameProps) {
-  const oldState = (window as any)._state;
+function startGame({
+  state,
+  canvas,
+  canvasHeight,
+  canvasWidth,
+}: StartGameProps) {
+  // const oldState = (window as any)._state;
 
-  const state: GameState = oldState
-    ? { ...oldState, inst, canvas }
-    : {
-        canvas,
-        size,
-        canvasHeight: size * CELL_SIZE,
-        canvasWidth: size * CELL_SIZE,
-        grid: new Array(size)
-          .fill(undefined)
-          .map(() =>
-            new Array(size).fill(undefined).map(() => factories[SLOT_MEADOW]())
-          ),
-        prevTime: performance.now(),
-        inst,
-        events: [],
-      };
+  // const state: GameState = {
+  //   canvas,
+  //   size,
+  //   canvasHeight: size * CELL_SIZE,
+  //   canvasWidth: size * CELL_SIZE,
+  //   grid: new Array(size)
+  //     .fill(undefined)
+  //     .map(() =>
+  //       new Array(size).fill(undefined).map(() => factories[SLOT_MEADOW]())
+  //     ),
+  //   prevTime: performance.now(),
+  //   inst,
+  //   events: [],
+  // };
 
-  (window as any)._state = state;
+  // (window as any)._state = state;
 
   canvas.onselectstart = function (e) {
     e.preventDefault(); // prevent selecting text on page around canvas
@@ -338,44 +277,67 @@ function startGame({ canvas, inst, size = GRID_SIZE }: StartGameProps) {
     state.events.push({ type: "leave" });
   };
 
-  requestAnimationFrame((currentTime) => loop(state, currentTime));
+  requestAnimationFrame((currentTime) =>
+    loop(state, canvas, canvasWidth, canvasHeight, currentTime)
+  );
 }
 
-type GameOptions = {
-  size: number;
-};
-
-export default function Canvas({ options }: { options: GameOptions }) {
-  const canvasRef = useCallback(
-    (canvas: HTMLCanvasElement) => {
-      if (!canvas) {
-        return;
-      }
-
-      const inst = uuid();
-      canvas.dataset.inst = inst;
-      canvas
-        .getContext("2d")
-        ?.scale(window.devicePixelRatio, window.devicePixelRatio);
-      startGame({ canvas, inst, size: options?.size });
-    },
-    [options]
+export default function Canvas({
+  game,
+  forwardRef,
+}: {
+  game: GameState;
+  forwardRef: React.MutableRefObject<HTMLCanvasElement | null>;
+}) {
+  const [h, w] = useMemo(
+    () => [game.size * CELL_SIZE, game.size * CELL_SIZE],
+    [game]
   );
+  useEffect(() => {
+    const canvas = forwardRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    canvas.dataset.inst = game.inst;
+
+    startGame({
+      state: game,
+      canvas: canvas,
+      canvasHeight: h,
+      canvasWidth: w,
+    });
+  }, [game, forwardRef, h, w]);
+
+  useEffect(() => {
+    const canvas = forwardRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    canvas
+      .getContext("2d")
+      ?.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    return () => {
+      canvas.getContext("2d")?.resetTransform();
+    };
+  }, [game, forwardRef]);
 
   return (
     <Fragment>
       <canvas
-        width={options.size * CELL_SIZE * window.devicePixelRatio}
-        height={options.size * CELL_SIZE * window.devicePixelRatio}
+        width={w * window.devicePixelRatio}
+        height={h * window.devicePixelRatio}
         tabIndex={1}
         style={{
           border: "1px solid",
           display: "block",
           margin: "0 auto",
-          width: `${options.size * CELL_SIZE}px`,
-          height: `${options.size * CELL_SIZE}px`,
+          width: `${w}px`,
+          height: `${h}px`,
         }}
-        ref={canvasRef}
+        ref={forwardRef}
       />
     </Fragment>
   );
