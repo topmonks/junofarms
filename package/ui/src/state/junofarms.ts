@@ -1,10 +1,9 @@
 import { atom, selector } from "recoil";
-import { v4 as uuid } from "uuid";
-
 import * as gs from "../components/game-assets";
 import { chainState } from "./cosmos";
 import { TESTNET } from "../lib/config";
 import {
+  Animation,
   CATEGORY_PLANT,
   CATEGORY_TERRAIN,
   GameState,
@@ -81,7 +80,31 @@ export const gameState = atom<GameState>({
       ),
     prevTime: performance.now(),
     animations: [],
-    inst: uuid(),
     events: [],
   },
 });
+
+export function pushAnimation(
+  animation: Omit<Animation, "id">,
+  animations?: Animation[]
+) {
+  const currentAnimations = animations || [];
+  const lastAnimation = currentAnimations[currentAnimations.length - 1];
+
+  const lastId = lastAnimation ? lastAnimation.id : null;
+  const nextId = lastId === null ? 0 : lastId + 1;
+
+  return {
+    animations: [...(animations || []), { ...animation, id: nextId }],
+    nextId,
+  };
+}
+
+export function removeAnimation(
+  animationId: Animation["id"],
+  animations?: Animation[]
+) {
+  const currentAnimations = animations || [];
+
+  return { animations: currentAnimations.filter((a) => a.id !== animationId) };
+}

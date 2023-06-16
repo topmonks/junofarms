@@ -1,12 +1,7 @@
 import { Fragment, useEffect, useMemo } from "react";
+import { v4 as uuid } from "uuid";
 import * as gs from "../../components/game-assets";
-import {
-  Animation,
-  AnimationProps,
-  GameState,
-  PLANT_SUNFLOWER,
-  Slot,
-} from "../../types/types";
+import { Animation, GameState, PLANT_SUNFLOWER, Slot } from "../../types/types";
 import { dispatchEvent } from "../../hooks/use-canvas-bridge";
 import { canvasCoordToCartesian } from "../../lib/game";
 import {
@@ -236,6 +231,10 @@ function render(
         CELL_SIZE
       );
     }
+
+    state.animations = animations.filter(
+      (a) => a.repeat == null || a.repeat > 0
+    );
   }
 
   state.prevTime = performance.now();
@@ -251,6 +250,10 @@ function animateSProps(animation: Animation) {
       animation.props.cols * animation.props.rows - 1
     ) {
       animation.currentFrame = 0;
+
+      if (animation.repeat) {
+        animation.repeat--;
+      }
     }
   }
 
@@ -265,18 +268,19 @@ function animateSProps(animation: Animation) {
 
 function loop(
   state: GameState,
+  inst: string,
   canvas: HTMLCanvasElement,
   canvasWidth: number,
   canvasHeight: number,
   currentTime: number
 ) {
-  if (canvas.dataset.inst !== state.inst) {
+  if (canvas.dataset.inst !== inst) {
     return;
   }
 
   const delta = currentTime - state.prevTime;
   requestAnimationFrame((currentTime) =>
-    loop(state, canvas, canvasWidth, canvasHeight, currentTime)
+    loop(state, inst, canvas, canvasWidth, canvasHeight, currentTime)
   );
   update(state, canvas, canvasWidth, canvasHeight, delta);
   render(state, canvas, canvasWidth, canvasHeight, delta);
@@ -284,6 +288,7 @@ function loop(
 
 interface StartGameProps {
   state: GameState;
+  inst: string;
   canvas: HTMLCanvasElement;
   canvasHeight: number;
   canvasWidth: number;
@@ -291,6 +296,7 @@ interface StartGameProps {
 
 function startGame({
   state,
+  inst,
   canvas,
   canvasHeight,
   canvasWidth,
@@ -328,7 +334,7 @@ function startGame({
   };
 
   requestAnimationFrame((currentTime) =>
-    loop(state, canvas, canvasWidth, canvasHeight, currentTime)
+    loop(state, inst, canvas, canvasWidth, canvasHeight, currentTime)
   );
 }
 
@@ -350,10 +356,12 @@ export default function Canvas({
       return;
     }
 
-    canvas.dataset.inst = game.inst;
+    const inst = uuid();
+    canvas.dataset.inst = inst;
 
     startGame({
       state: game,
+      inst,
       canvas: canvas,
       canvasHeight: h,
       canvasWidth: w,

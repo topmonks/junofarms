@@ -57,7 +57,6 @@ export interface GameState {
   prevTime: number;
   size: number;
   grid: Slot[][];
-  inst: string;
   events: Event[];
   select?: {
     coord: [number, number];
@@ -68,10 +67,12 @@ export interface GameState {
 }
 
 export interface Animation {
+  id: number;
   coord: [number, number];
   props: AnimationProps;
   image: HTMLImageElement;
   currentFrame: number;
+  repeat?: number;
   delta: number;
 }
 

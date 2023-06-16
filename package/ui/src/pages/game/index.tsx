@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { useChain } from "@cosmos-kit/react";
-import { v4 as uuid } from "uuid";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Container, Heading } from "@chakra-ui/react";
 
 import { chainState } from "../../state/cosmos";
 import {
@@ -12,7 +11,7 @@ import {
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
 import useJunofarmsSignClient from "../../hooks/use-juno-junofarms-sign-client";
-import Menu from "../../components/menu";
+import Till from "../../components/menu";
 import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
 import { SLOT_MEADOW } from "../../types/types";
@@ -57,24 +56,24 @@ export default function Game() {
     const height = farmProfile.data.plots.length;
     const width = farmProfile.data.plots[0].length;
 
-    setGame({
-      size: height,
-      grid: farmProfile.data.plots
-        .map((y) =>
-          y.map((x) => {
-            if (x.toString() === "Grass") {
-              return factories[SLOT_MEADOW]();
-            } else if (x.toString() === "Dirt") {
-              return factories[SLOT_FIELD]();
-            }
+    setGame((g) => {
+      return {
+        ...g,
+        size: height,
+        grid: farmProfile.data.plots
+          .map((y) =>
+            y.map((x) => {
+              if (x.toString() === "Grass") {
+                return factories[SLOT_MEADOW]();
+              } else if (x.toString() === "Dirt") {
+                return factories[SLOT_FIELD]();
+              }
 
-            throw new Error("unknown" + x.type);
-          })
-        )
-        .reverse(),
-      prevTime: performance.now(),
-      inst: uuid(),
-      events: [],
+              throw new Error("unknown" + x.type);
+            })
+          )
+          .reverse(),
+      };
     });
   }, [farmProfile.data, setGame, resetGame]);
 
@@ -97,8 +96,18 @@ export default function Game() {
           </Button>
         </Fragment>
       )}
-      <Canvas forwardRef={canvasRef} game={game} />
-      <Menu />
+
+      <Container>
+        <Box>
+          <Canvas forwardRef={canvasRef} game={game} />
+        </Box>
+        <Box sx={{ pt: 6 }}>
+          <Heading as="h3" size="sm">
+            Available Actions
+          </Heading>
+          <Till />
+        </Box>
+      </Container>
     </Fragment>
   );
 }
