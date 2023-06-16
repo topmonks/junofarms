@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import useCanvasBridge from "../hooks/use-canvas-bridge";
 import { Button } from "@chakra-ui/react";
+import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import { useJunofarmsTillGroundMutation } from "../codegen/Junofarms.react-query";
 import useJunofarmsSignClient from "../hooks/use-juno-junofarms-sign-client";
 
@@ -13,8 +14,13 @@ export default function Menu() {
     setSelectedCoords(opts.detail.coord);
   });
 
+  const reactQueryClient = useReactQueryClient();
   const junofarmsSignClient = useJunofarmsSignClient();
-  const tillGroundMutation = useJunofarmsTillGroundMutation();
+  const tillGroundMutation = useJunofarmsTillGroundMutation({
+    onSuccess: () => {
+      reactQueryClient.invalidateQueries([{ method: "get_farm_profile" }]);
+    },
+  });
 
   return (
     <Fragment>
@@ -34,7 +40,7 @@ export default function Menu() {
             });
           }}
         >
-          Crop
+          Till
         </Button>
       )}
     </Fragment>

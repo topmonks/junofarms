@@ -16,6 +16,7 @@ import Menu from "../../components/menu";
 import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
 import { SLOT_MEADOW } from "../../types/types";
+import { SLOT_FIELD } from "../../types/types";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -58,11 +59,19 @@ export default function Game() {
 
     setGame({
       size: height,
-      grid: new Array(height)
-        .fill(undefined)
-        .map(() =>
-          new Array(width).fill(undefined).map(() => factories[SLOT_MEADOW]())
-        ),
+      grid: farmProfile.data.plots
+        .map((y) =>
+          y.map((x) => {
+            if (x.toString() === "Grass") {
+              return factories[SLOT_MEADOW]();
+            } else if (x.toString() === "Dirt") {
+              return factories[SLOT_FIELD]();
+            }
+
+            throw new Error("unknown" + x.type);
+          })
+        )
+        .reverse(),
       prevTime: performance.now(),
       inst: uuid(),
       events: [],
