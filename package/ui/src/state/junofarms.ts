@@ -18,7 +18,7 @@ export const contractState = selector<string>({
   get: async ({ get }) => {
     const chain = get(chainState);
     if (chain.chain_id === TESTNET.JUNO) {
-      return "juno1hxareght6n8zh2epqwt8spfnn270q7ef8qj6p0p6vk8dcw4zsrsqj6p8ph";
+      return "juno1lrm049g7zt8vcejl3fmvj9vemamduccmt33455klwkrwlfl8xzpsm7fdl3";
     }
 
     throw new Error("unknown chain_id " + chain.chain_id);
