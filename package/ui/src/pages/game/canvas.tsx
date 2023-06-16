@@ -1,6 +1,12 @@
 import { Fragment, useEffect, useMemo } from "react";
 import * as gs from "../../components/game-assets";
-import { GameState, PLANT_SUNFLOWER, Slot } from "../../types/types";
+import {
+  Animation,
+  AnimationProps,
+  GameState,
+  PLANT_SUNFLOWER,
+  Slot,
+} from "../../types/types";
 import { dispatchEvent } from "../../hooks/use-canvas-bridge";
 import { canvasCoordToCartesian } from "../../lib/game";
 import {
@@ -157,7 +163,7 @@ function render(
   canvas: HTMLCanvasElement,
   canvasWidth: number,
   canvasHeight: number,
-  _delta: number
+  delta: number
 ) {
   const grid = state.grid;
 
@@ -211,6 +217,50 @@ function render(
       canvasHeight
     );
   }
+
+  const animations = state.animations;
+
+  if (animations && animations.length > 0) {
+    for (const animation of animations) {
+      animation.delta += Math.abs(delta);
+      const { sx, sy } = animateSProps(animation);
+      ctx.drawImage(
+        animation.image,
+        sx,
+        sy,
+        animation.props.width,
+        animation.props.height,
+        animation.coord[1] * CELL_SIZE,
+        animation.coord[0] * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+    }
+  }
+
+  state.prevTime = performance.now();
+}
+
+function animateSProps(animation: Animation) {
+  if (animation.delta > animation.props.timeout) {
+    animation.currentFrame++;
+    animation.delta = 0;
+
+    if (
+      animation.currentFrame >
+      animation.props.cols * animation.props.rows - 1
+    ) {
+      animation.currentFrame = 0;
+    }
+  }
+
+  const row = Math.floor(animation.currentFrame / animation.props.cols);
+  const column = animation.currentFrame - row * animation.props.cols;
+
+  return {
+    sx: column * animation.props.width,
+    sy: row * animation.props.height,
+  };
 }
 
 function loop(

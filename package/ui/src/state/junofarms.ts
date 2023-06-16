@@ -80,6 +80,7 @@ export const gameState = atom<GameState>({
           .map(() => factories[SLOT_MEADOW]())
       ),
     prevTime: performance.now(),
+    animations: [],
     inst: uuid(),
     events: [],
   },

@@ -63,5 +63,22 @@ export interface GameState {
     coord: [number, number];
     items: { type: SLOT_TYPE; image: HTMLImageElement }[][];
   };
+  animations?: Animation[];
   hovered?: [number, number];
+}
+
+export interface Animation {
+  coord: [number, number];
+  props: AnimationProps;
+  image: HTMLImageElement;
+  currentFrame: number;
+  delta: number;
+}
+
+export interface AnimationProps {
+  width: number;
+  height: number;
+  rows: number;
+  cols: number;
+  timeout: number;
 }
