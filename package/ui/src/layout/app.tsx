@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Fragment, Suspense, lazy } from "react";
 import Loading from "../components/loading";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Container, Heading } from "@chakra-ui/react";
 
 const WalletButton = lazy(() => import("../components/wallet-button"));
 
@@ -23,17 +23,20 @@ function Header() {
 export default function App() {
   return (
     <Fragment>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          p: { base: 1, md: 3 },
-        }}
-      >
-        <Header />
-      </Box>
-      <Outlet />
+      <Container maxW="container.lg">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: { base: 1, md: 3 },
+            mb: 5,
+          }}
+        >
+          <Header />
+        </Box>
+        <Outlet />
+      </Container>
     </Fragment>
   );
 }

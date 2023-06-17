@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { useChain } from "@cosmos-kit/react";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { Box, Button, Container, Heading } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 
 import { chainState } from "../../state/cosmos";
 import {
@@ -16,6 +16,7 @@ import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
 import { SLOT_MEADOW } from "../../types/types";
 import { SLOT_FIELD } from "../../types/types";
+import WithWallet from "../../components/with-wallet";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -97,16 +98,34 @@ export default function Game() {
         </Fragment>
       )}
 
-      <Container>
-        <Box>
-          <Canvas forwardRef={canvasRef} game={game} />
-        </Box>
-        <Box sx={{ pt: 6 }}>
-          <Heading as="h3" size="sm">
+      <Flex
+        gap={{ base: 4, md: 4 }}
+        w="100%"
+        direction={{ base: "column", md: "row" }}
+      >
+        <Box flexBasis={"20%"} textAlign={"center"}>
+          <Heading as="h3" size="sm" pb={2}>
             Available Actions
           </Heading>
-          <Till />
+          <WithWallet>
+            <Box>
+              <Till />
+            </Box>
+          </WithWallet>
         </Box>
+        <Box flexGrow={1}>
+          <Canvas forwardRef={canvasRef} game={game} />
+        </Box>
+        <Box flexBasis={"20%"}>
+          <Heading as="h3" size="sm">
+            Statistics
+          </Heading>
+        </Box>
+      </Flex>
+
+      <Container>
+        <Box></Box>
+        <Box sx={{ pt: 6 }}></Box>
       </Container>
     </Fragment>
   );
