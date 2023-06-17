@@ -10,6 +10,7 @@ import {
   factories,
   slotOptions,
 } from "../../state/junofarms";
+import { Box } from "@chakra-ui/react";
 
 function clip(min: number, max: number, n: number): number {
   return Math.max(min, Math.min(max, n));
@@ -366,9 +367,11 @@ function startGame({
 export default function Canvas({
   game,
   forwardRef,
+  disabled = false,
 }: {
   game: GameState;
   forwardRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  disabled: boolean;
 }) {
   const [h, w] = useMemo(
     () => [game.size * CELL_SIZE, game.size * CELL_SIZE],
@@ -410,19 +413,21 @@ export default function Canvas({
 
   return (
     <Fragment>
-      <canvas
-        width={w * window.devicePixelRatio}
-        height={h * window.devicePixelRatio}
-        tabIndex={1}
-        style={{
-          border: "1px solid",
-          display: "block",
-          margin: "0 auto",
-          width: `${w}px`,
-          height: `${h}px`,
-        }}
-        ref={forwardRef}
-      />
+      <Box sx={{ ...(disabled && { opacity: 0.3, pointerEvents: "none" }) }}>
+        <canvas
+          width={w * window.devicePixelRatio}
+          height={h * window.devicePixelRatio}
+          tabIndex={1}
+          style={{
+            border: "1px solid",
+            display: "block",
+            margin: "0 auto",
+            width: `${w}px`,
+            height: `${h}px`,
+          }}
+          ref={forwardRef}
+        />
+      </Box>
     </Fragment>
   );
 }

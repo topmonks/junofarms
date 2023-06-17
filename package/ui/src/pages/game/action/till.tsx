@@ -2,13 +2,17 @@ import { Fragment, useMemo, useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
-import useCanvasBridge from "../hooks/use-canvas-bridge";
-import { useJunofarmsTillGroundMutation } from "../codegen/Junofarms.react-query";
-import useJunofarmsSignClient from "../hooks/use-juno-junofarms-sign-client";
-import { gameState, pushAnimation, removeAnimation } from "../state/junofarms";
-import { cartesianCoordToCanvas, getTile } from "../lib/game";
-import * as gs from "./game-assets";
-import { SLOT_MEADOW } from "../types/types";
+import useCanvasBridge from "../../../hooks/use-canvas-bridge";
+import { useJunofarmsTillGroundMutation } from "../../../codegen/Junofarms.react-query";
+import useJunofarmsSignClient from "../../../hooks/use-juno-junofarms-sign-client";
+import {
+  gameState,
+  pushAnimation,
+  removeAnimation,
+} from "../../../state/junofarms";
+import { cartesianCoordToCanvas, getTile } from "../../../lib/game";
+import * as gs from "../../../components/game-assets";
+import { SLOT_MEADOW } from "../../../types/types";
 
 export default function Till() {
   const [selectedCoords, setSelectedCoords] = useState<[number, number] | null>(
