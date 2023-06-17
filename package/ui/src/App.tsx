@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createBrowserRouter,
@@ -16,7 +16,7 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation-extensi
 import AppLayout from "./layout/app";
 import Error from "./pages/error";
 import { ENABLED_TESTNETS, MAINNET, TESTNET } from "./lib/config";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useToast } from "@chakra-ui/react";
 import { theme } from "./lib/theme";
 import Loading from "./components/loading";
 
@@ -50,11 +50,29 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient({
-  defaultOptions: {},
-});
-
 function App() {
+  const toast = useToast();
+
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          mutations: {
+            onError: (e: any) => {
+              toast({
+                title: "TX Error",
+                description: e.message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+            },
+          },
+        },
+      }),
+    [toast]
+  );
+
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
