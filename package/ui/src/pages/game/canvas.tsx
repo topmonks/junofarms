@@ -47,46 +47,64 @@ function update(
           const cell = state.grid[coord[0]][coord[1]];
 
           const select = state.select;
-          if (select == null) {
+          if (
+            select &&
+            select.coord[0] == coord[0] &&
+            select.coord[1] == coord[1]
+          ) {
+            dispatchEvent("click", {
+              coord: null,
+            });
+
+            delete state.select;
+          } else {
             dispatchEvent("click", {
               coord: canvasCoordToCartesian(coord[1], coord[0], state.size),
             });
 
-            if (cell.plant == null) {
-              const items = slotOptions[cell.type];
-              if (items != null) {
-                state.select = {
-                  coord,
-                  items: partitionAll<any>(items, state.size),
-                };
-              }
-            } else {
-              if (cell.plant.currentStage < cell.plant.stages) {
-                cell.plant.currentStage++;
-              }
-            }
-          } else {
-            const selected = select.items[coord[0]]?.[coord[1]];
-            if (selected == null) {
-              dispatchEvent("click", { coord: null });
-              delete state.select;
-            } else {
-              const selectedCoord = select.coord;
-              switch (categories[selected.type].category) {
-                case "terrain":
-                  state.grid[selectedCoord[0]][selectedCoord[1]] = factories[
-                    selected.type
-                  ]() as Slot;
-                  delete state.select;
-                  break;
-                case "plant":
-                  state.grid[selectedCoord[0]][selectedCoord[1]].plant =
-                    factories[PLANT_SUNFLOWER]();
-                  delete state.select;
-                  break;
-              }
-            }
+            state.select = {
+              coord,
+              items: [],
+            };
           }
+
+          // const select = state.select;
+          // if (select == null) {
+          //   if (cell.plant == null) {
+          //     const items = slotOptions[cell.type];
+          //     if (items != null) {
+          //       state.select = {
+          //         coord,
+          //         items: partitionAll<any>(items, state.size),
+          //       };
+          //     }
+          //   } else {
+          //     if (cell.plant.currentStage < cell.plant.stages) {
+          //       cell.plant.currentStage++;
+          //     }
+          //   }
+          // } else {
+          //   const selected = select.items[coord[0]]?.[coord[1]];
+          //   if (selected == null) {
+          //     dispatchEvent("click", { coord: null });
+          //     delete state.select;
+          //   } else {
+          //     const selectedCoord = select.coord;
+          //     switch (categories[selected.type].category) {
+          //       case "terrain":
+          //         state.grid[selectedCoord[0]][selectedCoord[1]] = factories[
+          //           selected.type
+          //         ]() as Slot;
+          //         delete state.select;
+          //         break;
+          //       case "plant":
+          //         state.grid[selectedCoord[0]][selectedCoord[1]].plant =
+          //           factories[PLANT_SUNFLOWER]();
+          //         delete state.select;
+          //         break;
+          //     }
+          //   }
+          // }
         }
         break;
       case "hover":
@@ -187,18 +205,25 @@ function render(
 
   const select = state.select;
   if (select != null) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    for (let row = 0; row < select.items.length; row++) {
-      for (let col = 0; col < select.items[0].length; col++) {
-        ctx.drawImage(gs.modalImg, col * CELL_SIZE, row * CELL_SIZE);
-        ctx.drawImage(
-          select.items[row][col].image,
-          col * CELL_SIZE,
-          row * CELL_SIZE
-        );
-      }
-    }
+    // ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // for (let row = 0; row < select.items.length; row++) {
+    //   for (let col = 0; col < select.items[0].length; col++) {
+    //     ctx.drawImage(gs.modalImg, col * CELL_SIZE, row * CELL_SIZE);
+    //     ctx.drawImage(
+    //       select.items[row][col].image,
+    //       col * CELL_SIZE,
+    //       row * CELL_SIZE
+    //     );
+    //   }
+    // }
+    ctx.drawImage(
+      gs.gridSelectedImg,
+      select.coord[1] * CELL_SIZE,
+      select.coord[0] * CELL_SIZE,
+      CELL_SIZE,
+      CELL_SIZE
+    );
   }
 
   const hovered = state.hovered;

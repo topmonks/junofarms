@@ -1,3 +1,5 @@
+import { GameState, Slot } from "../types/types";
+
 export function canvasCoordToCartesian(
   x: number,
   y: number,
@@ -12,4 +14,8 @@ export function cartesianCoordToCanvas(
   height: number
 ): [number, number] {
   return [height - y - 1, x];
+}
+
+export function getTile(x: number, y: number, game: GameState): Slot {
+  return game.grid[x][y];
 }

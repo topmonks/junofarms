@@ -11,7 +11,7 @@ import {
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
 import useJunofarmsSignClient from "../../hooks/use-juno-junofarms-sign-client";
-import Till from "../../components/menu";
+import Till from "../../components/till";
 import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
 import { SLOT_MEADOW } from "../../types/types";

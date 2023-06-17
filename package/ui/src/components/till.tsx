@@ -1,21 +1,25 @@
-import { Fragment, useRef, useState } from "react";
-import useCanvasBridge from "../hooks/use-canvas-bridge";
+import { Fragment, useMemo, useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
+import useCanvasBridge from "../hooks/use-canvas-bridge";
 import { useJunofarmsTillGroundMutation } from "../codegen/Junofarms.react-query";
 import useJunofarmsSignClient from "../hooks/use-juno-junofarms-sign-client";
 import { gameState, pushAnimation, removeAnimation } from "../state/junofarms";
-import { useRecoilState } from "recoil";
-import { cartesianCoordToCanvas } from "../lib/game";
-import * as gs from "../components/game-assets";
+import { cartesianCoordToCanvas, getTile } from "../lib/game";
+import * as gs from "./game-assets";
+import { SLOT_MEADOW } from "../types/types";
 
 export default function Till() {
   const [selectedCoords, setSelectedCoords] = useState<[number, number] | null>(
     null
   );
-  const [, setGame] = useRecoilState(gameState);
+  const [game, setGame] = useRecoilState(gameState);
 
   useCanvasBridge("click", (opts: any) => {
+    if (tillGroundMutation.isLoading) {
+      return;
+    }
     console.log(opts.detail.coord);
     setSelectedCoords(opts.detail.coord);
   });
@@ -91,10 +95,23 @@ export default function Till() {
     },
   });
 
+  const isTillable = useMemo(() => {
+    if (!selectedCoords) {
+      return false;
+    }
+
+    return (
+      getTile(...cartesianCoordToCanvas(...selectedCoords, game.size), game)
+        .type === SLOT_MEADOW
+    );
+  }, [selectedCoords, game]);
+
   return (
     <Fragment>
-      {selectedCoords && (
+      {selectedCoords && isTillable && (
         <Button
+          isLoading={tillGroundMutation.isLoading}
+          loadingText={"Till in progress"}
           onClick={() => {
             if (!junofarmsSignClient) {
               return;
