@@ -1,7 +1,7 @@
 import { Fragment, useMemo, useRef, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Button, Link, useToast } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import useCanvasBridge from "../../../hooks/use-canvas-bridge";
 import { useJunofarmsTillGroundMutation } from "../../../codegen/Junofarms.react-query";
 import useJunofarmsSignClient from "../../../hooks/use-juno-junofarms-sign-client";
@@ -13,6 +13,8 @@ import {
 import { cartesianCoordToCanvas, getTile } from "../../../lib/game";
 import * as gs from "../../../components/game-assets";
 import { SLOT_MEADOW } from "../../../types/types";
+import { chainConfigState } from "../../../state/cosmos";
+import { addressShort } from "../../../lib/token";
 
 export default function Till() {
   const [selectedCoords, setSelectedCoords] = useState<[number, number] | null>(
@@ -32,6 +34,7 @@ export default function Till() {
 
   const reactQueryClient = useReactQueryClient();
   const junofarmsSignClient = useJunofarmsSignClient();
+  const toast = useToast();
   const tillGroundMutation = useJunofarmsTillGroundMutation({
     onMutate: () => {
       if (selectedCoords) {
@@ -56,8 +59,22 @@ export default function Till() {
         });
       }
     },
-    onSuccess: () => {
+    onSuccess: (r) => {
       reactQueryClient.invalidateQueries([{ method: "get_farm_profile" }]);
+      const url = chainConfig.explorer + "/txs/" + r.transactionHash;
+      toast({
+        title: "Successfully tilled",
+        description: (
+          <Fragment>
+            <Link href={url} target="_blank">
+              Check the tx in the explorer {addressShort(r.transactionHash)}
+            </Link>
+          </Fragment>
+        ),
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
 
       if (selectedCoords) {
         setGame((g) => {
@@ -109,6 +126,8 @@ export default function Till() {
         .type === SLOT_MEADOW
     );
   }, [selectedCoords, game]);
+
+  const chainConfig = useRecoilValue(chainConfigState);
 
   return (
     <Fragment>
