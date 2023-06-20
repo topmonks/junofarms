@@ -13,6 +13,7 @@ import { SLOT_MEADOW } from "../../types/types";
 import { SLOT_FIELD } from "../../types/types";
 import WithWallet from "../../components/with-wallet";
 import StartGame from "./action/start-game";
+import StopGame from "./action/stop-game";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -79,6 +80,7 @@ export default function Game() {
           <WithWallet>
             <Box>
               <StartGame />
+              <StopGame />
               <Till />
             </Box>
           </WithWallet>

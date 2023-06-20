@@ -12,6 +12,9 @@ export type ExecuteMsg =
       start: {};
     }
   | {
+      stop: {};
+    }
+  | {
       till_ground: {
         x: number;
         y: number;

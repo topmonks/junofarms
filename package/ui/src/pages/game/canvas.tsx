@@ -238,14 +238,14 @@ function render(
 
   const hovered = state.hovered;
   if (hovered != null) {
-    showTextBubble(
-      ctx,
-      "Testing cell bubble.",
-      hovered[1] * CELL_SIZE + CELL_SIZE / 2,
-      hovered[0] * CELL_SIZE + CELL_SIZE / 2,
-      canvasWidth,
-      canvasHeight
-    );
+    // showTextBubble(
+    //   ctx,
+    //   "Testing cell bubble.",
+    //   hovered[1] * CELL_SIZE + CELL_SIZE / 2,
+    //   hovered[0] * CELL_SIZE + CELL_SIZE / 2,
+    //   canvasWidth,
+    //   canvasHeight
+    // );
   }
 
   const animations = state.animations;

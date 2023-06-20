@@ -170,6 +170,26 @@ export function useJunofarmsTillGroundMutation(
     options
   );
 }
+export interface JunofarmsStopMutation {
+  client: JunofarmsClient;
+  args?: {
+    fee?: number | StdFee | "auto";
+    memo?: string;
+    funds?: Coin[];
+  };
+}
+export function useJunofarmsStopMutation(
+  options?: Omit<
+    UseMutationOptions<ExecuteResult, Error, JunofarmsStopMutation>,
+    "mutationFn"
+  >
+) {
+  return useMutation<ExecuteResult, Error, JunofarmsStopMutation>(
+    ({ client, args: { fee, memo, funds } = {} }) =>
+      client.stop(fee, memo, funds),
+    options
+  );
+}
 export interface JunofarmsStartMutation {
   client: JunofarmsClient;
   args?: {

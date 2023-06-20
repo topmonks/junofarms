@@ -59,6 +59,11 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     memo?: string,
     _funds?: Coin[]
   ) => Promise<ExecuteResult>;
+  stop: (
+    fee?: number | StdFee | "auto",
+    memo?: string,
+    _funds?: Coin[]
+  ) => Promise<ExecuteResult>;
   tillGround: (
     {
       x,
@@ -90,6 +95,7 @@ export class JunofarmsClient
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.start = this.start.bind(this);
+    this.stop = this.stop.bind(this);
     this.tillGround = this.tillGround.bind(this);
   }
 
@@ -103,6 +109,22 @@ export class JunofarmsClient
       this.contractAddress,
       {
         start: {},
+      },
+      fee,
+      memo,
+      _funds
+    );
+  };
+  stop = async (
+    fee: number | StdFee | "auto" = "auto",
+    memo?: string,
+    _funds?: Coin[]
+  ): Promise<ExecuteResult> => {
+    return await this.client.execute(
+      this.sender,
+      this.contractAddress,
+      {
+        stop: {},
       },
       fee,
       memo,
