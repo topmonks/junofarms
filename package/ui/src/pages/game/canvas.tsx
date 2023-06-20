@@ -37,7 +37,7 @@ function update(
   _canvas: HTMLCanvasElement,
   _canvasWidth: number,
   _canvasHeight: number,
-  _delta: number
+  delta: number
 ) {
   let event = state.events.shift();
   while (event != null) {
@@ -121,6 +121,17 @@ function update(
 
     event = state.events.shift();
   }
+
+  const animations = state.animations;
+  if (animations && animations.length > 0) {
+    for (const animation of animations) {
+      animation.delta += delta;
+      animateSProps(animation);
+    }
+    state.animations = animations.filter(
+      (a) => a.repeat == null || a.repeat > 0
+    );
+  }
 }
 
 function showTextBubble(
@@ -177,7 +188,7 @@ function render(
   canvas: HTMLCanvasElement,
   canvasWidth: number,
   canvasHeight: number,
-  delta: number
+  _delta: number
 ) {
   const grid = state.grid;
 
@@ -240,11 +251,12 @@ function render(
   }
 
   const animations = state.animations;
-
   if (animations && animations.length > 0) {
     for (const animation of animations) {
-      animation.delta += Math.abs(delta);
-      const { sx, sy } = animateSProps(animation);
+      const row = Math.floor(animation.currentFrame / animation.props.cols);
+      const column = animation.currentFrame - row * animation.props.cols;
+      const sx = column * animation.props.width;
+      const sy = row * animation.props.height;
       ctx.drawImage(
         animation.image,
         sx,
@@ -257,13 +269,7 @@ function render(
         CELL_SIZE
       );
     }
-
-    state.animations = animations.filter(
-      (a) => a.repeat == null || a.repeat > 0
-    );
   }
-
-  state.prevTime = performance.now();
 }
 
 function animateSProps(animation: Animation) {
@@ -282,14 +288,6 @@ function animateSProps(animation: Animation) {
       }
     }
   }
-
-  const row = Math.floor(animation.currentFrame / animation.props.cols);
-  const column = animation.currentFrame - row * animation.props.cols;
-
-  return {
-    sx: column * animation.props.width,
-    sy: row * animation.props.height,
-  };
 }
 
 function loop(
@@ -304,12 +302,13 @@ function loop(
     return;
   }
 
-  const delta = currentTime - state.prevTime;
+  const delta = Math.abs(currentTime - state.prevTime);
   requestAnimationFrame((currentTime) =>
     loop(state, inst, canvas, canvasWidth, canvasHeight, currentTime)
   );
   update(state, canvas, canvasWidth, canvasHeight, delta);
   render(state, canvas, canvasWidth, canvasHeight, delta);
+  state.prevTime = currentTime;
 }
 
 interface StartGameProps {
