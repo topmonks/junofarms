@@ -9,13 +9,15 @@ const WalletButton = lazy(() => import("../components/wallet-button"));
 function Header() {
   return (
     <Fragment>
-      <Heading as="h1" size="md" noOfLines={1}>
-        JUNOFARMS
-      </Heading>
-      <Suspense fallback={<Fragment />}>
-        <Shop />
-      </Suspense>
+      <Box gap={2} display={"flex"} alignItems={"center"}>
+        <Heading as="h1" size="md" noOfLines={1}>
+          JUNOFARMS
+        </Heading>
+      </Box>
       <Box gap={2} display={"flex"}>
+        <Suspense fallback={<Fragment />}>
+          <Shop />
+        </Suspense>
         <Suspense fallback={<Loading />}>
           <WalletButton />
         </Suspense>
