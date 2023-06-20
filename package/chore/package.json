@@ -1,0 +1,30 @@
+{
+  "name": "@topmonks/junofarms-chore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "codegen": "node ts-codegen.mjs && npx eslint --fix ../ui/src/codegen/*"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "29.5.2",
+    "@typescript-eslint/eslint-plugin": "5.59.9",
+    "@typescript-eslint/parser": "5.59.9",
+    "eslint": "8.42.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-jest": "27.2.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-sonarjs": "0.19.0",
+    "jest": "29.5.0",
+    "nodemon": "2.0.22",
+    "prettier": "2.8.8",
+    "supertest": "6.3.3"
+  },
+  "dependencies": {
+    "dotenv-cli": "7.2.1"
+  }
+}

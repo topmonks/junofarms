@@ -1,1 +1,1 @@
-module.exports = require("@kogen/kogen-chore/.eslintrc.nodets.js");
+module.exports = require("@topmonks/junofarms-chore/.eslintrc.nodets.js");
