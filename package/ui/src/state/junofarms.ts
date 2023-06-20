@@ -24,6 +24,22 @@ export const contractState = selector<string>({
   },
 });
 
+export const kompleState = selector({
+  key: "kompleState",
+  get: async ({ get }) => {
+    const chain = get(chainState);
+    if (chain.chain_id === TESTNET.JUNO) {
+      return {
+        mint: "juno1erexsqyr2uvpzc0ahd0ed6mhakn7au8r9uz27ju7a45ue8gm4a8sstaug4",
+        plantCollection:
+          "juno15yu4p7j0e65vsazt08mdlzzezsps3wenrtuukjaxduzjhet2mw0qf4p0kk",
+      };
+    }
+
+    throw new Error("unknown chain_id " + chain.chain_id);
+  },
+});
+
 export const DEFAULT_GRID_SIZE = 9;
 export const CELL_SIZE = 48;
 

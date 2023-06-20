@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Fragment, Suspense, lazy } from "react";
 import Loading from "../components/loading";
 import { Box, Container, Heading } from "@chakra-ui/react";
+import Shop from "../components/shop";
 
 const WalletButton = lazy(() => import("../components/wallet-button"));
 
@@ -11,6 +12,9 @@ function Header() {
       <Heading as="h1" size="md" noOfLines={1}>
         JUNOFARMS
       </Heading>
+      <Suspense fallback={<Fragment />}>
+        <Shop />
+      </Suspense>
       <Box gap={2} display={"flex"}>
         <Suspense fallback={<Loading />}>
           <WalletButton />

@@ -7,6 +7,14 @@
 import * as _0 from "./Junofarms.types";
 import * as _1 from "./Junofarms.client";
 import * as _2 from "./Junofarms.react-query";
+import * as _3 from "./KompleMint.types";
+import * as _4 from "./KompleMint.client";
+import * as _5 from "./KompleMint.react-query";
+import * as _6 from "./Cw721Base.types";
+import * as _7 from "./Cw721Base.client";
+import * as _8 from "./Cw721Base.react-query";
 export namespace contracts {
   export const Junofarms = { ..._0, ..._1, ..._2 };
+  export const KompleMint = { ..._3, ..._4, ..._5 };
+  export const Cw721Base = { ..._6, ..._7, ..._8 };
 }

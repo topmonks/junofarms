@@ -9,14 +9,14 @@ const mnemonic = process.env.MNEMONIC as string;
 const prefix = "juno";
 const slip = "44'/118'";
 
-const signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+export const signer = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
   prefix: prefix,
   hdPaths: [stringToPath(`m/${slip}/0'/0/0`)],
 });
 
 const rpcEndpoint = "https://juno-testnet-rpc.polkachu.com:443";
 
-const client = await SigningCosmWasmClient.connectWithSigner(
+export const client = await SigningCosmWasmClient.connectWithSigner(
   rpcEndpoint,
   signer,
   {

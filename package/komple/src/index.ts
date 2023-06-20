@@ -4,6 +4,7 @@ import {
   kompleClient,
   metadataCodeId,
   mintCodeId,
+  client,
 } from "./komple";
 
 import addresses from "./addresses.json" assert { type: "json" };
@@ -170,12 +171,20 @@ if (process.env.FORCE_DEPLOY || !addresses.plantsMetadataId) {
   addresses.plantsMetadataId = 1;
 }
 
-await mintModule.client.mint({
-  metadataId: addresses.plantsMetadataId,
-  collectionId: addresses.plantsCollectionId,
-});
-
 writeFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "./addresses.json"),
   JSON.stringify(addresses, null, 4)
+);
+
+// await mintModule.client.mint({
+//   metadataId: addresses.plantsMetadataId,
+//   collectionId: addresses.plantsCollectionId,
+// });
+
+console.log(
+  await client.queryContractSmart(addresses.plantsCollection, {
+    all_nft_info: {
+      token_id: "1",
+    },
+  })
 );
