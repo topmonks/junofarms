@@ -10,7 +10,6 @@ import {
   pushAnimation,
   removeAnimation,
 } from "../../../state/junofarms";
-import { cartesianCoordToCanvas, getTile } from "../../../lib/game";
 import * as gs from "../../../components/game-assets";
 import { SLOT_MEADOW } from "../../../types/types";
 import { chainConfigState } from "../../../state/cosmos";
@@ -41,7 +40,7 @@ export default function Till() {
         setGame((g) => {
           const { nextId, animations } = pushAnimation(
             {
-              coord: cartesianCoordToCanvas(...selectedCoords, g.size),
+              coord: selectedCoords,
               currentFrame: 0,
               delta: 0,
               image: gs.characterShovelImg,
@@ -80,7 +79,7 @@ export default function Till() {
         setGame((g) => {
           const { animations } = pushAnimation(
             {
-              coord: cartesianCoordToCanvas(...selectedCoords, g.size),
+              coord: selectedCoords,
               currentFrame: 0,
               delta: 0,
               repeat: 2,
@@ -121,10 +120,7 @@ export default function Till() {
       return false;
     }
 
-    return (
-      getTile(...cartesianCoordToCanvas(...selectedCoords, game.size), game)
-        .type === SLOT_MEADOW
-    );
+    return game.grid[selectedCoords[0]][selectedCoords[1]].type === SLOT_MEADOW;
   }, [selectedCoords, game]);
 
   const chainConfig = useRecoilValue(chainConfigState);

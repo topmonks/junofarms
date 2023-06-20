@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 import * as gs from "../../components/game-assets";
 import { Animation, GameState, PLANT_SUNFLOWER, Slot } from "../../types/types";
 import { dispatchEvent } from "../../hooks/use-canvas-bridge";
-import { canvasCoordToCartesian } from "../../lib/game";
 import {
   CELL_SIZE,
   categories,
@@ -45,7 +44,6 @@ function update(
       case "click":
         {
           const coord = cellCoord(event.x, event.y, state.size);
-          const cell = state.grid[coord[0]][coord[1]];
 
           const select = state.select;
           if (
@@ -60,7 +58,7 @@ function update(
             delete state.select;
           } else {
             dispatchEvent("click", {
-              coord: canvasCoordToCartesian(coord[1], coord[0], state.size),
+              coord: coord,
             });
 
             state.select = {

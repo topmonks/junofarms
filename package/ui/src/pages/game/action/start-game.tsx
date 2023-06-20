@@ -12,7 +12,6 @@ import * as gs from "../../../components/game-assets";
 import { chainState } from "../../../state/cosmos";
 import useJunofarmsSignClient from "../../../hooks/use-juno-junofarms-sign-client";
 import { gameState, pushAnimation } from "../../../state/junofarms";
-import { cartesianCoordToCanvas } from "../../../lib/game";
 
 export default function StartGame() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -40,7 +39,7 @@ export default function StartGame() {
       setGame((g) => {
         const { animations } = pushAnimation(
           {
-            coord: cartesianCoordToCanvas(0, g.size - 1, g.size),
+            coord: [0, 0],
             currentFrame: 0,
             delta: 0,
             repeat: 2,

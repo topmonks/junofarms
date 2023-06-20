@@ -17,7 +17,7 @@ export const contractState = selector<string>({
   get: async ({ get }) => {
     const chain = get(chainState);
     if (chain.chain_id === TESTNET.JUNO) {
-      return "juno1lrm049g7zt8vcejl3fmvj9vemamduccmt33455klwkrwlfl8xzpsm7fdl3";
+      return import.meta.env.VITE_CONTRACT_ADDRESS;
     }
 
     throw new Error("unknown chain_id " + chain.chain_id);

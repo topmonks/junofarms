@@ -46,26 +46,21 @@ export default function Game() {
       return;
     }
 
-    const height = farmProfile.data.plots.length;
-    const width = farmProfile.data.plots[0].length;
-
     setGame((g) => {
       return {
         ...g,
-        size: height,
-        grid: farmProfile.data.plots
-          .map((y) =>
-            y.map((x) => {
-              if (x.toString() === "Grass") {
-                return factories[SLOT_MEADOW]();
-              } else if (x.toString() === "Dirt") {
-                return factories[SLOT_FIELD]();
-              }
+        size: farmProfile.data.plots.length,
+        grid: farmProfile.data.plots.map((row) =>
+          row.map((x) => {
+            if (x.toString() === "Grass") {
+              return factories[SLOT_MEADOW]();
+            } else if (x.toString() === "Dirt") {
+              return factories[SLOT_FIELD]();
+            }
 
-              throw new Error("unknown" + x.type);
-            })
-          )
-          .reverse(),
+            throw new Error("unknown" + x.type);
+          })
+        ),
       };
     });
   }, [farmProfile.data, setGame, resetGame]);
