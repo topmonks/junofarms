@@ -116,6 +116,7 @@ export default function Till() {
     <Fragment>
       {selectedCoords && isTillable && (
         <Button
+          width={"100%"}
           isLoading={tillGroundMutation.isLoading}
           loadingText={"Till in progress"}
           onClick={() => {

@@ -61,6 +61,7 @@ export default function StartGame() {
     <Fragment>
       {address && farmProfile.data === null && (
         <Button
+          width={"100%"}
           isLoading={startMutation.isLoading}
           loadingText={"Building in progress"}
           onClick={() => {

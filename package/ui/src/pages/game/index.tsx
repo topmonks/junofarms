@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef } from "react";
 import { useChain } from "@cosmos-kit/react";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 
 import { chainState } from "../../state/cosmos";
 import { useJunofarmsGetFarmProfileQuery } from "../../codegen/Junofarms.react-query";
@@ -77,11 +77,14 @@ export default function Game() {
           <Heading as="h3" size="sm" pb={2}>
             Available Actions
           </Heading>
-          <WithWallet>
-            <Box>
+          <Divider sx={{ mb: 3 }} />
+          <WithWallet WalletButtonProps={{ width: "100%" }}>
+            <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
               <StartGame />
-              <StopGame />
               <Till />
+              <Box sx={{ mt: 5 }}>
+                <StopGame />
+              </Box>
             </Box>
           </WithWallet>
         </Box>
@@ -89,9 +92,10 @@ export default function Game() {
           <Canvas disabled={hasNoFarm} forwardRef={canvasRef} game={game} />
         </Box>
         <Box flexBasis={"20%"}>
-          <Heading as="h3" size="sm">
+          <Heading as="h3" size="sm" pb={2}>
             Statistics
           </Heading>
+          <Divider sx={{ mb: 3 }} />
         </Box>
       </Flex>
     </Fragment>

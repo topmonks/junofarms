@@ -39,6 +39,8 @@ export default function StopGame() {
     <Fragment>
       {address && farmProfile.data !== null && (
         <Button
+          width={"100%"}
+          variant="ghost"
           isLoading={stopMutation.isLoading}
           loadingText={"Removing in progress"}
           onClick={() => {
