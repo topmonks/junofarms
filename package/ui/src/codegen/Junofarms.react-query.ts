@@ -17,7 +17,7 @@ import {
   ExecuteMsg,
   QueryMsg,
   ContractInformationResponse,
-  FarmItem,
+  SlotType,
   FarmProfile,
   Slot,
   Plant,

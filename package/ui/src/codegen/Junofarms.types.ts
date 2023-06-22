@@ -32,7 +32,7 @@ export type QueryMsg =
 export interface ContractInformationResponse {
   admin: string;
 }
-export type FarmItem = "meadow" | "field";
+export type SlotType = "meadow" | "field";
 export interface FarmProfile {
   cooldowns: {
     [k: string]: number;
@@ -41,7 +41,7 @@ export interface FarmProfile {
 }
 export interface Slot {
   plant?: Plant | null;
-  type: FarmItem;
+  type: SlotType;
 }
 export interface Plant {
   type: string;
