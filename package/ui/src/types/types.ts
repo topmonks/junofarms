@@ -19,11 +19,7 @@ export type Event = ClickEvent | HoverEvent | LeaveEvent;
 export const SLOT_MEADOW = "meadow";
 export const SLOT_FIELD = "field";
 
-export interface MeadowSlot {
-  type: typeof SLOT_MEADOW;
-  plant?: Plant;
-  image: HTMLImageElement;
-}
+type SlotType = typeof SLOT_FIELD | typeof SLOT_MEADOW;
 
 export const PLANT_SUNFLOWER = "sunflower";
 
@@ -36,13 +32,11 @@ export interface Plant {
   images: HTMLImageElement[];
 }
 
-export interface FieldSlot {
-  type: typeof SLOT_FIELD;
+export interface Slot {
+  type: SlotType;
   plant?: Plant;
   image: HTMLImageElement;
 }
-
-export type Slot = MeadowSlot | FieldSlot;
 
 export const CATEGORY_PLANT = "plant";
 export const CATEGORY_TERRAIN = "terrain";

@@ -8,9 +8,12 @@ import {
   CATEGORY_TERRAIN,
   GameState,
   PLANT_SUNFLOWER,
+  Plant,
   SLOT_FIELD,
   SLOT_MEADOW,
+  Slot,
 } from "../types/types";
+import { SlotType } from "../codegen/Junofarms.types";
 
 export const contractState = selector<string>({
   key: "contractsState",
@@ -64,23 +67,19 @@ export const categories = {
 } as const;
 
 export const factories = {
-  [SLOT_MEADOW]: (
-    overrides?: Partial<(typeof categories)[typeof SLOT_FIELD]>
-  ) => Object.assign({}, categories[SLOT_MEADOW], overrides),
-  [SLOT_FIELD]: (
-    overrides?: Partial<(typeof categories)[typeof SLOT_FIELD]>
-  ) => {
-    const slot: any = Object.assign({}, categories[SLOT_FIELD], overrides);
+  [SLOT_MEADOW]: (overrides?: Partial<Slot>) =>
+    Object.assign({}, categories[SLOT_MEADOW], overrides),
+  [SLOT_FIELD]: (overrides?: Partial<Slot>) => {
+    const slot = Object.assign({}, categories[SLOT_FIELD], overrides);
     if (slot.plant != null) {
-      const type: any = slot.plant.type;
-      slot.plant = (factories as any)[type](slot.plant);
+      const type = slot.plant.type;
+      slot.plant = factories[type](slot.plant);
     }
 
     return slot;
   },
-  [PLANT_SUNFLOWER]: (
-    overrides?: Partial<(typeof categories)[typeof PLANT_SUNFLOWER]>
-  ) => Object.assign({}, categories[PLANT_SUNFLOWER], overrides),
+  [PLANT_SUNFLOWER]: (overrides?: Partial<Plant>) =>
+    Object.assign({}, categories[PLANT_SUNFLOWER], overrides),
 };
 
 export const slotOptions = {

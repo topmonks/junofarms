@@ -64,7 +64,7 @@ export default function Game() {
       };
     });
   }, [farmProfile.data, setGame, resetGame]);
-  console.log("==fp", farmProfile.data);
+
   return (
     <Fragment>
       <Flex
