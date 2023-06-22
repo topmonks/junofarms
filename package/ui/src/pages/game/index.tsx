@@ -9,11 +9,12 @@ import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client
 import Till from "./action/till";
 import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
-import { SLOT_MEADOW } from "../../types/types";
+import { SLOT_MEADOW, Slot } from "../../types/types";
 import { SLOT_FIELD } from "../../types/types";
 import WithWallet from "../../components/with-wallet";
 import StartGame from "./action/start-game";
 import StopGame from "./action/stop-game";
+import { FarmItem } from "../../codegen/Junofarms.types";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -53,13 +54,13 @@ export default function Game() {
         size: farmProfile.data.plots.length,
         grid: farmProfile.data.plots.map((row) =>
           row.map((x) => {
-            if (x.toString() === "Grass") {
-              return factories[SLOT_MEADOW]();
-            } else if (x.toString() === "Dirt") {
-              return factories[SLOT_FIELD]();
+            const type = x as any as FarmItem["type"]; // todo: bad types
+            const factory = factories[type];
+            if (factory == null) {
+              throw new Error("Unknown grid item: " + type);
             }
 
-            throw new Error("unknown" + x.type);
+            return factory();
           })
         ),
       };

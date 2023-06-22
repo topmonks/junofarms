@@ -34,27 +34,11 @@ export interface ContractInformationResponse {
 }
 export type FarmItem =
   | {
-      type: "Air";
+      type: "Meadow";
       [k: string]: unknown;
     }
   | {
-      type: "Grass";
-      [k: string]: unknown;
-    }
-  | {
-      type: "Dirt";
-      [k: string]: unknown;
-    }
-  | {
-      type: "WheatSeed";
-      [k: string]: unknown;
-    }
-  | {
-      type: "WheatHarvestable";
-      [k: string]: unknown;
-    }
-  | {
-      type: "Cow";
+      type: "Field";
       [k: string]: unknown;
     };
 export interface FarmProfile {
