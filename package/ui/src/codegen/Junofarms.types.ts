@@ -34,9 +34,6 @@ export interface ContractInformationResponse {
 }
 export type SlotType = "meadow" | "field";
 export interface FarmProfile {
-  cooldowns: {
-    [k: string]: number;
-  };
   plots: Slot[][];
 }
 export interface Slot {
