@@ -9,12 +9,9 @@ import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client
 import Till from "./action/till";
 import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
-import { SLOT_MEADOW, Slot } from "../../types/types";
-import { SLOT_FIELD } from "../../types/types";
 import WithWallet from "../../components/with-wallet";
 import StartGame from "./action/start-game";
 import StopGame from "./action/stop-game";
-import { FarmItem } from "../../codegen/Junofarms.types";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();

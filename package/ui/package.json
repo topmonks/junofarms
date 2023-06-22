@@ -9,7 +9,7 @@
     "build:dev": "npm run build",
     "build:prod": "npm run build",
     "preview": "vite preview",
-    "test": "exit 0"
+    "test": "tsc --noEmit"
   },
   "dependencies": {
     "@chakra-ui/react": "2.7.0",
