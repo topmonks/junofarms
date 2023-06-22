@@ -106,6 +106,18 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     memo?: string,
     _funds?: Coin[]
   ) => Promise<ExecuteResult>;
+  harvest: (
+    {
+      x,
+      y,
+    }: {
+      x: number;
+      y: number;
+    },
+    fee?: number | StdFee | "auto",
+    memo?: string,
+    _funds?: Coin[]
+  ) => Promise<ExecuteResult>;
   receive: (
     {
       msg,
@@ -143,6 +155,7 @@ export class JunofarmsClient
     this.tillGround = this.tillGround.bind(this);
     this.plantSeed = this.plantSeed.bind(this);
     this.waterPlant = this.waterPlant.bind(this);
+    this.harvest = this.harvest.bind(this);
     this.receive = this.receive.bind(this);
   }
 
@@ -247,6 +260,32 @@ export class JunofarmsClient
       this.contractAddress,
       {
         water_plant: {
+          x,
+          y,
+        },
+      },
+      fee,
+      memo,
+      _funds
+    );
+  };
+  harvest = async (
+    {
+      x,
+      y,
+    }: {
+      x: number;
+      y: number;
+    },
+    fee: number | StdFee | "auto" = "auto",
+    memo?: string,
+    _funds?: Coin[]
+  ): Promise<ExecuteResult> => {
+    return await this.client.execute(
+      this.sender,
+      this.contractAddress,
+      {
+        harvest: {
           x,
           y,
         },

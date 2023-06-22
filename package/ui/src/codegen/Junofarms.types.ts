@@ -35,6 +35,12 @@ export type ExecuteMsg =
       };
     }
   | {
+      harvest: {
+        x: number;
+        y: number;
+      };
+    }
+  | {
       receive: Cw721ReceiveMsg;
     };
 export type Binary = string;

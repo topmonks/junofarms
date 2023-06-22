@@ -14,6 +14,7 @@ import StartGame from "./action/start-game";
 import StopGame from "./action/stop-game";
 import PlantSeed from "./action/plant-seed";
 import WaterPlant from "./action/water-plant";
+import Harvest from "./action/harvest";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -84,6 +85,7 @@ export default function Game() {
               <Till />
               <PlantSeed />
               <WaterPlant />
+              <Harvest />
               <Box sx={{ mt: 5 }}>
                 <StopGame />
               </Box>
