@@ -1,14 +1,9 @@
 import { Fragment, useEffect, useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import * as gs from "../../components/game-assets";
-import { Animation, GameState, PLANT_SUNFLOWER, Slot } from "../../types/types";
+import { Animation, GameState } from "../../types/types";
 import { dispatchEvent } from "../../hooks/use-canvas-bridge";
-import {
-  CELL_SIZE,
-  categories,
-  factories,
-  slotOptions,
-} from "../../state/junofarms";
+import { CELL_SIZE } from "../../state/junofarms";
 import { Box } from "@chakra-ui/react";
 
 function clip(min: number, max: number, n: number): number {
@@ -20,15 +15,6 @@ function cellCoord(x: number, y: number, grid_size: number): [number, number] {
     clip(0, grid_size - 1, Math.floor(y / CELL_SIZE)),
     clip(0, grid_size - 1, Math.floor(x / CELL_SIZE)),
   ];
-}
-
-function partitionAll<T>(array: readonly T[], n: number): any {
-  const result = [];
-  for (let i = 0; i < array.length; i += n) {
-    result.push(array.slice(i, i + n));
-  }
-
-  return result;
 }
 
 function update(
@@ -66,44 +52,6 @@ function update(
               items: [],
             };
           }
-
-          // const select = state.select;
-          // if (select == null) {
-          //   if (cell.plant == null) {
-          //     const items = slotOptions[cell.type];
-          //     if (items != null) {
-          //       state.select = {
-          //         coord,
-          //         items: partitionAll<any>(items, state.size),
-          //       };
-          //     }
-          //   } else {
-          //     if (cell.plant.currentStage < cell.plant.stages) {
-          //       cell.plant.currentStage++;
-          //     }
-          //   }
-          // } else {
-          //   const selected = select.items[coord[0]]?.[coord[1]];
-          //   if (selected == null) {
-          //     dispatchEvent("click", { coord: null });
-          //     delete state.select;
-          //   } else {
-          //     const selectedCoord = select.coord;
-          //     switch (categories[selected.type].category) {
-          //       case "terrain":
-          //         state.grid[selectedCoord[0]][selectedCoord[1]] = factories[
-          //           selected.type
-          //         ]() as Slot;
-          //         delete state.select;
-          //         break;
-          //       case "plant":
-          //         state.grid[selectedCoord[0]][selectedCoord[1]].plant =
-          //           factories[PLANT_SUNFLOWER]();
-          //         delete state.select;
-          //         break;
-          //     }
-          //   }
-          // }
         }
         break;
       case "hover":
@@ -215,18 +163,6 @@ function render(
 
   const select = state.select;
   if (select != null) {
-    // ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    // for (let row = 0; row < select.items.length; row++) {
-    //   for (let col = 0; col < select.items[0].length; col++) {
-    //     ctx.drawImage(gs.modalImg, col * CELL_SIZE, row * CELL_SIZE);
-    //     ctx.drawImage(
-    //       select.items[row][col].image,
-    //       col * CELL_SIZE,
-    //       row * CELL_SIZE
-    //     );
-    //   }
-    // }
     ctx.drawImage(
       gs.gridSelectedImg,
       select.coord[1] * CELL_SIZE,
@@ -324,25 +260,6 @@ function startGame({
   canvasHeight,
   canvasWidth,
 }: StartGameProps) {
-  // const oldState = (window as any)._state;
-
-  // const state: GameState = {
-  //   canvas,
-  //   size,
-  //   canvasHeight: size * CELL_SIZE,
-  //   canvasWidth: size * CELL_SIZE,
-  //   grid: new Array(size)
-  //     .fill(undefined)
-  //     .map(() =>
-  //       new Array(size).fill(undefined).map(() => factories[SLOT_MEADOW]())
-  //     ),
-  //   prevTime: performance.now(),
-  //   inst,
-  //   events: [],
-  // };
-
-  // (window as any)._state = state;
-
   canvas.onselectstart = function (e) {
     e.preventDefault(); // prevent selecting text on page around canvas
   };
