@@ -177,6 +177,30 @@ export function useJunofarmsReceiveMutation(
     options
   );
 }
+export interface JunofarmsWaterPlantMutation {
+  client: JunofarmsClient;
+  msg: {
+    x: number;
+    y: number;
+  };
+  args?: {
+    fee?: number | StdFee | "auto";
+    memo?: string;
+    funds?: Coin[];
+  };
+}
+export function useJunofarmsWaterPlantMutation(
+  options?: Omit<
+    UseMutationOptions<ExecuteResult, Error, JunofarmsWaterPlantMutation>,
+    "mutationFn"
+  >
+) {
+  return useMutation<ExecuteResult, Error, JunofarmsWaterPlantMutation>(
+    ({ client, msg, args: { fee, memo, funds } = {} }) =>
+      client.waterPlant(msg, fee, memo, funds),
+    options
+  );
+}
 export interface JunofarmsPlantSeedMutation {
   client: JunofarmsClient;
   msg: {

@@ -13,6 +13,7 @@ import WithWallet from "../../components/with-wallet";
 import StartGame from "./action/start-game";
 import StopGame from "./action/stop-game";
 import PlantSeed from "./action/plant-seed";
+import WaterPlant from "./action/water-plant";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -82,6 +83,7 @@ export default function Game() {
               <StartGame />
               <Till />
               <PlantSeed />
+              <WaterPlant />
               <Box sx={{ mt: 5 }}>
                 <StopGame />
               </Box>

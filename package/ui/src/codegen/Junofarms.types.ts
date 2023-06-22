@@ -29,6 +29,12 @@ export type ExecuteMsg =
       };
     }
   | {
+      water_plant: {
+        x: number;
+        y: number;
+      };
+    }
+  | {
       receive: Cw721ReceiveMsg;
     };
 export type Binary = string;
