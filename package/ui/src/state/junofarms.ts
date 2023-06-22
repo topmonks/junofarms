@@ -66,11 +66,15 @@ export const categories = {
   },
 } as const;
 
+type FactorySlot = Partial<
+  Omit<Slot, "plant"> & { plant?: Partial<Plant> | null }
+>;
+
 export const factories = {
-  [SLOT_MEADOW]: (overrides?: Partial<Slot>) =>
-    Object.assign({}, categories[SLOT_MEADOW], overrides),
-  [SLOT_FIELD]: (overrides?: Partial<Slot>) => {
-    const slot = Object.assign({}, categories[SLOT_FIELD], overrides);
+  [SLOT_MEADOW]: (overrides?: FactorySlot) =>
+    Object.assign({}, categories[SLOT_MEADOW], overrides) as Slot,
+  [SLOT_FIELD]: (overrides?: FactorySlot) => {
+    const slot = Object.assign({}, categories[SLOT_FIELD], overrides) as Slot;
     if (slot.plant != null) {
       const type = slot.plant.type;
       slot.plant = factories[type](slot.plant);
@@ -78,8 +82,8 @@ export const factories = {
 
     return slot;
   },
-  [PLANT_SUNFLOWER]: (overrides?: Partial<Plant>) =>
-    Object.assign({}, categories[PLANT_SUNFLOWER], overrides),
+  [PLANT_SUNFLOWER]: (overrides?: Partial<Plant> | null) =>
+    Object.assign({}, categories[PLANT_SUNFLOWER], overrides) as Plant,
 };
 
 export const slotOptions = {

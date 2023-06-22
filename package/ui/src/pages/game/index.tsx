@@ -58,7 +58,7 @@ export default function Game() {
               throw new Error("Unknown grid item: " + type);
             }
 
-            return factory(x as any);
+            return factory(x);
           })
         ),
       };

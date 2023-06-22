@@ -34,7 +34,7 @@ export interface Plant {
 
 export interface Slot {
   type: SlotType;
-  plant?: Plant;
+  plant?: Plant | null;
   image: HTMLImageElement;
 }
 
