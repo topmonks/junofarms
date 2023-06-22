@@ -58,15 +58,29 @@ export const categories = {
     type: PLANT_SUNFLOWER,
     category: CATEGORY_PLANT,
     images: gs.sunflowerImg,
-    currentStage: 1,
+    current_stage: 1,
     stages: gs.sunflowerImg.length,
   },
 } as const;
 
 export const factories = {
-  [SLOT_MEADOW]: () => Object.assign({}, categories[SLOT_MEADOW]),
-  [SLOT_FIELD]: () => Object.assign({}, categories[SLOT_FIELD]),
-  [PLANT_SUNFLOWER]: () => Object.assign({}, categories[PLANT_SUNFLOWER]),
+  [SLOT_MEADOW]: (
+    overrides?: Partial<(typeof categories)[typeof SLOT_FIELD]>
+  ) => Object.assign({}, categories[SLOT_MEADOW], overrides),
+  [SLOT_FIELD]: (
+    overrides?: Partial<(typeof categories)[typeof SLOT_FIELD]>
+  ) => {
+    const slot: any = Object.assign({}, categories[SLOT_FIELD], overrides);
+    if (slot.plant != null) {
+      const type: any = slot.plant.type;
+      slot.plant = (factories as any)[type](slot.plant);
+    }
+
+    return slot;
+  },
+  [PLANT_SUNFLOWER]: (
+    overrides?: Partial<(typeof categories)[typeof PLANT_SUNFLOWER]>
+  ) => Object.assign({}, categories[PLANT_SUNFLOWER], overrides),
 };
 
 export const slotOptions = {

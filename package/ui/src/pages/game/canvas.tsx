@@ -199,7 +199,7 @@ function render(
       ctx.drawImage(cell.image, col * CELL_SIZE, row * CELL_SIZE);
       const plant = cell.plant;
       if (plant != null) {
-        const img = plant.images[plant.currentStage - 1];
+        const img = plant.images[plant.current_stage - 1];
         for (let prow = 0; prow < 2; prow++) {
           for (let pcol = 0; pcol < 3; pcol++) {
             ctx.drawImage(

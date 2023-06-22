@@ -4,8 +4,10 @@
  * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
  */
 
+export type Addr = string;
 export interface InstantiateMsg {
   admin?: string | null;
+  whitelisted_collections?: Addr[] | null;
 }
 export type ExecuteMsg =
   | {
@@ -19,7 +21,22 @@ export type ExecuteMsg =
         x: number;
         y: number;
       };
+    }
+  | {
+      plant_seed: {
+        x: number;
+        y: number;
+      };
+    }
+  | {
+      receive: Cw721ReceiveMsg;
     };
+export type Binary = string;
+export interface Cw721ReceiveMsg {
+  msg: Binary;
+  sender: string;
+  token_id: string;
+}
 export type QueryMsg =
   | {
       contract_info: {};
@@ -31,7 +48,9 @@ export type QueryMsg =
     };
 export interface ContractInformationResponse {
   admin: string;
+  whitelisted_collections: Addr[];
 }
+export type PlantType = "sunflower";
 export type SlotType = "meadow" | "field";
 export interface FarmProfile {
   plots: Slot[][];
@@ -41,5 +60,8 @@ export interface Slot {
   type: SlotType;
 }
 export interface Plant {
-  type: string;
+  current_stage: number;
+  dead: boolean;
+  stages: number;
+  type: PlantType;
 }

@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import useCanvasBridge from "../../../hooks/use-canvas-bridge";
-import { useJunofarmsTillGroundMutation } from "../../../codegen/Junofarms.react-query";
+import { useJunofarmsPlantSeedMutation } from "../../../codegen/Junofarms.react-query";
 import useJunofarmsSignClient from "../../../hooks/use-juno-junofarms-sign-client";
 import {
   gameState,
@@ -11,17 +11,17 @@ import {
   removeAnimation,
 } from "../../../state/junofarms";
 import * as gs from "../../../components/game-assets";
-import { SLOT_MEADOW } from "../../../types/types";
+import { SLOT_FIELD } from "../../../types/types";
 import useTxSuccess from "../../../hooks/use-tx-success";
 
-export default function Till() {
+export default function PlantSeed() {
   const [selectedCoords, setSelectedCoords] = useState<[number, number] | null>(
     null
   );
   const [game, setGame] = useRecoilState(gameState);
 
   useCanvasBridge("click", (opts: any) => {
-    if (tillGroundMutation.isLoading) {
+    if (plantSeedMutation.isLoading) {
       return;
     }
 
@@ -34,7 +34,7 @@ export default function Till() {
   const junofarmsSignClient = useJunofarmsSignClient();
 
   const txSuccess = useTxSuccess();
-  const tillGroundMutation = useJunofarmsTillGroundMutation({
+  const plantSeedMutation = useJunofarmsPlantSeedMutation({
     onMutate: () => {
       if (selectedCoords) {
         setGame((g) => {
@@ -61,7 +61,7 @@ export default function Till() {
     onSuccess: (r) => {
       reactQueryClient.invalidateQueries([{ method: "get_farm_profile" }]);
       txSuccess(r, {
-        title: "Successfully tilled",
+        title: "Successfully planted seed",
       });
 
       if (selectedCoords) {
@@ -104,27 +104,29 @@ export default function Till() {
     },
   });
 
-  const isTillable = useMemo(() => {
+  const isPlantable = useMemo(() => {
     if (!selectedCoords) {
       return false;
     }
 
-    return game.grid[selectedCoords[0]][selectedCoords[1]].type === SLOT_MEADOW;
+    const slot = game.grid[selectedCoords[0]][selectedCoords[1]];
+
+    return slot.type === SLOT_FIELD && slot.plant == null;
   }, [selectedCoords, game]);
 
   return (
     <Fragment>
-      {selectedCoords && isTillable && (
+      {selectedCoords && isPlantable && (
         <Button
           width={"100%"}
-          isLoading={tillGroundMutation.isLoading}
-          loadingText={"Till in progress"}
+          isLoading={plantSeedMutation.isLoading}
+          loadingText={"Planting seed in progress"}
           onClick={() => {
             if (!junofarmsSignClient) {
               return;
             }
 
-            tillGroundMutation.mutate({
+            plantSeedMutation.mutate({
               client: junofarmsSignClient,
               msg: {
                 x: selectedCoords[0],
@@ -133,7 +135,7 @@ export default function Till() {
             });
           }}
         >
-          Till
+          Plant seed
         </Button>
       )}
     </Fragment>

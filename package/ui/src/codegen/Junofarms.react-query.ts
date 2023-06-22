@@ -13,10 +13,14 @@ import {
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee, Coin } from "@cosmjs/amino";
 import {
+  Addr,
   InstantiateMsg,
   ExecuteMsg,
+  Binary,
+  Cw721ReceiveMsg,
   QueryMsg,
   ContractInformationResponse,
+  PlantType,
   SlotType,
   FarmProfile,
   Slot,
@@ -146,6 +150,55 @@ export function useJunofarmsContractInfoQuery<
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
     }
+  );
+}
+export interface JunofarmsReceiveMutation {
+  client: JunofarmsClient;
+  msg: {
+    msg: Binary;
+    sender: string;
+    tokenId: string;
+  };
+  args?: {
+    fee?: number | StdFee | "auto";
+    memo?: string;
+    funds?: Coin[];
+  };
+}
+export function useJunofarmsReceiveMutation(
+  options?: Omit<
+    UseMutationOptions<ExecuteResult, Error, JunofarmsReceiveMutation>,
+    "mutationFn"
+  >
+) {
+  return useMutation<ExecuteResult, Error, JunofarmsReceiveMutation>(
+    ({ client, msg, args: { fee, memo, funds } = {} }) =>
+      client.receive(msg, fee, memo, funds),
+    options
+  );
+}
+export interface JunofarmsPlantSeedMutation {
+  client: JunofarmsClient;
+  msg: {
+    x: number;
+    y: number;
+  };
+  args?: {
+    fee?: number | StdFee | "auto";
+    memo?: string;
+    funds?: Coin[];
+  };
+}
+export function useJunofarmsPlantSeedMutation(
+  options?: Omit<
+    UseMutationOptions<ExecuteResult, Error, JunofarmsPlantSeedMutation>,
+    "mutationFn"
+  >
+) {
+  return useMutation<ExecuteResult, Error, JunofarmsPlantSeedMutation>(
+    ({ client, msg, args: { fee, memo, funds } = {} }) =>
+      client.plantSeed(msg, fee, memo, funds),
+    options
   );
 }
 export interface JunofarmsTillGroundMutation {

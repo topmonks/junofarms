@@ -12,6 +12,7 @@ import { factories, gameState } from "../../state/junofarms";
 import WithWallet from "../../components/with-wallet";
 import StartGame from "./action/start-game";
 import StopGame from "./action/stop-game";
+import PlantSeed from "./action/plant-seed";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -57,13 +58,13 @@ export default function Game() {
               throw new Error("Unknown grid item: " + type);
             }
 
-            return factory();
+            return factory(x as any);
           })
         ),
       };
     });
   }, [farmProfile.data, setGame, resetGame]);
-
+  console.log("==fp", farmProfile.data);
   return (
     <Fragment>
       <Flex
@@ -80,6 +81,7 @@ export default function Game() {
             <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
               <StartGame />
               <Till />
+              <PlantSeed />
               <Box sx={{ mt: 5 }}>
                 <StopGame />
               </Box>

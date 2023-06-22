@@ -31,7 +31,7 @@ export type PLANT_TYPE = typeof PLANT_SUNFLOWER;
 
 export interface Plant {
   type: PLANT_TYPE;
-  currentStage: number;
+  current_stage: number;
   stages: number;
   images: HTMLImageElement[];
 }
