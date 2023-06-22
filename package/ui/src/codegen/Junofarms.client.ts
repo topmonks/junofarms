@@ -17,6 +17,8 @@ import {
   ContractInformationResponse,
   FarmItem,
   FarmProfile,
+  Slot,
+  Plant,
 } from "./Junofarms.types";
 export interface JunofarmsReadOnlyInterface {
   contractAddress: string;

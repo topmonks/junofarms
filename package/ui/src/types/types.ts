@@ -16,8 +16,8 @@ export interface LeaveEvent {
 
 export type Event = ClickEvent | HoverEvent | LeaveEvent;
 
-export const SLOT_MEADOW = "Meadow";
-export const SLOT_FIELD = "Field";
+export const SLOT_MEADOW = "meadow";
+export const SLOT_FIELD = "field";
 
 export interface MeadowSlot {
   type: typeof SLOT_MEADOW;

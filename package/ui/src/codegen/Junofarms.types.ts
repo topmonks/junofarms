@@ -32,18 +32,17 @@ export type QueryMsg =
 export interface ContractInformationResponse {
   admin: string;
 }
-export type FarmItem =
-  | {
-      type: "Meadow";
-      [k: string]: unknown;
-    }
-  | {
-      type: "Field";
-      [k: string]: unknown;
-    };
+export type FarmItem = "meadow" | "field";
 export interface FarmProfile {
   cooldowns: {
     [k: string]: number;
   };
-  plots: FarmItem[][];
+  plots: Slot[][];
+}
+export interface Slot {
+  plant?: Plant | null;
+  type: FarmItem;
+}
+export interface Plant {
+  type: string;
 }

@@ -54,7 +54,7 @@ export default function Game() {
         size: farmProfile.data.plots.length,
         grid: farmProfile.data.plots.map((row) =>
           row.map((x) => {
-            const type = x as any as FarmItem["type"]; // todo: bad types
+            const type = x.type;
             const factory = factories[type];
             if (factory == null) {
               throw new Error("Unknown grid item: " + type);

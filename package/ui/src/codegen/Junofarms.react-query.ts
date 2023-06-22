@@ -19,6 +19,8 @@ import {
   ContractInformationResponse,
   FarmItem,
   FarmProfile,
+  Slot,
+  Plant,
 } from "./Junofarms.types";
 import { JunofarmsQueryClient, JunofarmsClient } from "./Junofarms.client";
 export const junofarmsQueryKeys = {
