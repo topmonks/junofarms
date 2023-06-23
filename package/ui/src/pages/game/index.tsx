@@ -15,6 +15,7 @@ import StopGame from "./action/stop-game";
 import PlantSeed from "./action/plant-seed";
 import WaterPlant from "./action/water-plant";
 import Harvest from "./action/harvest";
+import PlantSeedNft from "./action/plant-seed-nft";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -84,6 +85,7 @@ export default function Game() {
               <StartGame />
               <Till />
               <PlantSeed />
+              <PlantSeedNft />
               <WaterPlant />
               <Harvest />
               <Box sx={{ mt: 5 }}>

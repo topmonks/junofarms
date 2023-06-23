@@ -12,17 +12,24 @@ import {
   Tooltip,
   Wrap,
   WrapItem,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useChain } from "@cosmos-kit/react";
 import { Fragment } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { chainState } from "../state/cosmos";
 import Wheat from "./shop/wheat";
 import Sunflower from "./shop/sunflower";
+import { shopOpenedState } from "../state/junofarms";
 
 export default function Shop() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [shopOpened, setShopOpened] = useRecoilState(shopOpenedState);
+  function onOpen() {
+    setShopOpened(true);
+  }
+  function onClose() {
+    setShopOpened(false);
+  }
+
   const chain = useRecoilValue(chainState);
   const { isWalletConnected } = useChain(chain.chain_name);
 
@@ -40,7 +47,7 @@ export default function Shop() {
           />
         </Tooltip>
       )}
-      <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
+      <Modal isOpen={shopOpened} onClose={onClose} size={"xl"}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Seed store</ModalHeader>

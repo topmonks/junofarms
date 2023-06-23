@@ -12,8 +12,8 @@ codegen
         dir: "../../../komple-framework/contracts/modules/mint/schema",
       },
       {
-        name: "cw721-base",
-        dir: "../../../cw-nfts/contracts/cw721-base/schema",
+        name: "komple-token",
+        dir: "../../../komple-framework/contracts/modules/token/schema",
       },
     ],
     outPath: "../ui/src/codegen/",

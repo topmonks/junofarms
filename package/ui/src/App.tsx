@@ -81,6 +81,7 @@ function App() {
             chains={chains.filter((c) =>
               ENABLED_TESTNETS.includes(c.chain_id as TESTNET)
             )}
+            logLevel="DEBUG"
             assetLists={assets}
             wallets={[...keplrWallets, ...leapWallets, ...cosmostationWallets]} // supported wallets
             endpointOptions={{

@@ -2,9 +2,9 @@ import { useRecoilValue } from "recoil";
 import { useChain } from "@cosmos-kit/react";
 import useJunoSignClient from "./use-juno-sign-client";
 import { chainState } from "../state/cosmos";
-import { Cw721BaseClient } from "../codegen/Cw721Base.client";
+import { KompleTokenClient } from "../codegen/KompleToken.client";
 
-export default function useCw721SignClient(collection: string) {
+export default function useKompleTokenSignClient(tokenAddr: string) {
   const chain = useRecoilValue(chainState);
   const { address } = useChain(chain.chain_name);
 
@@ -14,5 +14,5 @@ export default function useCw721SignClient(collection: string) {
     return null;
   }
 
-  return new Cw721BaseClient(junoSignClient, address, collection);
+  return new KompleTokenClient(junoSignClient, address, tokenAddr);
 }

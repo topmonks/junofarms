@@ -152,7 +152,7 @@ export function useJunofarmsContractInfoQuery<
     }
   );
 }
-export interface JunofarmsReceiveMutation {
+export interface JunofarmsReceiveNftMutation {
   client: JunofarmsClient;
   msg: {
     msg: Binary;
@@ -165,15 +165,15 @@ export interface JunofarmsReceiveMutation {
     funds?: Coin[];
   };
 }
-export function useJunofarmsReceiveMutation(
+export function useJunofarmsReceiveNftMutation(
   options?: Omit<
-    UseMutationOptions<ExecuteResult, Error, JunofarmsReceiveMutation>,
+    UseMutationOptions<ExecuteResult, Error, JunofarmsReceiveNftMutation>,
     "mutationFn"
   >
 ) {
-  return useMutation<ExecuteResult, Error, JunofarmsReceiveMutation>(
+  return useMutation<ExecuteResult, Error, JunofarmsReceiveNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
-      client.receive(msg, fee, memo, funds),
+      client.receiveNft(msg, fee, memo, funds),
     options
   );
 }

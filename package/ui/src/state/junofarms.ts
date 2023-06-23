@@ -141,3 +141,8 @@ export function removeAnimation(
 
   return { animations: currentAnimations.filter((a) => a.id !== animationId) };
 }
+
+export const shopOpenedState = atom({
+  key: "shopOpenedState",
+  default: false,
+});

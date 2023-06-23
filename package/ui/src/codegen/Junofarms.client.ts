@@ -118,7 +118,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     memo?: string,
     _funds?: Coin[]
   ) => Promise<ExecuteResult>;
-  receive: (
+  receiveNft: (
     {
       msg,
       sender,
@@ -156,7 +156,7 @@ export class JunofarmsClient
     this.plantSeed = this.plantSeed.bind(this);
     this.waterPlant = this.waterPlant.bind(this);
     this.harvest = this.harvest.bind(this);
-    this.receive = this.receive.bind(this);
+    this.receiveNft = this.receiveNft.bind(this);
   }
 
   start = async (
@@ -295,7 +295,7 @@ export class JunofarmsClient
       _funds
     );
   };
-  receive = async (
+  receiveNft = async (
     {
       msg,
       sender,
@@ -313,7 +313,7 @@ export class JunofarmsClient
       this.sender,
       this.contractAddress,
       {
-        receive: {
+        receive_nft: {
           msg,
           sender,
           token_id: tokenId,

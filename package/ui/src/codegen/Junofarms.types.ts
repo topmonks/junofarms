@@ -41,7 +41,7 @@ export type ExecuteMsg =
       };
     }
   | {
-      receive: Cw721ReceiveMsg;
+      receive_nft: Cw721ReceiveMsg;
     };
 export type Binary = string;
 export interface Cw721ReceiveMsg {
