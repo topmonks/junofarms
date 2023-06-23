@@ -1,5 +1,6 @@
 encryptionsalt: v1:OY2y/jz3Dyk=:v1:Za71nKXa6QaWEru0:we7oAtRqP+lIxAXVG0o6IZtYd6D4OA==
 config:
   aws:region: eu-central-1
+  junofarms:contract: juno1khs596qak375rtxewskm5ddds0xl4l3dx0dquur4307xm88jxh7qav38j5
   webapp:API_DOMAIN: junofarms.topmonks.com
   webapp:ROUTE53_ZONE_NAME: topmonks.com
