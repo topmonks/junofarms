@@ -5,13 +5,13 @@ import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-clien
 import useTxSuccess from "../../hooks/use-tx-success";
 import addresses from "@topmonks/junofarms-komple/src/addresses.json";
 
-export default function Wheat() {
+export default function Sunflower() {
   const cw721SignClient = useKompleMintSignClient();
   const txSuccess = useTxSuccess();
   const mint = useKompleMintMintMutation({
     onSuccess: (r) => {
       txSuccess(r, {
-        title: "Succefully bought 1 seed of Wheat",
+        title: "Succefully bought 1 seed of Sunflower",
       });
     },
   });
@@ -20,9 +20,9 @@ export default function Wheat() {
     <Fragment>
       <Button
         leftIcon={
-          <Image height="20px" src="/wheat-button.gif" alt="Store icon" />
+          <Image height="22px" src="/sunflower-button.gif" alt="Store icon" />
         }
-        loadingText="Buying Wheat Seeds"
+        loadingText="Buying Sunflower Seeds"
         isLoading={mint.isLoading}
         onClick={() => {
           if (!cw721SignClient) {
@@ -33,14 +33,14 @@ export default function Wheat() {
             client: cw721SignClient,
             msg: {
               collectionId: addresses.basic.collectionId,
-              metadataId: addresses.basic.metadata.wheat.metadataId,
+              metadataId: addresses.basic.metadata.sunflower.metadataId,
             },
           });
         }}
-        colorScheme="yellow"
+        colorScheme="whatsapp"
         variant="outline"
       >
-        Wheat
+        Sunflower
       </Button>
     </Fragment>
   );

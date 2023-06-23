@@ -19,6 +19,7 @@ import { Fragment } from "react";
 import { useRecoilValue } from "recoil";
 import { chainState } from "../state/cosmos";
 import Wheat from "./shop/wheat";
+import Sunflower from "./shop/sunflower";
 
 export default function Shop() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,19 +43,22 @@ export default function Shop() {
       <Modal isOpen={isOpen} onClose={onClose} size={"xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Seed store</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Wrap spacing={5} justify="center">
               <WrapItem>
                 <Wheat />
               </WrapItem>
+              <WrapItem>
+                <Sunflower />
+              </WrapItem>
             </Wrap>
           </ModalBody>
 
           <ModalFooter>
             <Button variant="ghost" onClick={onClose}>
-              Close
+              Leave
             </Button>
           </ModalFooter>
         </ModalContent>
