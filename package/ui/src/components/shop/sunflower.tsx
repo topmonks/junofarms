@@ -3,9 +3,11 @@ import { Fragment } from "react";
 import { useKompleMintMintMutation } from "../../codegen/KompleMint.react-query";
 import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-client";
 import useTxSuccess from "../../hooks/use-tx-success";
-import addresses from "@topmonks/junofarms-komple/src/addresses.json";
+import { kompleState } from "../../state/junofarms";
+import { useRecoilValue } from "recoil";
 
 export default function Sunflower() {
+  const komple = useRecoilValue(kompleState);
   const cw721SignClient = useKompleMintSignClient();
   const txSuccess = useTxSuccess();
   const mint = useKompleMintMintMutation({
@@ -32,8 +34,8 @@ export default function Sunflower() {
           mint.mutate({
             client: cw721SignClient,
             msg: {
-              collectionId: addresses.basic.collectionId,
-              metadataId: addresses.basic.metadata.sunflower.metadataId,
+              collectionId: komple.collections.basic.id,
+              metadataId: komple.collections.basic.metadata.sunflower.id,
             },
           });
         }}

@@ -3,7 +3,8 @@ import { Fragment } from "react";
 import { useKompleMintMintMutation } from "../../codegen/KompleMint.react-query";
 import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-client";
 import useTxSuccess from "../../hooks/use-tx-success";
-import addresses from "@topmonks/junofarms-komple/src/addresses.json";
+import { kompleState } from "../../state/junofarms";
+import { useRecoilValue } from "recoil";
 
 export default function Wheat() {
   const cw721SignClient = useKompleMintSignClient();
@@ -15,6 +16,7 @@ export default function Wheat() {
       });
     },
   });
+  const komple = useRecoilValue(kompleState);
 
   return (
     <Fragment>
@@ -32,8 +34,8 @@ export default function Wheat() {
           mint.mutate({
             client: cw721SignClient,
             msg: {
-              collectionId: addresses.basic.collectionId,
-              metadataId: addresses.basic.metadata.wheat.metadataId,
+              collectionId: komple.collections.basic.id,
+              metadataId: komple.collections.basic.metadata.wheat.id,
             },
           });
         }}

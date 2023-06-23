@@ -13,8 +13,12 @@ import * as _5 from "./KompleMint.react-query";
 import * as _6 from "./KompleToken.types";
 import * as _7 from "./KompleToken.client";
 import * as _8 from "./KompleToken.react-query";
+import * as _9 from "./KompleMetadata.types";
+import * as _10 from "./KompleMetadata.client";
+import * as _11 from "./KompleMetadata.react-query";
 export namespace contracts {
   export const Junofarms = { ..._0, ..._1, ..._2 };
   export const KompleMint = { ..._3, ..._4, ..._5 };
   export const KompleToken = { ..._6, ..._7, ..._8 };
+  export const KompleMetadata = { ..._9, ..._10, ..._11 };
 }

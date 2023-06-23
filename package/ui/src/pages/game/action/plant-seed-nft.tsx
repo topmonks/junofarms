@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, Suspense, useMemo, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
@@ -167,10 +168,12 @@ export default function PlantSeedNft() {
               <PopoverHeader>Select seed</PopoverHeader>
               <PopoverCloseButton />
               <PopoverBody>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <PlantSunflower />
-                  <PlantWheat />
-                </Box>
+                <Suspense fallback={<Spinner size="xs" />}>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <PlantSunflower />
+                    <PlantWheat />
+                  </Box>
+                </Suspense>
               </PopoverBody>
               <PopoverFooter>
                 <Text fontSize={"xs"}>

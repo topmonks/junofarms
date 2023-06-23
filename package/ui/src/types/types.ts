@@ -1,3 +1,5 @@
+import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
+
 export interface ClickEvent {
   type: "click";
   x: number;
@@ -21,7 +23,7 @@ export const SLOT_FIELD = "field";
 
 type SlotType = typeof SLOT_FIELD | typeof SLOT_MEADOW;
 
-export const PLANT_SUNFLOWER = "sunflower";
+export const PLANT_SUNFLOWER = METADATA_TYPES.SUNFLOWER;
 
 export type PLANT_TYPE = typeof PLANT_SUNFLOWER;
 

@@ -13,7 +13,6 @@ import {
   SLOT_MEADOW,
   Slot,
 } from "../types/types";
-import { SlotType } from "../codegen/Junofarms.types";
 import addresses from "@topmonks/junofarms-komple/src/addresses.json";
 
 export const contractState = selector<string>({
@@ -35,7 +34,21 @@ export const kompleState = selector({
     if (chain.chain_id === TESTNET.JUNO) {
       return {
         mint: addresses.mint,
-        collections: { basic: addresses.basic.tokenAddr },
+        collections: {
+          basic: {
+            addr: addresses.basic.tokenAddr,
+            id: addresses.basic.collectionId,
+            metadataAddr: addresses.basic.metadataAddr,
+            metadata: {
+              wheat: {
+                id: addresses.basic.metadata.wheat.metadataId,
+              },
+              sunflower: {
+                id: addresses.basic.metadata.sunflower.metadataId,
+              },
+            },
+          },
+        },
       };
     }
 

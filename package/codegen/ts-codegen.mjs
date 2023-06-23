@@ -15,6 +15,10 @@ codegen
         name: "komple-token",
         dir: "../../../komple-framework/contracts/modules/token/schema",
       },
+      {
+        name: "komple-metadata",
+        dir: "../../../komple-framework/contracts/modules/metadata/schema",
+      },
     ],
     outPath: "../ui/src/codegen/",
 

@@ -1,35 +1,48 @@
 import { Button, Image, Tooltip } from "@chakra-ui/react";
 import { Fragment } from "react";
-import { useKompleMintMintMutation } from "../../../../codegen/KompleMint.react-query";
-import useKompleMintSignClient from "../../../../hooks/use-juno-komple-mint-sign-client";
+import { useRecoilValue } from "recoil";
 import useTxSuccess from "../../../../hooks/use-tx-success";
-import addresses from "@topmonks/junofarms-komple/src/addresses.json";
+import useKompleTokenSignClient from "../../../../hooks/use-juno-komple-token-sign-client";
+import { useKompleTokenSendNftMutation } from "../../../../codegen/KompleToken.react-query";
+import useGetSeeds from "../../../../hooks/use-get-seeds";
+import { kompleState } from "../../../../state/junofarms";
+import { toBase64, toUtf8 } from "@cosmjs/encoding";
 
 export default function PlantWheat() {
-  const cw721SignClient = useKompleMintSignClient();
+  const komple = useRecoilValue(kompleState);
+  const kompleTokenSignClient = useKompleTokenSignClient(
+    komple.collections.basic.addr
+  );
+
   const txSuccess = useTxSuccess();
-  const mint = useKompleMintMintMutation({
+  const sendNft = useKompleTokenSendNftMutation({
     onSuccess: (r) => {
       txSuccess(r, {
-        title: "Succefully bought 1 seed of Sunflower",
+        title: "Succefully plant 1 seed of Sunflower",
       });
     },
   });
+
+  useGetSeeds(
+    komple.collections.basic.addr,
+    komple.collections.basic.metadataAddr
+  );
 
   return (
     <Fragment>
       <Tooltip label="Wheat">
         <Button
-          isLoading={mint.isLoading}
+          isLoading={sendNft.isLoading}
           onClick={() => {
-            if (!cw721SignClient) {
+            if (!kompleTokenSignClient) {
               return;
             }
-            mint.mutate({
-              client: cw721SignClient,
+            sendNft.mutate({
+              client: kompleTokenSignClient,
               msg: {
-                collectionId: addresses.basic.collectionId,
-                metadataId: addresses.basic.metadata.wheat.metadataId,
+                tokenId: "x",
+                contract: import.meta.env.VITE_CONTRACT_ADDRESS,
+                msg: toBase64(toUtf8(JSON.stringify({ seed: {} }))),
               },
             });
           }}
