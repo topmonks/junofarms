@@ -25,10 +25,8 @@ type SlotType = typeof SLOT_FIELD | typeof SLOT_MEADOW;
 
 export const PLANT_SUNFLOWER = METADATA_TYPES.SUNFLOWER;
 
-export type PLANT_TYPE = typeof PLANT_SUNFLOWER;
-
 export interface Plant {
-  type: PLANT_TYPE;
+  type: METADATA_TYPES;
   current_stage: number;
   stages: number;
   images: HTMLImageElement[];
@@ -43,10 +41,7 @@ export interface Slot {
 export const CATEGORY_PLANT = "plant";
 export const CATEGORY_TERRAIN = "terrain";
 
-export type SLOT_TYPE =
-  | typeof SLOT_MEADOW
-  | typeof SLOT_FIELD
-  | typeof PLANT_SUNFLOWER;
+export type SLOT_TYPE = typeof SLOT_MEADOW | typeof SLOT_FIELD;
 
 export interface GameState {
   // canvas: HTMLCanvasElement | null;

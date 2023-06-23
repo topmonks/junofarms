@@ -7,13 +7,13 @@ import {
   CATEGORY_PLANT,
   CATEGORY_TERRAIN,
   GameState,
-  PLANT_SUNFLOWER,
   Plant,
   SLOT_FIELD,
   SLOT_MEADOW,
   Slot,
 } from "../types/types";
 import addresses from "@topmonks/junofarms-komple/src/addresses.json";
+import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
 export const contractState = selector<string>({
   key: "contractsState",
@@ -70,12 +70,19 @@ export const categories = {
     category: CATEGORY_TERRAIN,
     image: gs.fieldImg,
   },
-  [PLANT_SUNFLOWER]: {
-    type: PLANT_SUNFLOWER,
+  [METADATA_TYPES.SUNFLOWER]: {
+    type: METADATA_TYPES.SUNFLOWER,
     category: CATEGORY_PLANT,
     images: gs.sunflowerImg,
     current_stage: 1,
     stages: gs.sunflowerImg.length,
+  },
+  [METADATA_TYPES.WHEAT]: {
+    type: METADATA_TYPES.WHEAT,
+    category: CATEGORY_PLANT,
+    images: gs.wheatImg,
+    current_stage: 1,
+    stages: gs.wheatImg.length,
   },
 } as const;
 
@@ -95,18 +102,27 @@ export const factories = {
 
     return slot;
   },
-  [PLANT_SUNFLOWER]: (overrides?: Partial<Plant> | null) =>
-    Object.assign({}, categories[PLANT_SUNFLOWER], overrides) as Plant,
+  [METADATA_TYPES.SUNFLOWER]: (overrides?: Partial<Plant> | null) =>
+    Object.assign({}, categories[METADATA_TYPES.SUNFLOWER], overrides) as Plant,
+  [METADATA_TYPES.WHEAT]: (overrides?: Partial<Plant> | null) =>
+    Object.assign({}, categories[METADATA_TYPES.WHEAT], overrides) as Plant,
 };
 
 export const slotOptions = {
   [SLOT_MEADOW]: [{ type: SLOT_FIELD, image: categories[SLOT_FIELD].image }],
   [SLOT_FIELD]: [
     {
-      type: PLANT_SUNFLOWER,
+      type: METADATA_TYPES.SUNFLOWER,
       image:
-        categories[PLANT_SUNFLOWER].images[
-          categories[PLANT_SUNFLOWER].stages - 2
+        categories[METADATA_TYPES.SUNFLOWER].images[
+          categories[METADATA_TYPES.SUNFLOWER].stages - 2
+        ],
+    },
+    {
+      type: METADATA_TYPES.WHEAT,
+      image:
+        categories[METADATA_TYPES.WHEAT].images[
+          categories[METADATA_TYPES.WHEAT].stages - 2
         ],
     },
   ],
