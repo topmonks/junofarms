@@ -7,6 +7,7 @@ import { useQueries } from "@tanstack/react-query";
 import useKompleMetadataQueryClient from "./use-juno-komple-metadata-query-client";
 import { kompleMetadataQueries } from "../codegen/KompleMetadata.react-query";
 import { useMemo } from "react";
+import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
 export default function useGetSeeds(tokenAddr: string, metadataAddr: string) {
   const chain = useRecoilValue(chainState);
@@ -45,26 +46,28 @@ export default function useGetSeeds(tokenAddr: string, metadataAddr: string) {
       ) || [],
   });
 
-  useMemo(() => {
+  return useMemo(() => {
+    const result: { [key in METADATA_TYPES]: string[] } = {
+      [METADATA_TYPES.SUNFLOWER]: [],
+      [METADATA_TYPES.WHEAT]: [],
+    };
+
     if (!metadatas || !baseTokens.data) {
-      return {};
+      return result;
     }
 
-    const result: { [key: string]: string[] } = {};
     for (const [ix, b] of baseTokens.data.tokens.entries()) {
       const type = metadatas[ix].data?.data.metadata.attributes.find(
         ({ trait_type }) => trait_type === "type"
-      )?.value;
+      )?.value as METADATA_TYPES | undefined;
 
       if (!type) {
         continue;
       }
 
-      result[type] = result[type] ?? [];
-
       result[type].push(b);
     }
 
-    console.log(result);
+    return result;
   }, [baseTokens.data, metadatas]);
 }

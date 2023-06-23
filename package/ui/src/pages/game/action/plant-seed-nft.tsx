@@ -170,8 +170,8 @@ export default function PlantSeedNft() {
               <PopoverBody>
                 <Suspense fallback={<Spinner size="xs" />}>
                   <Box sx={{ display: "flex", gap: 2 }}>
-                    <PlantSunflower />
                     <PlantWheat />
+                    <PlantSunflower />
                   </Box>
                 </Suspense>
               </PopoverBody>

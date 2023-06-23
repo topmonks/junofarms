@@ -1,22 +1,31 @@
 import { Button, Image } from "@chakra-ui/react";
 import { Fragment } from "react";
+import { useRecoilValue } from "recoil";
+import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
 import { useKompleMintMintMutation } from "../../codegen/KompleMint.react-query";
 import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-client";
 import useTxSuccess from "../../hooks/use-tx-success";
 import { kompleState } from "../../state/junofarms";
-import { useRecoilValue } from "recoil";
 
 export default function Wheat() {
   const cw721SignClient = useKompleMintSignClient();
   const txSuccess = useTxSuccess();
+  const reactQueryClient = useReactQueryClient();
+  const komple = useRecoilValue(kompleState);
   const mint = useKompleMintMintMutation({
     onSuccess: (r) => {
+      reactQueryClient.invalidateQueries([
+        {
+          method: "tokens",
+          contract: "cw721Base",
+          address: komple.collections.basic.addr,
+        },
+      ]);
       txSuccess(r, {
         title: "Succefully bought 1 seed of Wheat",
       });
     },
   });
-  const komple = useRecoilValue(kompleState);
 
   return (
     <Fragment>

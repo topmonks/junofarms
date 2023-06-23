@@ -1,11 +1,13 @@
-import { Button, Image, Tooltip } from "@chakra-ui/react";
+import { Button, Image, Text, Tooltip } from "@chakra-ui/react";
 import { Fragment } from "react";
+import { useRecoilValue } from "recoil";
+import { toBase64, toUtf8 } from "@cosmjs/encoding";
+import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
+
 import useTxSuccess from "../../../../hooks/use-tx-success";
 import useKompleTokenSignClient from "../../../../hooks/use-juno-komple-token-sign-client";
 import { useKompleTokenSendNftMutation } from "../../../../codegen/KompleToken.react-query";
-import { toBase64, toUtf8 } from "@cosmjs/encoding";
 import useGetSeeds from "../../../../hooks/use-get-seeds";
-import { useRecoilValue } from "recoil";
 import { kompleState } from "../../../../state/junofarms";
 
 export default function PlantSunflower() {
@@ -13,10 +15,18 @@ export default function PlantSunflower() {
   const kompleTokenSignClient = useKompleTokenSignClient(
     komple.collections.basic.addr
   );
+  const reactQueryClient = useReactQueryClient();
 
   const txSuccess = useTxSuccess();
   const sendNft = useKompleTokenSendNftMutation({
     onSuccess: (r) => {
+      reactQueryClient.invalidateQueries([
+        {
+          method: "tokens",
+          contract: "cw721Base",
+          address: komple.collections.basic.addr,
+        },
+      ]);
       txSuccess(r, {
         title: "Succefully plant 1 seed of Sunflower",
       });
@@ -28,10 +38,19 @@ export default function PlantSunflower() {
     komple.collections.basic.metadataAddr
   );
 
+  const ids = seeds.sunflower;
+
   return (
     <Fragment>
       <Tooltip label="Sunflower">
         <Button
+          leftIcon={
+            <Image
+              height="22px"
+              src="/sunflower-plant-button.png"
+              alt="Plant Sunflower"
+            />
+          }
           isLoading={sendNft.isLoading}
           onClick={() => {
             if (!kompleTokenSignClient) {
@@ -40,7 +59,7 @@ export default function PlantSunflower() {
             sendNft.mutate({
               client: kompleTokenSignClient,
               msg: {
-                tokenId: "2",
+                tokenId: ids[0],
                 contract: import.meta.env.VITE_CONTRACT_ADDRESS,
                 msg: toBase64(toUtf8(JSON.stringify({ seed: {} }))),
               },
@@ -49,11 +68,7 @@ export default function PlantSunflower() {
           colorScheme="whatsapp"
           variant="outline"
         >
-          <Image
-            height="22px"
-            src="/sunflower-plant-button.png"
-            alt="Plant Sunflower"
-          />
+          <Text fontSize={"sm"}>{ids.length}x</Text>
         </Button>
       </Tooltip>
     </Fragment>
