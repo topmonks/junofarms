@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   collectionCodeId,
   feeCodeId,
@@ -11,6 +12,12 @@ import addresses from "./addresses.json" assert { type: "json" };
 import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import {
+  COLLECTION_TYPES,
+  collections,
+  metadata_per_collection,
+} from "./collections";
+import { metadata } from "./collections";
 
 const sender = (await kompleClient.signer.getAccounts())[0].address;
 
@@ -93,83 +100,98 @@ if (process.env.FORCE_DEPLOY || !addresses.fee) {
 
 const feeModule = await kompleClient.feeModule(addresses.fee);
 
-if (
-  process.env.FORCE_DEPLOY ||
-  !addresses.plantsCollection ||
-  !addresses.plantsMetadata
-) {
-  const createCollectionTx = await mintModule.client.createCollection({
-    codeId: collectionCodeId,
-    collectionConfig: {},
-    collectionInfo: {
-      collection_type: "komple",
-      name: "Junofarms Plants",
-      description: "plants",
-      image: "plants",
-    },
-    fundInfo: {
-      is_native: true,
-      denom: "ujunox",
-    },
-    linkedCollections: [],
-    metadataInfo: {
-      code_id: metadataCodeId,
-      instantiate_msg: {
-        metadata_type: "shared",
+let collectionId = addresses.lastCollectionId || 0;
+for (const collection_type of Object.values(COLLECTION_TYPES)) {
+  let metadataModule;
+  if (
+    process.env.FORCE_DEPLOY ||
+    !Object.keys(addresses[collection_type]).length
+  ) {
+    const createCollectionTx = await mintModule.client.createCollection({
+      codeId: collectionCodeId,
+      collectionConfig: {},
+      collectionInfo: collections[collection_type],
+      fundInfo: {
+        is_native: true,
+        denom: "ujunox",
       },
-    },
-    tokenInfo: {
-      symbol: "FARM",
-      minter: "",
-    },
-  });
+      linkedCollections: [],
+      metadataInfo: {
+        code_id: metadataCodeId,
+        instantiate_msg: {
+          metadata_type: "shared",
+        },
+      },
+      tokenInfo: {
+        symbol: "FARM",
+        minter: "",
+      },
+    });
 
-  const collectionAddr = createCollectionTx.events
-    .find(({ type }) => type === "wasm-token_instantiate")
-    ?.attributes.find(({ key }) => key === "_contract_address")?.value;
+    const collectionAddr = createCollectionTx.events
+      .find(({ type }) => type === "wasm-token_instantiate")
+      ?.attributes.find(({ key }) => key === "_contract_address")?.value;
 
-  if (!collectionAddr) {
-    throw new Error("collection not initialized");
+    if (!collectionAddr) {
+      throw new Error("collection not initialized");
+    } else {
+      console.log("collection initialized addr:", collectionAddr);
+    }
+
+    const collectionMetadataAddr = createCollectionTx.events
+      .find(({ type }) => type === "wasm-metadata_instantiate")
+      ?.attributes.find(({ key }) => key === "_contract_address")?.value;
+
+    if (!collectionMetadataAddr) {
+      throw new Error("collection metadata not initialized");
+    } else {
+      console.log(
+        "collection metadata initialized addr:",
+        collectionMetadataAddr
+      );
+    }
+
+    addresses[collection_type] = {
+      tokenAddr: collectionAddr,
+      metadataAddr: collectionMetadataAddr,
+      collectionId: ++collectionId,
+      //@ts-ignore
+      metadata: {},
+    };
+
+    const tokenModule = await kompleClient.tokenModule(collectionAddr);
+    metadataModule = await kompleClient.metadataModule(collectionMetadataAddr);
   } else {
-    console.log("collection initialized addr:", collectionAddr);
-  }
-
-  const collectionMetadataAddr = createCollectionTx.events
-    .find(({ type }) => type === "wasm-metadata_instantiate")
-    ?.attributes.find(({ key }) => key === "_contract_address")?.value;
-
-  if (!collectionMetadataAddr) {
-    throw new Error("collection metadata not initialized");
-  } else {
-    console.log(
-      "collection metadata initialized addr:",
-      collectionMetadataAddr
+    metadataModule = await kompleClient.metadataModule(
+      addresses[collection_type].metadataAddr
     );
   }
 
-  addresses.plantsCollection = collectionAddr;
-  addresses.plantsMetadata = collectionMetadataAddr;
-  addresses.plantsCollectionId = 1;
+  let metadataId = addresses[collection_type].lastMetadataId;
+  for (const metadata_type of Object.values(
+    metadata_per_collection[collection_type]
+  )) {
+    if (
+      process.env.FORCE_DEPLOY ||
+      //@ts-ignore
+      !addresses[collection_type].metadata[metadata_type]
+    ) {
+      const createMetadataId = await metadataModule.client.addMetadata(
+        metadata[metadata_type]
+      );
+
+      (addresses[collection_type] as any).metadata[metadata_type] = {
+        metadataId: ++metadataId,
+      };
+
+      console.log(`metadata type ${metadata_type}:`, metadataId);
+    }
+  }
+
+  addresses[collection_type].lastMetadataId = metadataId;
 }
 
-const tokenModule = await kompleClient.tokenModule(addresses.plantsCollection);
-const metadataModule = await kompleClient.metadataModule(
-  addresses.plantsMetadata
-);
-
-if (process.env.FORCE_DEPLOY || !addresses.plantsMetadataId) {
-  const createMetadataId = await metadataModule.client.addMetadata({
-    attributes: [
-      {
-        trait_type: "name",
-        value: "wheat",
-      },
-    ],
-    metaInfo: {},
-  });
-
-  addresses.plantsMetadataId = 1;
-}
+addresses.lastCollectionId = collectionId;
 
 writeFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "./addresses.json"),
@@ -181,10 +203,10 @@ writeFileSync(
 //   collectionId: addresses.plantsCollectionId,
 // });
 
-console.log(
-  await client.queryContractSmart(addresses.plantsCollection, {
-    all_nft_info: {
-      token_id: "1",
-    },
-  })
-);
+// console.log(
+//   await client.queryContractSmart(addresses.plantsCollection, {
+//     all_nft_info: {
+//       token_id: "1",
+//     },
+//   })
+// );

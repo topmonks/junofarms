@@ -29,5 +29,6 @@ export const kompleClient = new KompleClient(client, signer);
 
 export const mintCodeId = 61;
 export const feeCodeId = 55;
-export const collectionCodeId = 64;
+// export const collectionCodeId = 64;
+export const collectionCodeId = 2546;
 export const metadataCodeId = 60;

@@ -1,9 +1,20 @@
 {
     "hub": "juno1qmeewullldku5ahr2hm5knk9h8tjgq2sedwsw6mwvu7cgweq45uscsfwyw",
-    "mint": "juno1erexsqyr2uvpzc0ahd0ed6mhakn7au8r9uz27ju7a45ue8gm4a8sstaug4",
+    "mint": "juno1dxn84lf6ghvp9uc9y5uh6xs530cwjnz8qkqyrtelzdgjkt72sapsekyveh",
     "fee": "juno1m5jry7l8l5nv4dlezc8gr2ra0xxws59ufxptrulzu5l5gz7yzefsts05tl",
-    "plantsCollection": "juno15yu4p7j0e65vsazt08mdlzzezsps3wenrtuukjaxduzjhet2mw0qf4p0kk",
-    "plantsCollectionId": 1,
-    "plantsMetadata": "juno18nftphmzufjevjc276mrxq7pdvqzu423kc0vnlgeyytvm3adqthsqmnx4x",
-    "plantsMetadataId": 1
+    "basic": {
+        "tokenAddr": "juno1utqv3gte2xttl2a0er8gef2yr6ks3fy20rerc2kvmc6vvwzhu0wsqd7c7e",
+        "metadataAddr": "juno105ma79p5xp8g8rauhuapk0k90lc6tmxuxue0l2f9rfed7tea4weslk6mcx",
+        "collectionId": 1,
+        "metadata": {
+            "wheat": {
+                "metadataId": 1
+            },
+            "sunflower": {
+                "metadataId": 2
+            }
+        },
+        "lastMetadataId": 2
+    },
+    "lastCollectionId": 1
 }
