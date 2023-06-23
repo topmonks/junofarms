@@ -51,6 +51,7 @@ export default function PlantWheat() {
               alt="Plant Wheat"
             />
           }
+          isDisabled={ids.length === 0}
           isLoading={sendNft.isLoading}
           onClick={() => {
             if (!kompleTokenSignClient) {

@@ -51,6 +51,7 @@ export default function PlantSunflower() {
               alt="Plant Sunflower"
             />
           }
+          isDisabled={ids.length === 0}
           isLoading={sendNft.isLoading}
           onClick={() => {
             if (!kompleTokenSignClient) {
