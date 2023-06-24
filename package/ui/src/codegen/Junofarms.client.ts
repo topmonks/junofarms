@@ -13,6 +13,7 @@ import { Coin, StdFee } from "@cosmjs/amino";
 import {
   Addr,
   InstantiateMsg,
+  KompleCollection,
   ExecuteMsg,
   Binary,
   Cw721ReceiveMsg,
@@ -23,6 +24,7 @@ import {
   FarmProfile,
   Slot,
   Plant,
+  KomplePlant,
 } from "./Junofarms.types";
 export interface JunofarmsReadOnlyInterface {
   contractAddress: string;

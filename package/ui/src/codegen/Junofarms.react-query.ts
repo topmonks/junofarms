@@ -15,6 +15,7 @@ import { StdFee, Coin } from "@cosmjs/amino";
 import {
   Addr,
   InstantiateMsg,
+  KompleCollection,
   ExecuteMsg,
   Binary,
   Cw721ReceiveMsg,
@@ -25,6 +26,7 @@ import {
   FarmProfile,
   Slot,
   Plant,
+  KomplePlant,
 } from "./Junofarms.types";
 import { JunofarmsQueryClient, JunofarmsClient } from "./Junofarms.client";
 export const junofarmsQueryKeys = {

@@ -7,7 +7,12 @@
 export type Addr = string;
 export interface InstantiateMsg {
   admin?: string | null;
-  whitelisted_collections?: Addr[] | null;
+  komple_mint_addr?: string | null;
+  whitelisted_collections?: KompleCollection[] | null;
+}
+export interface KompleCollection {
+  addr: Addr;
+  id: number;
 }
 export type ExecuteMsg =
   | {
@@ -54,7 +59,8 @@ export type QueryMsg =
     };
 export interface ContractInformationResponse {
   admin: string;
-  whitelisted_collections: Addr[];
+  komple_mint_addr?: string | null;
+  whitelisted_collections: KompleCollection[];
 }
 export type PlantType = "sunflower" | "wheat";
 export type SlotType = "meadow" | "field";
@@ -68,6 +74,11 @@ export interface Slot {
 export interface Plant {
   current_stage: number;
   dead: boolean;
+  komple?: KomplePlant | null;
   stages: number;
   type: PlantType;
+}
+export interface KomplePlant {
+  collection_id: number;
+  metadata_id: number;
 }
