@@ -12,7 +12,6 @@ import { factories, gameState } from "../../state/junofarms";
 import WithWallet from "../../components/with-wallet";
 import StartGame from "./action/start-game";
 import StopGame from "./action/stop-game";
-import PlantSeed from "./action/plant-seed";
 import WaterPlant from "./action/water-plant";
 import Harvest from "./action/harvest";
 import PlantSeedNft from "./action/plant-seed-nft";
@@ -85,7 +84,6 @@ export default function Game() {
             <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
               <StartGame />
               <Till />
-              <PlantSeed />
               <PlantSeedNft />
               <WaterPlant />
               <Harvest />

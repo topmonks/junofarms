@@ -23,12 +23,6 @@ export type ExecuteMsg =
       };
     }
   | {
-      plant_seed: {
-        x: number;
-        y: number;
-      };
-    }
-  | {
       water_plant: {
         x: number;
         y: number;
@@ -62,7 +56,7 @@ export interface ContractInformationResponse {
   admin: string;
   whitelisted_collections: Addr[];
 }
-export type PlantType = "sunflower";
+export type PlantType = "sunflower" | "wheat";
 export type SlotType = "meadow" | "field";
 export interface FarmProfile {
   plots: Slot[][];

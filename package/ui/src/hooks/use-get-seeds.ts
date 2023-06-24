@@ -1,15 +1,21 @@
 import { useChain } from "@cosmos-kit/react";
 import { useRecoilValue } from "recoil";
+import { useMemo } from "react";
+import { useQueries } from "@tanstack/react-query";
+import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
+
 import { chainState } from "../state/cosmos";
 import useCw721QueryClient from "./use-juno-cw721-query-client";
 import { useCw721BaseTokensQuery } from "../codegen/Cw721Base.react-query";
-import { useQueries } from "@tanstack/react-query";
 import useKompleMetadataQueryClient from "./use-juno-komple-metadata-query-client";
 import { kompleMetadataQueries } from "../codegen/KompleMetadata.react-query";
-import { useMemo } from "react";
-import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
-export default function useGetSeeds(tokenAddr: string, metadataAddr: string) {
+export type Seeds = { [key in METADATA_TYPES]: string[] };
+
+export default function useGetSeeds(
+  tokenAddr: string,
+  metadataAddr: string
+): Seeds {
   const chain = useRecoilValue(chainState);
   const { address } = useChain(chain.chain_name);
 
@@ -22,7 +28,7 @@ export default function useGetSeeds(tokenAddr: string, metadataAddr: string) {
       owner: address!,
     },
     options: {
-      staleTime: 300000,
+      staleTime: Infinity,
       suspense: true,
       enabled: Boolean(address),
       keepPreviousData: true,
@@ -47,7 +53,7 @@ export default function useGetSeeds(tokenAddr: string, metadataAddr: string) {
   });
 
   return useMemo(() => {
-    const result: { [key in METADATA_TYPES]: string[] } = {
+    const result: Seeds = {
       [METADATA_TYPES.SUNFLOWER]: [],
       [METADATA_TYPES.WHEAT]: [],
     };

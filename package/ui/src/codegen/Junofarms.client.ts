@@ -82,18 +82,6 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     memo?: string,
     _funds?: Coin[]
   ) => Promise<ExecuteResult>;
-  plantSeed: (
-    {
-      x,
-      y,
-    }: {
-      x: number;
-      y: number;
-    },
-    fee?: number | StdFee | "auto",
-    memo?: string,
-    _funds?: Coin[]
-  ) => Promise<ExecuteResult>;
   waterPlant: (
     {
       x,
@@ -153,7 +141,6 @@ export class JunofarmsClient
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.tillGround = this.tillGround.bind(this);
-    this.plantSeed = this.plantSeed.bind(this);
     this.waterPlant = this.waterPlant.bind(this);
     this.harvest = this.harvest.bind(this);
     this.receiveNft = this.receiveNft.bind(this);
@@ -208,32 +195,6 @@ export class JunofarmsClient
       this.contractAddress,
       {
         till_ground: {
-          x,
-          y,
-        },
-      },
-      fee,
-      memo,
-      _funds
-    );
-  };
-  plantSeed = async (
-    {
-      x,
-      y,
-    }: {
-      x: number;
-      y: number;
-    },
-    fee: number | StdFee | "auto" = "auto",
-    memo?: string,
-    _funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
-      this.sender,
-      this.contractAddress,
-      {
-        plant_seed: {
           x,
           y,
         },
