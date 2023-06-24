@@ -27,7 +27,7 @@ export default function WaterPlant() {
     setSelectedCoords(opts.detail.coord);
   });
 
-  const shovelAnimationId = useRef<number>();
+  const waterAnimationId = useRef<number>();
 
   const reactQueryClient = useReactQueryClient();
   const junofarmsSignClient = useJunofarmsSignClient();
@@ -42,13 +42,13 @@ export default function WaterPlant() {
               coord: selectedCoords,
               currentFrame: 0,
               delta: 0,
-              image: gs.characterShovelImg,
-              props: gs.characterShovelAnimation,
+              image: gs.characterWaterImg,
+              props: gs.characterWaterAnimation,
             },
             g.animations
           );
 
-          shovelAnimationId.current = nextId;
+          waterAnimationId.current = nextId;
 
           return {
             ...g,
@@ -86,9 +86,9 @@ export default function WaterPlant() {
     },
     onSettled: () => {
       setGame((g) => {
-        if (shovelAnimationId.current != null) {
+        if (waterAnimationId.current != null) {
           const { animations } = removeAnimation(
-            shovelAnimationId.current,
+            waterAnimationId.current,
             g.animations
           );
 
