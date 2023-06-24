@@ -9,17 +9,22 @@ import {
 } from "./komple";
 
 import addresses from "./addresses.json" assert { type: "json" };
-import { writeFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import {
   COLLECTION_TYPES,
   collections,
   metadata_per_collection,
 } from "./collections";
 import { metadata } from "./collections";
+import yaml from "js-yaml";
 
 const sender = (await kompleClient.signer.getAccounts())[0].address;
+
+const pulumi_config: any = yaml.load(
+  readFileSync(resolve("../cloud/Pulumi.junofarms-prod.yaml"), "utf8")
+);
 
 if (process.env.FORCE_DEPLOY || !addresses.hub) {
   const hubCreateAddr =
@@ -78,6 +83,21 @@ if (process.env.FORCE_DEPLOY || !addresses.mint) {
 }
 
 const mintModule = await kompleClient.mintModule(addresses.mint);
+
+const junofarmsContract = pulumi_config.config["junofarms:contract"];
+if (junofarmsContract) {
+  const operators = await mintModule.queryClient.operators();
+
+  if (!operators.data.includes(junofarmsContract)) {
+    await mintModule.client.updateOperators({
+      addrs: operators.data.concat([junofarmsContract]),
+    });
+
+    console.log("contract", junofarmsContract, "added as komple operator");
+  }
+} else {
+  console.warn("missing config value junofarms:contract in pulumi config");
+}
 
 if (process.env.FORCE_DEPLOY || !addresses.fee) {
   const registerMintTx = await hubModule.client.registerModule({
