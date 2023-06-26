@@ -21,6 +21,7 @@ import { theme } from "./lib/theme";
 import Loading from "./components/loading";
 
 const Game = lazy(() => import("./pages/game/index"));
+const Preview = lazy(() => import("./pages/game/preview"));
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loading />}>
                 <Game />
+              </Suspense>
+            ),
+          },
+          {
+            path: ":address",
+            element: (
+              <Suspense fallback={<Loading />}>
+                <Preview />
               </Suspense>
             ),
           },
@@ -81,7 +90,7 @@ function App() {
             chains={chains.filter((c) =>
               ENABLED_TESTNETS.includes(c.chain_id as TESTNET)
             )}
-            logLevel="DEBUG"
+            logLevel={import.meta.env.DEV ? "DEBUG" : "INFO"}
             assetLists={assets}
             wallets={[...keplrWallets, ...leapWallets, ...cosmostationWallets]} // supported wallets
             endpointOptions={{

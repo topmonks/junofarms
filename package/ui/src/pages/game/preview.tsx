@@ -1,26 +1,42 @@
 import { Fragment, useEffect, useMemo, useRef } from "react";
-import { useChain } from "@cosmos-kit/react";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  useToast,
+} from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { chainState } from "../../state/cosmos";
 import { useJunofarmsGetFarmProfileQuery } from "../../codegen/Junofarms.react-query";
 import useJunofarmsQueryClient from "../../hooks/use-juno-junofarms-query-client";
-import Till from "./action/till";
 import Canvas from "./canvas";
 import { factories, gameState } from "../../state/junofarms";
 import WithWallet from "../../components/with-wallet";
-import StartGame from "./action/start-game";
-import StopGame from "./action/stop-game";
-import WaterPlant from "./action/water-plant";
-import Harvest from "./action/harvest";
-import PlantSeedNft from "./action/plant-seed-nft";
+import { chainState } from "../../state/cosmos";
+import { useChain } from "@cosmos-kit/react";
 
-export default function Game() {
+export default function Preview() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
 
   const chain = useRecoilValue(chainState);
-  const { address } = useChain(chain.chain_name);
+  const { address: visitorAddress } = useChain(chain.chain_name);
+
+  const visitorFarmProfile = useJunofarmsGetFarmProfileQuery({
+    client: junofarmsQueryClient,
+    args: {
+      address: visitorAddress!,
+    },
+    options: {
+      staleTime: 300000,
+      suspense: true,
+      enabled: Boolean(visitorAddress),
+    },
+  });
+
+  const { address } = useParams();
 
   const farmProfile = useJunofarmsGetFarmProfileQuery({
     client: junofarmsQueryClient,
@@ -33,18 +49,28 @@ export default function Game() {
       enabled: Boolean(address),
     },
   });
-  const hasNoFarm = useMemo(
+  const theAddressHasNoFarm = useMemo(
     () => Boolean(address) && farmProfile.data === null,
     [address, farmProfile.data]
   );
 
+  const toast = useToast();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (theAddressHasNoFarm) {
+      toast({
+        title: "The address " + address + " farm not found",
+        status: "error",
+      });
+      navigate("/game");
+    }
+  }, [theAddressHasNoFarm, toast, address, navigate]);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [game, setGame] = useRecoilState(gameState);
-  const resetGame = useResetRecoilState(gameState);
 
   useEffect(() => {
     if (farmProfile.data == null) {
-      resetGame();
       return;
     }
 
@@ -67,7 +93,7 @@ export default function Game() {
         select: undefined,
       };
     });
-  }, [farmProfile.data, setGame, resetGame]);
+  }, [farmProfile.data, setGame]);
 
   return (
     <Fragment>
@@ -83,19 +109,26 @@ export default function Game() {
           <Divider sx={{ mb: 3 }} />
           <WithWallet WalletButtonProps={{ width: "100%" }}>
             <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
-              <StartGame />
-              <Till />
-              <PlantSeedNft />
-              <WaterPlant />
-              <Harvest />
-              <Box sx={{ mt: 5 }}>
-                <StopGame />
-              </Box>
+              <Button
+                width={"100%"}
+                onClick={() => {
+                  navigate("/game");
+                }}
+                variant="outline"
+              >
+                {visitorFarmProfile.data
+                  ? "Return to your farm"
+                  : "Want your own farm?"}
+              </Button>
             </Box>
           </WithWallet>
         </Box>
         <Box flexGrow={1}>
-          <Canvas disabled={hasNoFarm} forwardRef={canvasRef} game={game} />
+          <Canvas
+            disabled={theAddressHasNoFarm}
+            forwardRef={canvasRef}
+            game={game}
+          />
         </Box>
         <Box flexBasis={"20%"}>
           <Heading as="h3" size="sm" pb={2}>

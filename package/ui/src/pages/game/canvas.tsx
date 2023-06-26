@@ -308,6 +308,12 @@ export default function Canvas({
       canvasHeight: h,
       canvasWidth: w,
     });
+
+    return () => {
+      if (canvas) {
+        canvas.dataset.inst = undefined;
+      }
+    };
   }, [game, forwardRef, h, w]);
 
   useEffect(() => {
