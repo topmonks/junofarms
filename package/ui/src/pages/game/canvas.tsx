@@ -78,6 +78,20 @@ function update(
       (a) => a.repeat == null || a.repeat > 0
     );
   }
+
+  const hovered = state.hovered;
+  if (hovered != null) {
+    const plant = state.grid[hovered[0]][hovered[1]].plant;
+    if (plant != null && !plant.is_dead && !plant.can_water) {
+      const actionAt =
+        plant.created_at + plant.current_stage * plant.growth_period;
+      const cooldown = actionAt - state.blocks;
+
+      state.help = `Next watering in ${cooldown} blocks.`;
+    } else {
+      delete state.help;
+    }
+  }
 }
 
 function showTextBubble(
@@ -175,15 +189,16 @@ function render(
   }
 
   const hovered = state.hovered;
-  if (hovered != null) {
-    // showTextBubble(
-    //   ctx,
-    //   "Testing cell bubble.",
-    //   hovered[1] * CELL_SIZE + CELL_SIZE / 2,
-    //   hovered[0] * CELL_SIZE + CELL_SIZE / 2,
-    //   canvasWidth,
-    //   canvasHeight
-    // );
+  const help = state.help;
+  if (hovered != null && help != null) {
+    showTextBubble(
+      ctx,
+      help,
+      hovered[1] * CELL_SIZE + CELL_SIZE / 2,
+      hovered[0] * CELL_SIZE + CELL_SIZE / 2,
+      canvasWidth,
+      canvasHeight
+    );
   }
 
   const animations = state.animations;

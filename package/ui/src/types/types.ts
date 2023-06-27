@@ -33,6 +33,8 @@ export interface Plant {
   is_dead: boolean;
   can_water: boolean;
   can_harvest: boolean;
+  created_at: number;
+  growth_period: number;
 }
 
 export interface Slot {
@@ -58,6 +60,8 @@ export interface GameState {
   };
   animations?: Animation[];
   hovered?: [number, number];
+  help?: string;
+  blocks: number;
 }
 
 export interface Animation {

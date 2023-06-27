@@ -64,6 +64,7 @@ export default function Game() {
             return factory(x as any);
           })
         ),
+        blocks: farmProfile.data.blocks,
         select: undefined,
       };
     });
