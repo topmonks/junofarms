@@ -143,6 +143,7 @@ export const gameState = atom<GameState>({
     prevTime: performance.now(),
     animations: [],
     events: [],
+    blocks: 0,
   },
 });
 
