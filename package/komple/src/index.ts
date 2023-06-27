@@ -198,6 +198,7 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
       !addresses[collection_type].metadata[metadata_type]
     ) {
       const _createMetadataId = await metadataModule.client.addMetadata(
+        //@ts-ignore
         metadata[metadata_type]
       );
 

@@ -21,7 +21,11 @@ export const metadata_per_collection = {
     SEED_METADATA_TYPES.WHEAT,
     SEED_METADATA_TYPES.SUNFLOWER,
   ],
-  [COLLECTION_TYPES.ANIMALS]: [],
+  [COLLECTION_TYPES.ANIMALS]: [
+    ANIMAL_METADATA_TYPES.CALF,
+    ANIMAL_METADATA_TYPES.CHICK,
+    ANIMAL_METADATA_TYPES.PIGLET,
+  ],
 };
 
 export const collections = {
@@ -54,6 +58,33 @@ export const metadata = {
       {
         trait_type: "type",
         value: "sunflower",
+      },
+    ],
+    metaInfo: {},
+  },
+  [ANIMAL_METADATA_TYPES.CALF]: {
+    attributes: [
+      {
+        trait_type: "type",
+        value: "calf",
+      },
+    ],
+    metaInfo: {},
+  },
+  [ANIMAL_METADATA_TYPES.CHICK]: {
+    attributes: [
+      {
+        trait_type: "type",
+        value: "chick",
+      },
+    ],
+    metaInfo: {},
+  },
+  [ANIMAL_METADATA_TYPES.PIGLET]: {
+    attributes: [
+      {
+        trait_type: "type",
+        value: "piglet",
       },
     ],
     metaInfo: {},
