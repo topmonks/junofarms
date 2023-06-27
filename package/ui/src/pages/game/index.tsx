@@ -66,7 +66,6 @@ export default function Game() {
           })
         ),
         blocks: farmProfile.data.blocks,
-        select: undefined,
       };
     });
   }, [farmProfile.data, setGame, resetGame]);
@@ -85,7 +84,9 @@ export default function Game() {
           <Divider sx={{ mb: 3 }} />
           <WithWallet WalletButtonProps={{ width: "100%" }}>
             <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
-              <TestAnimation />
+              {address === "juno1sp3wrffwvtsaz255x63w7c5m40glej8p3vwcwt" && (
+                <TestAnimation />
+              )}
               <StartGame />
               <Till />
               <PlantSeedNft />

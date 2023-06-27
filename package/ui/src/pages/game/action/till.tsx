@@ -11,7 +11,6 @@ import {
   removeAnimation,
 } from "../../../state/junofarms";
 import * as gs from "../../../components/game-assets";
-import { SLOT_FIELD, SLOT_MEADOW } from "../../../types/types";
 import useTxSuccess from "../../../hooks/use-tx-success";
 
 export default function Till() {
