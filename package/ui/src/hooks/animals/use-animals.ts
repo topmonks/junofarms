@@ -27,9 +27,9 @@ export function useListAnimals(address?: string) {
     }
     setGame((g) => {
       const meadows = g.grid
-        .map((r, y) =>
+        .map((r, x) =>
           r
-            .map((p, x) => {
+            .map((p, y) => {
               if (p.type === "meadow") {
                 return [x, y];
               } else {
