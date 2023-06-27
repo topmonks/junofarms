@@ -30,6 +30,7 @@ export interface Plant {
   current_stage: number;
   stages: number;
   images: HTMLImageElement[];
+  is_dead: boolean;
 }
 
 export interface Slot {

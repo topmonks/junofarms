@@ -28,7 +28,7 @@ export default function Game() {
       address: address!,
     },
     options: {
-      staleTime: 300000,
+      staleTime: 10000,
       suspense: true,
       enabled: Boolean(address),
     },
