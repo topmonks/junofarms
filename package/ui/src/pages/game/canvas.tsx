@@ -148,7 +148,7 @@ function render(
       const plant = cell.plant;
       if (plant != null) {
         const img = plant.is_dead
-          ? plant.images[plant.stages - 1]
+          ? plant.images[plant.stages]
           : plant.images[plant.current_stage - 1];
         for (let prow = 0; prow < 2; prow++) {
           for (let pcol = 0; pcol < 3; pcol++) {

@@ -31,6 +31,8 @@ export interface Plant {
   stages: number;
   images: HTMLImageElement[];
   is_dead: boolean;
+  can_water: boolean;
+  can_harvest: boolean;
 }
 
 export interface Slot {

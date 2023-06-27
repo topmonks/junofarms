@@ -110,7 +110,7 @@ export default function Harvest() {
 
     const plant = game.grid[selectedCoords[0]][selectedCoords[1]].plant;
 
-    return plant != null && plant.current_stage === plant.stages;
+    return Boolean(plant?.can_harvest);
   }, [selectedCoords, game]);
 
   return (
