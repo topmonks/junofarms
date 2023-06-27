@@ -13,7 +13,7 @@ import {
   Slot,
 } from "../types/types";
 import addresses from "@topmonks/junofarms-komple/src/addresses.json";
-import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
+import { SEED_METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
 export const contractState = selector<string>({
   key: "contractsState",
@@ -70,15 +70,15 @@ export const categories = {
     category: CATEGORY_TERRAIN,
     image: gs.fieldImg,
   },
-  [METADATA_TYPES.SUNFLOWER]: {
-    type: METADATA_TYPES.SUNFLOWER,
+  [SEED_METADATA_TYPES.SUNFLOWER]: {
+    type: SEED_METADATA_TYPES.SUNFLOWER,
     category: CATEGORY_PLANT,
     images: gs.sunflowerImg,
     current_stage: 1,
     stages: gs.sunflowerImg.length,
   },
-  [METADATA_TYPES.WHEAT]: {
-    type: METADATA_TYPES.WHEAT,
+  [SEED_METADATA_TYPES.WHEAT]: {
+    type: SEED_METADATA_TYPES.WHEAT,
     category: CATEGORY_PLANT,
     images: gs.wheatImg,
     current_stage: 1,
@@ -102,27 +102,35 @@ export const factories = {
 
     return slot;
   },
-  [METADATA_TYPES.SUNFLOWER]: (overrides?: Partial<Plant> | null) =>
-    Object.assign({}, categories[METADATA_TYPES.SUNFLOWER], overrides) as Plant,
-  [METADATA_TYPES.WHEAT]: (overrides?: Partial<Plant> | null) =>
-    Object.assign({}, categories[METADATA_TYPES.WHEAT], overrides) as Plant,
+  [SEED_METADATA_TYPES.SUNFLOWER]: (overrides?: Partial<Plant> | null) =>
+    Object.assign(
+      {},
+      categories[SEED_METADATA_TYPES.SUNFLOWER],
+      overrides
+    ) as Plant,
+  [SEED_METADATA_TYPES.WHEAT]: (overrides?: Partial<Plant> | null) =>
+    Object.assign(
+      {},
+      categories[SEED_METADATA_TYPES.WHEAT],
+      overrides
+    ) as Plant,
 };
 
 export const slotOptions = {
   [SLOT_MEADOW]: [{ type: SLOT_FIELD, image: categories[SLOT_FIELD].image }],
   [SLOT_FIELD]: [
     {
-      type: METADATA_TYPES.SUNFLOWER,
+      type: SEED_METADATA_TYPES.SUNFLOWER,
       image:
-        categories[METADATA_TYPES.SUNFLOWER].images[
-          categories[METADATA_TYPES.SUNFLOWER].stages - 2
+        categories[SEED_METADATA_TYPES.SUNFLOWER].images[
+          categories[SEED_METADATA_TYPES.SUNFLOWER].stages - 2
         ],
     },
     {
-      type: METADATA_TYPES.WHEAT,
+      type: SEED_METADATA_TYPES.WHEAT,
       image:
-        categories[METADATA_TYPES.WHEAT].images[
-          categories[METADATA_TYPES.WHEAT].stages - 2
+        categories[SEED_METADATA_TYPES.WHEAT].images[
+          categories[SEED_METADATA_TYPES.WHEAT].stages - 2
         ],
     },
   ],
@@ -142,6 +150,8 @@ export const gameState = atom<GameState>({
       ),
     prevTime: performance.now(),
     animations: [],
+    animals: [],
+    animalPositions: [],
     events: [],
     blocks: 0,
   },
@@ -154,12 +164,13 @@ export function pushAnimation(
   const currentAnimations = animations || [];
   const lastAnimation = currentAnimations[currentAnimations.length - 1];
 
-  const lastId = lastAnimation ? lastAnimation.id : null;
+  const lastId = lastAnimation ? parseInt(lastAnimation.id) : null;
   const nextId = lastId === null ? 0 : lastId + 1;
+  const nextIdString = nextId.toString();
 
   return {
-    animations: [...(animations || []), { ...animation, id: nextId }],
-    nextId,
+    animations: [...(animations || []), { ...animation, id: nextIdString }],
+    nextId: nextIdString,
   };
 }
 

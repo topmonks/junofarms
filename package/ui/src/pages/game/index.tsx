@@ -15,6 +15,7 @@ import StopGame from "./action/stop-game";
 import WaterPlant from "./action/water-plant";
 import Harvest from "./action/harvest";
 import PlantSeedNft from "./action/plant-seed-nft";
+import TestAnimation from "./action/test-animation";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -84,6 +85,7 @@ export default function Game() {
           <Divider sx={{ mb: 3 }} />
           <WithWallet WalletButtonProps={{ width: "100%" }}>
             <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
+              <TestAnimation />
               <StartGame />
               <Till />
               <PlantSeedNft />

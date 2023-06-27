@@ -214,10 +214,10 @@ function render(
         sy,
         animation.props.width,
         animation.props.height,
-        animation.coord[1] * CELL_SIZE,
-        animation.coord[0] * CELL_SIZE,
-        CELL_SIZE,
-        CELL_SIZE
+        (animation.props.offsetwidth || 0) + animation.coord[1] * CELL_SIZE,
+        (animation.props.offsetheight || 0) + animation.coord[0] * CELL_SIZE,
+        animation.props.dwidth || CELL_SIZE,
+        animation.props.dheight || CELL_SIZE
       );
     }
   }
@@ -232,7 +232,7 @@ function animateSProps(animation: Animation) {
       animation.currentFrame >
       animation.props.cols * animation.props.rows - 1
     ) {
-      animation.currentFrame = 0;
+      animation.currentFrame = animation.props.offsetFrame || 0;
 
       if (animation.repeat) {
         animation.repeat--;

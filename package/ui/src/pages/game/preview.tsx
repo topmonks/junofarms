@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import {
   Box,
   Button,
@@ -17,6 +17,7 @@ import { factories, gameState } from "../../state/junofarms";
 import WithWallet from "../../components/with-wallet";
 import { chainState } from "../../state/cosmos";
 import { useChain } from "@cosmos-kit/react";
+import useAnimals from "../../hooks/animals/use-animals";
 
 export default function Preview() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -37,6 +38,7 @@ export default function Preview() {
   });
 
   const { address } = useParams();
+  useAnimals(address);
 
   const farmProfile = useJunofarmsGetFarmProfileQuery({
     client: junofarmsQueryClient,
@@ -68,6 +70,7 @@ export default function Preview() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [game, setGame] = useRecoilState(gameState);
+  const resetGame = useResetRecoilState(gameState);
 
   useEffect(() => {
     if (farmProfile.data == null) {
@@ -113,6 +116,7 @@ export default function Preview() {
                 width={"100%"}
                 onClick={() => {
                   navigate("/game");
+                  resetGame();
                 }}
                 variant="outline"
               >

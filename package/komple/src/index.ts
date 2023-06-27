@@ -5,7 +5,6 @@ import {
   kompleClient,
   metadataCodeId,
   mintCodeId,
-  client,
 } from "./komple";
 
 import addresses from "./addresses.json" assert { type: "json" };
@@ -22,9 +21,9 @@ import yaml from "js-yaml";
 
 const sender = (await kompleClient.signer.getAccounts())[0].address;
 
-const pulumi_config: any = yaml.load(
+const pulumi_config = yaml.load(
   readFileSync(resolve("../cloud/Pulumi.junofarms-prod.yaml"), "utf8")
-);
+) as { config: { "junofarms:contract": string } };
 
 if (process.env.FORCE_DEPLOY || !addresses.hub) {
   const hubCreateAddr =
@@ -118,7 +117,7 @@ if (process.env.FORCE_DEPLOY || !addresses.fee) {
   addresses.fee = feeModuleAddr;
 }
 
-const feeModule = await kompleClient.feeModule(addresses.fee);
+const _feeModule = await kompleClient.feeModule(addresses.fee);
 
 let collectionId = addresses.lastCollectionId || 0;
 for (const collection_type of Object.values(COLLECTION_TYPES)) {
@@ -179,15 +178,17 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
       metadata: {},
     };
 
-    const tokenModule = await kompleClient.tokenModule(collectionAddr);
+    const _tokenModule = await kompleClient.tokenModule(collectionAddr);
     metadataModule = await kompleClient.metadataModule(collectionMetadataAddr);
   } else {
     metadataModule = await kompleClient.metadataModule(
+      // @ts-ignore
       addresses[collection_type].metadataAddr
     );
   }
 
-  let metadataId = addresses[collection_type].lastMetadataId;
+  // @ts-ignore
+  let metadataId = addresses[collection_type].lastMetadataId || 0;
   for (const metadata_type of Object.values(
     metadata_per_collection[collection_type]
   )) {
@@ -196,11 +197,12 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
       //@ts-ignore
       !addresses[collection_type].metadata[metadata_type]
     ) {
-      const createMetadataId = await metadataModule.client.addMetadata(
+      const _createMetadataId = await metadataModule.client.addMetadata(
         metadata[metadata_type]
       );
 
-      (addresses[collection_type] as any).metadata[metadata_type] = {
+      // @ts-ignore
+      addresses[collection_type].metadata[metadata_type] = {
         metadataId: ++metadataId,
       };
 
@@ -208,6 +210,7 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
     }
   }
 
+  // @ts-ignore
   addresses[collection_type].lastMetadataId = metadataId;
 }
 

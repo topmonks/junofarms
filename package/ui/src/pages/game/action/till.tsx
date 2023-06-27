@@ -28,7 +28,7 @@ export default function Till() {
     setSelectedCoords(opts.detail.coord);
   });
 
-  const shovelAnimationId = useRef<number>();
+  const shovelAnimationId = useRef<string>();
 
   const reactQueryClient = useReactQueryClient();
   const junofarmsSignClient = useJunofarmsSignClient();

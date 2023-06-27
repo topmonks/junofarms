@@ -1,4 +1,7 @@
-import { METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
+import {
+  SEED_METADATA_TYPES,
+  ANIMAL_METADATA_TYPES,
+} from "@topmonks/junofarms-komple/src/collections";
 
 export interface ClickEvent {
   type: "click";
@@ -23,10 +26,10 @@ export const SLOT_FIELD = "field";
 
 type SlotType = typeof SLOT_FIELD | typeof SLOT_MEADOW;
 
-export const PLANT_SUNFLOWER = METADATA_TYPES.SUNFLOWER;
+export const PLANT_SUNFLOWER = SEED_METADATA_TYPES.SUNFLOWER;
 
 export interface Plant {
-  type: METADATA_TYPES;
+  type: SEED_METADATA_TYPES;
   current_stage: number;
   stages: number;
   images: HTMLImageElement[];
@@ -50,7 +53,6 @@ export const CATEGORY_TERRAIN = "terrain";
 export type SLOT_TYPE = typeof SLOT_MEADOW | typeof SLOT_FIELD;
 
 export interface GameState {
-  // canvas: HTMLCanvasElement | null;
   prevTime: number;
   size: number;
   grid: Slot[][];
@@ -60,25 +62,57 @@ export interface GameState {
     items: { type: SLOT_TYPE; image: HTMLImageElement }[][];
   };
   animations?: Animation[];
+  animals: Animal[];
+  animalPositions: AnimalPosition[];
   hovered?: [number, number];
   help?: string;
   blocks: number;
 }
 
+export interface Animal {
+  type:
+    | ANIMAL_METADATA_TYPES.CHICK
+    | ANIMAL_METADATA_TYPES.PIGLET
+    | ANIMAL_METADATA_TYPES.CALF;
+  id: string;
+  change_timeout: number;
+}
+
+export type AnimalPositionActivity =
+  | "left"
+  | "right"
+  | "up"
+  | "down"
+  | "idle"
+  | "custom";
+
+export interface AnimalPosition {
+  id: string;
+  activity: AnimalPositionActivity;
+  coord: [number, number];
+}
+
 export interface Animation {
-  id: number;
+  id: string;
   coord: [number, number];
   props: AnimationProps;
   image: HTMLImageElement;
   currentFrame: number;
   repeat?: number;
+  fadeIn?: number;
   delta: number;
 }
 
 export interface AnimationProps {
+  propId?: string;
   width: number;
   height: number;
   rows: number;
   cols: number;
   timeout: number;
+  dwidth?: number;
+  dheight?: number;
+  offsetwidth?: number;
+  offsetheight?: number;
+  offsetFrame?: number;
 }

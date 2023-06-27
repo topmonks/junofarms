@@ -27,7 +27,7 @@ export default function WaterPlant() {
     setSelectedCoords(opts.detail.coord);
   });
 
-  const waterAnimationId = useRef<number>();
+  const waterAnimationId = useRef<string>();
 
   const reactQueryClient = useReactQueryClient();
   const junofarmsSignClient = useJunofarmsSignClient();

@@ -35,7 +35,7 @@ export default function PlantGeneric({
     komple.collections.basic.addr
   );
   const [, setGame] = useRecoilState(gameState);
-  const forkAnimationId = useRef<number>();
+  const forkAnimationId = useRef<string>();
   const reactQueryClient = useReactQueryClient();
 
   const txSuccess = useTxSuccess();
