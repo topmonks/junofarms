@@ -26,6 +26,20 @@ export function useListAnimals(address?: string) {
       return;
     }
     setGame((g) => {
+      const meadows = g.grid
+        .map((r, y) =>
+          r
+            .map((p, x) => {
+              if (p.type === "meadow") {
+                return [x, y];
+              } else {
+                return null;
+              }
+            })
+            .filter(Boolean)
+        )
+        .reduce((acc, r) => acc.concat(r), []);
+
       return {
         ...g,
         animals: [
@@ -57,10 +71,10 @@ export function useListAnimals(address?: string) {
             .map((_i, ix) => ({
               id: "" + ix,
               activity: "idle" as AnimalPositionActivity,
-              coord: [
-                Math.floor(Math.random() * g.size),
-                Math.floor(Math.random() * g.size),
-              ] as [number, number],
+              coord: meadows[Math.floor(Math.random() * meadows.length)] as [
+                number,
+                number
+              ],
             })),
         ],
       };
@@ -94,6 +108,11 @@ export function useMoveAnimals() {
             new_x = moveAnimalCoord(x, game.size - 1);
           } else {
             new_y = moveAnimalCoord(y, game.size - 1);
+          }
+
+          if (g.grid[new_x][new_y].type !== "meadow") {
+            new_x = x;
+            new_y = y;
           }
 
           let new_activity = a_pos.activity;
