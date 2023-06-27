@@ -149,6 +149,60 @@ export const characterIdleAnimation = {
   timeout: 300,
 };
 
+export const calfIdleImg = new Image();
+calfIdleImg.src = calfIdle;
+
+export const calfIdleAnimation = {
+  width: 32,
+  height: 32,
+  rows: 1,
+  cols: 8,
+  timeout: 300,
+};
+
+export const calfWalkImg = new Image();
+calfWalkImg.src = calfWalk;
+
+export const calfLeftAnimation = {
+  propId: "calfLeft",
+  width: 32,
+  height: 32,
+  rows: 1,
+  cols: 4,
+  timeout: 300,
+  offsetFrame: 0,
+};
+
+export const calfRightAnimation = {
+  propId: "calfRight",
+  width: 32,
+  height: 32,
+  rows: 1,
+  cols: 8,
+  timeout: 300,
+  offsetFrame: 4,
+};
+
+export const calfUpAnimation = {
+  propId: "calfUp",
+  width: 32,
+  height: 32,
+  rows: 1,
+  cols: 12,
+  timeout: 300,
+  offsetFrame: 8,
+};
+
+export const calfDownAnimation = {
+  propId: "calfDown",
+  width: 32,
+  height: 32,
+  rows: 1,
+  cols: 16,
+  timeout: 300,
+  offsetFrame: 12,
+};
+
 export const pigletIdleImg = new Image();
 pigletIdleImg.src = pigletIdle;
 

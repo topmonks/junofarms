@@ -43,9 +43,16 @@ export function useListAnimals(address?: string) {
               type: ANIMAL_METADATA_TYPES.PIGLET,
               change_timeout: Math.ceil(Math.random() * 10000) + 30000,
             })),
+          ...Array(1)
+            .fill(0)
+            .map((_i, ix) => ({
+              id: "" + (ix + 10),
+              type: ANIMAL_METADATA_TYPES.CALF,
+              change_timeout: Math.ceil(Math.random() * 10000) + 30000,
+            })),
         ],
         animalPositions: [
-          ...Array(10)
+          ...Array(11)
             .fill(0)
             .map((_i, ix) => ({
               id: "" + ix,
@@ -150,6 +157,22 @@ function getAnimalActivityPropsImage(
       image = gs.chickIdleImg;
     }
   } else if (type === ANIMAL_METADATA_TYPES.CALF) {
+    image = gs.calfWalkImg;
+    if (activity === "left") {
+      props = gs.calfLeftAnimation;
+    } else if (activity === "right") {
+      props = gs.calfRightAnimation;
+    } else if (activity === "down") {
+      props = gs.calfDownAnimation;
+    } else if (activity === "up") {
+      props = gs.calfUpAnimation;
+    } else if (activity === "custom") {
+      props = gs.calfIdleAnimation;
+      image = gs.calfIdleImg;
+    } else if (activity === "idle") {
+      props = gs.calfIdleAnimation;
+      image = gs.calfIdleImg;
+    }
   } else if (type === ANIMAL_METADATA_TYPES.PIGLET) {
     image = gs.pigletWalkImg;
     if (activity === "left") {
@@ -211,10 +234,10 @@ export function useDisplayAnimals() {
             props: {
               ...props,
               offsetheight: Math.floor(
-                Math.random() * (CELL_SIZE - (props.dheight || 16))
+                Math.random() * (CELL_SIZE - (props.dheight || props.height))
               ),
               offsetwidth: Math.floor(
-                Math.random() * (CELL_SIZE - (props.dwidth || 16))
+                Math.random() * (CELL_SIZE - (props.dwidth || props.height))
               ),
             },
           };
