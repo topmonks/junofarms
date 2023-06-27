@@ -41,6 +41,7 @@ export interface Slot {
   type: SlotType;
   plant?: Plant | null;
   image: HTMLImageElement;
+  can_till: boolean;
 }
 
 export const CATEGORY_PLANT = "plant";

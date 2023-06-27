@@ -69,6 +69,7 @@ export interface FarmProfileDto {
   plots: SlotDto[][];
 }
 export interface SlotDto {
+  can_till: boolean;
   plant?: PlantDto | null;
   type: SlotType;
 }
