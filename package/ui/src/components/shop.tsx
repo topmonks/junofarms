@@ -1,5 +1,7 @@
 import {
+  Badge,
   Button,
+  Divider,
   IconButton,
   Image,
   Modal,
@@ -20,6 +22,9 @@ import { chainState } from "../state/cosmos";
 import Wheat from "./shop/wheat";
 import Sunflower from "./shop/sunflower";
 import { shopOpenedState } from "../state/junofarms";
+import Calf from "./shop/calf";
+import Chick from "./shop/chick";
+import Piglet from "./shop/piglet";
 
 export default function Shop() {
   const [shopOpened, setShopOpened] = useRecoilState(shopOpenedState);
@@ -36,7 +41,7 @@ export default function Shop() {
   return (
     <Fragment>
       {isWalletConnected && (
-        <Tooltip label="Seed Store">
+        <Tooltip label="Store">
           <IconButton
             variant="outline"
             colorScheme="teal"
@@ -50,15 +55,33 @@ export default function Shop() {
       <Modal isOpen={shopOpened} onClose={onClose} size={"xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Seed store</ModalHeader>
+          <ModalHeader>Farm store</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <Badge colorScheme="green" variant={"subtle"}>
+              Seeds (2 JUNO)
+            </Badge>
             <Wrap spacing={5} justify="center">
               <WrapItem>
                 <Wheat />
               </WrapItem>
               <WrapItem>
                 <Sunflower />
+              </WrapItem>
+            </Wrap>
+            <Divider sx={{ my: 5 }} />
+            <Badge colorScheme="pink" variant={"subtle"}>
+              Animals (5 JUNO)
+            </Badge>
+            <Wrap spacing={5} justify="center">
+              <WrapItem>
+                <Chick />
+              </WrapItem>
+              <WrapItem>
+                <Piglet />
+              </WrapItem>
+              <WrapItem>
+                <Calf />
               </WrapItem>
             </Wrap>
           </ModalBody>

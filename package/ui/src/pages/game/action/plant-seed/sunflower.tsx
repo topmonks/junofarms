@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import useGetSeeds from "../../../../hooks/use-get-seeds";
+import useGetSeedNfts from "../../../../hooks/use-get-seed-nfts";
 import { kompleState } from "../../../../state/junofarms";
 import PlantGeneric from "./generic";
 
@@ -10,7 +10,7 @@ export default function PlantSunflower({
 }) {
   const komple = useRecoilValue(kompleState);
 
-  const seeds = useGetSeeds(
+  const seeds = useGetSeedNfts(
     komple.collections.basic.addr,
     komple.collections.basic.metadataAddr
   );

@@ -2,7 +2,7 @@ import { useChain } from "@cosmos-kit/react";
 import { useRecoilValue } from "recoil";
 import { useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
-import { SEED_METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
+import { ANIMAL_METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
 import { chainState } from "../state/cosmos";
 import useCw721QueryClient from "./use-juno-cw721-query-client";
@@ -10,14 +10,18 @@ import { useCw721BaseTokensQuery } from "../codegen/Cw721Base.react-query";
 import useKompleMetadataQueryClient from "./use-juno-komple-metadata-query-client";
 import { kompleMetadataQueries } from "../codegen/KompleMetadata.react-query";
 
-export type Seeds = { [key in SEED_METADATA_TYPES]: string[] };
+export type Animals = {
+  [key in ANIMAL_METADATA_TYPES]: string[];
+};
 
-export default function useGetSeeds(
+export default function useGetAnimalNfts(
   tokenAddr: string,
-  metadataAddr: string
-): Seeds {
+  metadataAddr: string,
+  address_to_check?: string
+): Animals {
   const chain = useRecoilValue(chainState);
-  const { address } = useChain(chain.chain_name);
+  const { address: userAddress } = useChain(chain.chain_name);
+  const address = address_to_check || userAddress;
 
   const cw721QueryClient = useCw721QueryClient(tokenAddr);
   const kompleMetadataQueryClient = useKompleMetadataQueryClient(metadataAddr);
@@ -26,6 +30,7 @@ export default function useGetSeeds(
     client: cw721QueryClient,
     args: {
       owner: address!,
+      limit: 30,
     },
     options: {
       staleTime: Infinity,
@@ -53,9 +58,10 @@ export default function useGetSeeds(
   });
 
   return useMemo(() => {
-    const result: Seeds = {
-      [SEED_METADATA_TYPES.SUNFLOWER]: [],
-      [SEED_METADATA_TYPES.WHEAT]: [],
+    const result: Animals = {
+      [ANIMAL_METADATA_TYPES.CALF]: [],
+      [ANIMAL_METADATA_TYPES.CHICK]: [],
+      [ANIMAL_METADATA_TYPES.PIGLET]: [],
     };
 
     if (!metadatas || !baseTokens.data) {
@@ -65,7 +71,7 @@ export default function useGetSeeds(
     for (const [ix, b] of baseTokens.data.tokens.entries()) {
       const type = metadatas[ix].data?.data.metadata.attributes.find(
         ({ trait_type }) => trait_type === "type"
-      )?.value as SEED_METADATA_TYPES | undefined;
+      )?.value as ANIMAL_METADATA_TYPES | undefined;
 
       if (!type) {
         continue;

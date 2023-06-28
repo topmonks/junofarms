@@ -1,7 +1,7 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 
-import { CELL_SIZE, gameState } from "../../state/junofarms";
+import { CELL_SIZE, gameState, kompleState } from "../../state/junofarms";
 import { ANIMAL_METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 import * as gs from "../../components/game-assets";
 import {
@@ -11,6 +11,7 @@ import {
   Animation,
   AnimationProps,
 } from "../../types/types";
+import useGetAnimalNfts from "../use-get-animal-nfts";
 
 export default function useAnimals(address?: string) {
   useListAnimals(address);
@@ -20,11 +21,35 @@ export default function useAnimals(address?: string) {
 
 export function useListAnimals(address?: string) {
   const [, setGame] = useRecoilState(gameState);
+  const komple = useRecoilValue(kompleState);
+  const animals = useGetAnimalNfts(
+    komple.collections.animals.addr,
+    komple.collections.animals.metadataAddr,
+    address
+  );
+
+  const gameStateAnimals = animals.calf
+    .map((id) => ({
+      id,
+      type: ANIMAL_METADATA_TYPES.CALF,
+      change_timeout: Math.ceil(Math.random() * 10000) + 30000,
+    }))
+    .concat(
+      animals.piglet.map((id) => ({
+        id,
+        type: ANIMAL_METADATA_TYPES.PIGLET,
+        change_timeout: Math.ceil(Math.random() * 10000) + 30000,
+      }))
+    )
+    .concat(
+      animals.chick.map((id) => ({
+        id,
+        type: ANIMAL_METADATA_TYPES.CHICK,
+        change_timeout: Math.ceil(Math.random() * 10000) + 10000,
+      }))
+    );
 
   useEffect(() => {
-    if (address !== "juno1zk4c4aamef42cgjexlmksypac8j5xw7n3s4wrd") {
-      return;
-    }
     setGame((g) => {
       const meadows = g.grid
         .map((r, x) =>
@@ -42,44 +67,26 @@ export function useListAnimals(address?: string) {
 
       return {
         ...g,
-        animals: [
-          ...Array(7)
-            .fill(0)
-            .map((_i, ix) => ({
-              id: "" + ix,
-              type: ANIMAL_METADATA_TYPES.CHICK,
-              change_timeout: Math.ceil(Math.random() * 10000) + 10000,
-            })),
-          ...Array(3)
-            .fill(0)
-            .map((_i, ix) => ({
-              id: "" + (ix + 7),
-              type: ANIMAL_METADATA_TYPES.PIGLET,
-              change_timeout: Math.ceil(Math.random() * 10000) + 30000,
-            })),
-          ...Array(1)
-            .fill(0)
-            .map((_i, ix) => ({
-              id: "" + (ix + 10),
-              type: ANIMAL_METADATA_TYPES.CALF,
-              change_timeout: Math.ceil(Math.random() * 10000) + 30000,
-            })),
-        ],
-        animalPositions: [
-          ...Array(11)
-            .fill(0)
-            .map((_i, ix) => ({
-              id: "" + ix,
+        animals: gameStateAnimals,
+        animalPositions: gameStateAnimals.map((a) => {
+          const position = g.animalPositions?.find((p) => a.id === p.id);
+
+          if (position) {
+            return position;
+          } else {
+            return {
+              id: a.id,
               activity: "idle" as AnimalPositionActivity,
               coord: meadows[Math.floor(Math.random() * meadows.length)] as [
                 number,
                 number
               ],
-            })),
-        ],
+            };
+          }
+        }),
       };
     });
-  }, [address, setGame]);
+  }, [address, setGame, gameStateAnimals.length]);
 }
 
 function moveAnimalCoord(n: number, max: number, min = 0) {
@@ -219,6 +226,11 @@ export function useDisplayAnimals() {
 
   useEffect(() => {
     setGame((g) => {
+      const non_animal_animations =
+        g.animations?.filter((a) => {
+          return g.animalPositions?.find((p) => p.id === a.id) === undefined;
+        }) || [];
+
       const animations = g.animalPositions
         .map((p) => {
           const animal = g.animals?.find((a) => a.id === p.id);
@@ -265,7 +277,7 @@ export function useDisplayAnimals() {
 
       return {
         ...g,
-        animations: animations,
+        animations: animations.concat(non_animal_animations),
       };
     });
   }, [game.animalPositions, setGame]);

@@ -16,6 +16,7 @@ import WaterPlant from "./action/water-plant";
 import Harvest from "./action/harvest";
 import PlantSeedNft from "./action/plant-seed-nft";
 import TestAnimation from "./action/test-animation";
+import useAnimals from "../../hooks/animals/use-animals";
 
 export default function Game() {
   const junofarmsQueryClient = useJunofarmsQueryClient();
@@ -38,6 +39,8 @@ export default function Game() {
     () => Boolean(address) && farmProfile.data === null,
     [address, farmProfile.data]
   );
+
+  useAnimals();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [game, setGame] = useRecoilState(gameState);

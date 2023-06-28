@@ -48,6 +48,22 @@ export const kompleState = selector({
               },
             },
           },
+          animals: {
+            addr: addresses.animals.tokenAddr,
+            id: addresses.animals.collectionId,
+            metadataAddr: addresses.animals.metadataAddr,
+            metadata: {
+              calf: {
+                id: addresses.animals.metadata.calf.metadataId,
+              },
+              chick: {
+                id: addresses.animals.metadata.chick.metadataId,
+              },
+              piglet: {
+                id: addresses.animals.metadata.piglet.metadataId,
+              },
+            },
+          },
         },
       };
     }
@@ -162,10 +178,12 @@ export function pushAnimation(
   animations?: Animation[]
 ) {
   const currentAnimations = animations || [];
-  const lastAnimation = currentAnimations[currentAnimations.length - 1];
+  const lastId = currentAnimations.reduce(
+    (max, a) => Math.max(parseInt(a.id), max),
+    0
+  );
 
-  const lastId = lastAnimation ? parseInt(lastAnimation.id) : null;
-  const nextId = lastId === null ? 0 : lastId + 1;
+  const nextId = lastId + 1;
   const nextIdString = nextId.toString();
 
   return {
