@@ -1,58 +1,34 @@
-import { Button, Image } from "@chakra-ui/react";
 import { Fragment } from "react";
 import { useRecoilValue } from "recoil";
-import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
-import { useKompleMintMintMutation } from "../../codegen/KompleMint.react-query";
-import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-client";
-import useTxSuccess from "../../hooks/use-tx-success";
 import { kompleState } from "../../state/junofarms";
+import GenericShopButton from "./generic";
+import useDefaultAsset from "../../hooks/use-default-asset";
 
 export default function Piglet() {
-  const cw721SignClient = useKompleMintSignClient();
-  const txSuccess = useTxSuccess();
-  const reactQueryClient = useReactQueryClient();
   const komple = useRecoilValue(kompleState);
-  const mint = useKompleMintMintMutation({
-    onSuccess: (r) => {
-      reactQueryClient.invalidateQueries([
-        {
-          method: "tokens",
-          contract: "cw721Base",
-          address: komple.collections.animals.addr,
-        },
-      ]);
-      txSuccess(r, {
-        title: "Succefully bought 1 piglet",
-      });
-    },
-  });
+  const defaultAsset = useDefaultAsset();
 
   return (
     <Fragment>
-      <Button
-        leftIcon={
-          <Image height="16px" src="/piglet-button.gif" alt="Store icon" />
-        }
-        loadingText="Buying a piglet"
-        isLoading={mint.isLoading}
-        onClick={() => {
-          if (!cw721SignClient) {
-            return;
-          }
-
-          mint.mutate({
-            client: cw721SignClient,
-            msg: {
-              collectionId: komple.collections.animals.id,
-              metadataId: komple.collections.animals.metadata.piglet.id,
-            },
-          });
+      <GenericShopButton
+        collectionAddr={komple.collections.animals.addr}
+        collectionId={komple.collections.animals.id}
+        metadataId={komple.collections.animals.metadata.piglet.id}
+        opts={{
+          colorScheme: "pink",
+          image: "/piglet-button.gif",
+          imageHeight: "16px",
+          label: "Piglet",
+          args: {
+            funds: [
+              {
+                amount: komple.collections.animals.fee,
+                denom: defaultAsset.base,
+              },
+            ],
+          },
         }}
-        colorScheme="pink"
-        variant="outline"
-      >
-        Piglet
-      </Button>
+      />
     </Fragment>
   );
 }

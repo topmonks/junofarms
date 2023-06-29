@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   collectionCodeId,
+  config,
   feeCodeId,
   kompleClient,
   metadataCodeId,
@@ -34,7 +35,7 @@ if (process.env.FORCE_DEPLOY || !addresses.hub) {
       hub_info: {
         name: "Junofarms",
         description: "Farmville like web game, running on JUNO network",
-        image: "foof",
+        image: "no-image",
         external_link: "https://junofarms.topmonks.com",
       },
     },
@@ -117,7 +118,7 @@ if (process.env.FORCE_DEPLOY || !addresses.fee) {
   addresses.fee = feeModuleAddr;
 }
 
-const _feeModule = await kompleClient.feeModule(addresses.fee);
+const feeModule = await kompleClient.feeModule(addresses.fee);
 
 let collectionId = addresses.lastCollectionId || 0;
 for (const collection_type of Object.values(COLLECTION_TYPES)) {
@@ -180,6 +181,21 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
 
     const _tokenModule = await kompleClient.tokenModule(collectionAddr);
     metadataModule = await kompleClient.metadataModule(collectionMetadataAddr);
+
+    if (config.collection_fees[collection_type]) {
+      const setFeeCollectionTx = await feeModule.client.setFee({
+        data: Buffer.from(
+          JSON.stringify({ value: config.collection_fees[collection_type] }),
+          "binary"
+        ).toString("base64"),
+        feeName: "price:" + collectionId,
+        feeType: "fixed",
+        moduleName: "mint",
+      });
+      // @ts-ignore
+      addresses[collection_type].mintFee =
+        config.collection_fees[collection_type];
+    }
   } else {
     metadataModule = await kompleClient.metadataModule(
       // @ts-ignore

@@ -1,7 +1,12 @@
-export function toBaseToken(n: bigint, decimals = 6) {
-  return BigInt(n) / BigInt(Math.pow(10, decimals));
+import Decimal from "decimal.js";
+
+export function toUserToken(n: Decimal.Value, decimals = 6) {
+  return new Decimal(n).div(Math.pow(10, decimals));
 }
 
+export function toBaseToken(n: Decimal.Value, decimals = 6) {
+  return new Decimal(n).mul(Math.pow(10, decimals));
+}
 export function addressShort(address: string | null) {
   if (!address) {
     return address;

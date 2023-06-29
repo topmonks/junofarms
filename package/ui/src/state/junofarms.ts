@@ -12,7 +12,7 @@ import {
   SLOT_MEADOW,
   Slot,
 } from "../types/types";
-import addresses from "@topmonks/junofarms-komple/src/addresses.json";
+import addresses from "@topmonks/junofarms-komple/src/addresses-juno-testnet.json";
 import { SEED_METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
 export const contractState = selector<string>({
@@ -47,6 +47,7 @@ export const kompleState = selector({
                 id: addresses.basic.metadata.sunflower.metadataId,
               },
             },
+            fee: addresses.basic.mintFee,
           },
           animals: {
             addr: addresses.animals.tokenAddr,
@@ -63,6 +64,7 @@ export const kompleState = selector({
                 id: addresses.animals.metadata.piglet.metadataId,
               },
             },
+            fee: addresses.animals.mintFee,
           },
         },
       };

@@ -1,31 +1,44 @@
-import { Button, Image } from "@chakra-ui/react";
+import { Button, Image, ThemeTypings } from "@chakra-ui/react";
 import { Fragment } from "react";
-import { useRecoilValue } from "recoil";
 import { useQueryClient as useReactQueryClient } from "@tanstack/react-query";
-
 import { useKompleMintMintMutation } from "../../codegen/KompleMint.react-query";
 import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-client";
 import useTxSuccess from "../../hooks/use-tx-success";
-import { kompleState } from "../../state/junofarms";
-import useDefaultAsset from "../../hooks/use-default-asset";
+import { KompleMintMintMutation } from "../../codegen/KompleMint.react-query";
 
-export default function Sunflower() {
-  const komple = useRecoilValue(kompleState);
-  const defaultAsset = useDefaultAsset();
+export default function GenericShopButton({
+  collectionAddr,
+  collectionId,
+  metadataId,
+  opts,
+}: {
+  collectionAddr: string;
+  collectionId: number;
+  metadataId: number;
+  opts: {
+    label: string;
+    image: string;
+    imageHeight?: string;
+    colorScheme: ThemeTypings["colorSchemes"];
+    successTitle?: string;
+    args?: KompleMintMintMutation["args"];
+  };
+}) {
   const cw721SignClient = useKompleMintSignClient();
-  const reactQueryClient = useReactQueryClient();
   const txSuccess = useTxSuccess();
+  const reactQueryClient = useReactQueryClient();
   const mint = useKompleMintMintMutation({
     onSuccess: (r) => {
+      console.log("invalidate");
       reactQueryClient.invalidateQueries([
         {
           method: "tokens",
           contract: "cw721Base",
-          address: komple.collections.basic.addr,
+          address: collectionAddr,
         },
       ]);
       txSuccess(r, {
-        title: "Succefully bought 1 seed of Sunflower",
+        title: opts.successTitle || `Succefully bought 1 ${opts.label}`,
       });
     },
   });
@@ -34,9 +47,13 @@ export default function Sunflower() {
     <Fragment>
       <Button
         leftIcon={
-          <Image height="22px" src="/sunflower-button.gif" alt="Store icon" />
+          <Image
+            height={opts.imageHeight}
+            src={opts.image}
+            alt={opts.label + " store icon"}
+          />
         }
-        loadingText="Buying Sunflower Seeds"
+        loadingText={`Buying a ${opts.label}`}
         isLoading={mint.isLoading}
         onClick={() => {
           if (!cw721SignClient) {
@@ -46,23 +63,16 @@ export default function Sunflower() {
           mint.mutate({
             client: cw721SignClient,
             msg: {
-              collectionId: komple.collections.basic.id,
-              metadataId: komple.collections.basic.metadata.sunflower.id,
+              collectionId,
+              metadataId,
             },
-            args: {
-              funds: [
-                {
-                  amount: komple.collections.basic.fee,
-                  denom: defaultAsset.base,
-                },
-              ],
-            },
+            args: opts.args,
           });
         }}
-        colorScheme="whatsapp"
+        colorScheme={opts.colorScheme}
         variant="outline"
       >
-        Sunflower
+        {opts.label}
       </Button>
     </Fragment>
   );

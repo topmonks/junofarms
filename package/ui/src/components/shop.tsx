@@ -21,10 +21,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { chainState } from "../state/cosmos";
 import Wheat from "./shop/wheat";
 import Sunflower from "./shop/sunflower";
-import { shopOpenedState } from "../state/junofarms";
+import { kompleState, shopOpenedState } from "../state/junofarms";
 import Calf from "./shop/calf";
 import Chick from "./shop/chick";
 import Piglet from "./shop/piglet";
+import useDefaultAsset from "../hooks/use-default-asset";
+import { toUserToken } from "../lib/token";
 
 export default function Shop() {
   const [shopOpened, setShopOpened] = useRecoilState(shopOpenedState);
@@ -37,6 +39,8 @@ export default function Shop() {
 
   const chain = useRecoilValue(chainState);
   const { isWalletConnected } = useChain(chain.chain_name);
+  const defaultAsset = useDefaultAsset();
+  const komple = useRecoilValue(kompleState);
 
   return (
     <Fragment>
@@ -59,7 +63,8 @@ export default function Shop() {
           <ModalCloseButton />
           <ModalBody>
             <Badge colorScheme="green" variant={"subtle"}>
-              Seeds (2 JUNO)
+              Seeds ({toUserToken(komple.collections.basic.fee).toString()}{" "}
+              {defaultAsset.symbol})
             </Badge>
             <Wrap spacing={5} justify="center">
               <WrapItem>
@@ -71,7 +76,8 @@ export default function Shop() {
             </Wrap>
             <Divider sx={{ my: 5 }} />
             <Badge colorScheme="pink" variant={"subtle"}>
-              Animals (5 JUNO)
+              Animals ({toUserToken(komple.collections.animals.fee).toString()}{" "}
+              {defaultAsset.symbol})
             </Badge>
             <Wrap spacing={5} justify="center">
               <WrapItem>

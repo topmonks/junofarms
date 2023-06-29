@@ -6,9 +6,11 @@ import { useKompleMintMintMutation } from "../../codegen/KompleMint.react-query"
 import useKompleMintSignClient from "../../hooks/use-juno-komple-mint-sign-client";
 import useTxSuccess from "../../hooks/use-tx-success";
 import { kompleState } from "../../state/junofarms";
+import useDefaultAsset from "../../hooks/use-default-asset";
 
 export default function Wheat() {
   const cw721SignClient = useKompleMintSignClient();
+  const defaultAsset = useDefaultAsset();
   const txSuccess = useTxSuccess();
   const reactQueryClient = useReactQueryClient();
   const komple = useRecoilValue(kompleState);
@@ -45,6 +47,14 @@ export default function Wheat() {
             msg: {
               collectionId: komple.collections.basic.id,
               metadataId: komple.collections.basic.metadata.wheat.id,
+            },
+            args: {
+              funds: [
+                {
+                  amount: komple.collections.basic.fee,
+                  denom: defaultAsset.base,
+                },
+              ],
             },
           });
         }}
