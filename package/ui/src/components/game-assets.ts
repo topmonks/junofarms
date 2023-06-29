@@ -188,7 +188,7 @@ export const calfUpAnimation = {
   width: 32,
   height: 32,
   rows: 1,
-  cols: 12,
+  cols: 16,
   timeout: 300,
   offsetFrame: 8,
 };
@@ -198,7 +198,7 @@ export const calfDownAnimation = {
   width: 32,
   height: 32,
   rows: 1,
-  cols: 16,
+  cols: 12,
   timeout: 300,
   offsetFrame: 12,
 };
