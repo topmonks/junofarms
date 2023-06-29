@@ -30,7 +30,7 @@ export default function Game() {
       address: address!,
     },
     options: {
-      staleTime: 10000,
+      refetchInterval: 10000,
       suspense: true,
       enabled: Boolean(address),
     },
