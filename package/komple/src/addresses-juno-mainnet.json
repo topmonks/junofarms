@@ -1,0 +1,39 @@
+{
+    "hub": "juno1xa22fhs5qexg0eukkwe4rm7egr5c2k2mdhyk8gfrpxske893cezq3zpn2z",
+    "mint": "juno1lny4krxvue58nhkwklwmrhphse5c04d544rrqeh3zna7lhcw4cjq2pyfth",
+    "fee": "juno19ymtek3r020p8tvjfthl3ufu4e9zdv8xse94722ze0cg6lw3xy4sq5nagj",
+    "lastCollectionId": 2,
+    "basic": {
+        "tokenAddr": "juno1nqlz0dwupczeyct7v4qsnqq6ar2nlgtmql7ekmacvrmwlgru9u4sfgqk8l",
+        "metadataAddr": "juno123m2nu7z0er46zt95ke49jjtzx3temgtsl7sv4p3p5dswrf8lgrshaldvv",
+        "collectionId": 1,
+        "metadata": {
+            "wheat": {
+                "metadataId": 1
+            },
+            "sunflower": {
+                "metadataId": 2
+            }
+        },
+        "mintFee": "2000000",
+        "lastMetadataId": 2
+    },
+    "animals": {
+        "tokenAddr": "juno1tgk5knwxaqwsdutmln5radxvtn2r424fhsk7ffamauy73ce5waksecqn88",
+        "metadataAddr": "juno1732tccckh3glrkngvgyd6380hmw77vytr2gz25ewna7exk7qqxfqlztlqf",
+        "collectionId": 2,
+        "metadata": {
+            "calf": {
+                "metadataId": 1
+            },
+            "chick": {
+                "metadataId": 2
+            },
+            "piglet": {
+                "metadataId": 3
+            }
+        },
+        "mintFee": "5000000",
+        "lastMetadataId": 3
+    }
+}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   collectionCodeId,
-  config,
+  collectionFees,
   feeCodeId,
   kompleClient,
   metadataCodeId,
@@ -182,10 +182,10 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
     const _tokenModule = await kompleClient.tokenModule(collectionAddr);
     metadataModule = await kompleClient.metadataModule(collectionMetadataAddr);
 
-    if (config.collection_fees[collection_type]) {
+    if (collectionFees[collection_type]) {
       const setFeeCollectionTx = await feeModule.client.setFee({
         data: Buffer.from(
-          JSON.stringify({ value: config.collection_fees[collection_type] }),
+          JSON.stringify({ value: collectionFees[collection_type] }),
           "binary"
         ).toString("base64"),
         feeName: "price:" + collectionId,
@@ -193,8 +193,7 @@ for (const collection_type of Object.values(COLLECTION_TYPES)) {
         moduleName: "mint",
       });
       // @ts-ignore
-      addresses[collection_type].mintFee =
-        config.collection_fees[collection_type];
+      addresses[collection_type].mintFee = collectionFees[collection_type];
     }
   } else {
     metadataModule = await kompleClient.metadataModule(

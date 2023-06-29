@@ -1,7 +1,7 @@
 import { atom, selector } from "recoil";
 import * as gs from "../components/game-assets";
 import { chainState } from "./cosmos";
-import { TESTNET } from "../lib/config";
+import { MAINNET, TESTNET } from "../lib/config";
 import {
   Animation,
   CATEGORY_PLANT,
@@ -12,7 +12,8 @@ import {
   SLOT_MEADOW,
   Slot,
 } from "../types/types";
-import addresses from "@topmonks/junofarms-komple/src/addresses-juno-testnet.json";
+import addressesJunoTestnet from "@topmonks/junofarms-komple/src/addresses-juno-testnet.json";
+import addressesJunoMainnet from "@topmonks/junofarms-komple/src/addresses-juno-mainnet.json";
 import { SEED_METADATA_TYPES } from "@topmonks/junofarms-komple/src/collections";
 
 export const contractState = selector<string>({
@@ -33,38 +34,75 @@ export const kompleState = selector({
     const chain = get(chainState);
     if (chain.chain_id === TESTNET.JUNO) {
       return {
-        mint: addresses.mint,
+        mint: addressesJunoTestnet.mint,
         collections: {
           basic: {
-            addr: addresses.basic.tokenAddr,
-            id: addresses.basic.collectionId,
-            metadataAddr: addresses.basic.metadataAddr,
+            addr: addressesJunoTestnet.basic.tokenAddr,
+            id: addressesJunoTestnet.basic.collectionId,
+            metadataAddr: addressesJunoTestnet.basic.metadataAddr,
             metadata: {
               wheat: {
-                id: addresses.basic.metadata.wheat.metadataId,
+                id: addressesJunoTestnet.basic.metadata.wheat.metadataId,
               },
               sunflower: {
-                id: addresses.basic.metadata.sunflower.metadataId,
+                id: addressesJunoTestnet.basic.metadata.sunflower.metadataId,
               },
             },
-            fee: addresses.basic.mintFee,
+            fee: addressesJunoTestnet.basic.mintFee,
           },
           animals: {
-            addr: addresses.animals.tokenAddr,
-            id: addresses.animals.collectionId,
-            metadataAddr: addresses.animals.metadataAddr,
+            addr: addressesJunoTestnet.animals.tokenAddr,
+            id: addressesJunoTestnet.animals.collectionId,
+            metadataAddr: addressesJunoTestnet.animals.metadataAddr,
             metadata: {
               calf: {
-                id: addresses.animals.metadata.calf.metadataId,
+                id: addressesJunoTestnet.animals.metadata.calf.metadataId,
               },
               chick: {
-                id: addresses.animals.metadata.chick.metadataId,
+                id: addressesJunoTestnet.animals.metadata.chick.metadataId,
               },
               piglet: {
-                id: addresses.animals.metadata.piglet.metadataId,
+                id: addressesJunoTestnet.animals.metadata.piglet.metadataId,
               },
             },
-            fee: addresses.animals.mintFee,
+            fee: addressesJunoTestnet.animals.mintFee,
+          },
+        },
+      };
+    } else if (chain.chain_id === MAINNET.JUNO) {
+      return {
+        mint: addressesJunoMainnet.mint,
+        collections: {
+          basic: {
+            addr: addressesJunoMainnet.basic.tokenAddr,
+            id: addressesJunoMainnet.basic.collectionId,
+            metadataAddr: addressesJunoMainnet.basic.metadataAddr,
+            metadata: {
+              wheat: {
+                id: addressesJunoMainnet.basic.metadata.wheat.metadataId,
+              },
+              sunflower: {
+                id: addressesJunoMainnet.basic.metadata.sunflower.metadataId,
+              },
+            },
+            fee: addressesJunoMainnet.basic.mintFee,
+          },
+          animals: {
+            addr: addressesJunoMainnet.animals.tokenAddr,
+            id: addressesJunoMainnet.animals.collectionId,
+            metadataAddr: addressesJunoMainnet.animals.metadataAddr,
+            metadata: {
+              calf: {
+                id: addressesJunoMainnet.animals.metadata.calf.metadataId,
+              },
+              chick: {
+                id: addressesJunoMainnet.animals.metadata.chick.metadataId,
+              },
+              piglet: {
+                id: addressesJunoMainnet.animals.metadata.piglet.metadataId,
+              },
+            },
+            fee: addressesJunoMainnet.animals.mintFee,
           },
         },
       };
