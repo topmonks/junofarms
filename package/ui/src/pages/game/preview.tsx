@@ -31,7 +31,7 @@ export default function Preview() {
       address: visitorAddress!,
     },
     options: {
-      staleTime: 300000,
+      refetchInterval: 10000,
       suspense: true,
       enabled: Boolean(visitorAddress),
     },
@@ -46,7 +46,7 @@ export default function Preview() {
       address: address!,
     },
     options: {
-      staleTime: 300000,
+      refetchInterval: 10000,
       suspense: true,
       enabled: Boolean(address),
     },
