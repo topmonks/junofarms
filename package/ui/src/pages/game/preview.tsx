@@ -94,6 +94,7 @@ export default function Preview() {
           })
         ),
         select: undefined,
+        blocks: farmProfile.data.blocks,
       };
     });
   }, [farmProfile.data, setGame]);
