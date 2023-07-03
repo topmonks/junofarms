@@ -73,6 +73,9 @@ const pigletWalk =
 const wateringCan =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAASFJREFUWIXtlcuNwkAMhv+g7SWuAO6r3FJAxJ1pgxHbRjgiIQrIbYRWQhzowBVwoQhzYGc05qnNQ7mMJUvzcOLPjziZiGBMmYzqPQEkAABfQ7yUaKY+LeZTFp/7PQBARHrVPJ+KyEVpnk8lPr+tb/a9ZoBoJswNimKhzpkbEJUgKsHcqLtBSmDtT1ivVkt1dzichwW4j9K5NYhKVNX8qX3WxyiOm66q5tjttuq+rmsYY8I+bsLOGfB196l1bh+iLYpvZau6/086zQHv3Itz+4foP0lrgNi5tZvgnPmUHY+/AQgAjDFPowc69EAMQFQC0CmO++KVcwDtBtH9sIkHy3+1dRNau2n7qJJOJfDrtykeCqAvGf13nAASQAJIAAlgdIArUIcw185cg3QAAAAASUVORK5CYII=";
 
+const sickle =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAKxJREFUWIXt1sENgzAMBVCC2MWZIGzHCp2mC8CJY2+eoJcO8blUlYgUVH+CwsGWLE44L3aICAC6ltE3Xd0BDnCAA+4AGNgXYxx3d7jqGqhCAMwpkjDPLwCfX4okMLXoxUXSLlkEPYK87TGOUH1+n/+PwwxQXUM+/zNBdaC0w2V524sxB+foXFx+CI8Q0/QwI6oB2E5UBTCI6gAr4tQ9UArLpxoA/y13gAMc0DY2NmKprb3uuAIAAAAASUVORK5CYII=";
+
 export const meadowImg = new Image();
 meadowImg.src = meadow;
 
@@ -113,6 +116,9 @@ characterShovelImg.src = characterShovel;
 
 export const wateringCanImg = new Image();
 wateringCanImg.src = wateringCan;
+
+export const sickleImg = new Image();
+sickleImg.src = sickle;
 
 export const characterShovelAnimation = {
   width: 64,

@@ -180,6 +180,14 @@ function render(
               row * CELL_SIZE + (CELL_SIZE / 2 - gs.wateringCanImg.height / 2)
             );
           }
+
+          if (plant.can_harvest) {
+            ctx.drawImage(
+              gs.sickleImg,
+              col * CELL_SIZE + (CELL_SIZE / 2 - gs.sickleImg.width / 2),
+              row * CELL_SIZE + (CELL_SIZE / 2 - gs.sickleImg.height / 2)
+            );
+          }
         }
       }
     }
