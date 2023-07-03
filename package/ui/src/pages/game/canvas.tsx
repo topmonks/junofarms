@@ -82,7 +82,12 @@ function update(
   const hovered = state.hovered;
   if (hovered != null) {
     const plant = state.grid[hovered[0]][hovered[1]].plant;
-    if (plant != null && !plant.is_dead && !plant.can_water) {
+    if (
+      plant != null &&
+      !plant.is_dead &&
+      !plant.can_water &&
+      !plant.can_harvest
+    ) {
       const actionAt =
         plant.created_at + plant.current_stage * plant.growth_period;
       const cooldown = actionAt - state.blocks;
