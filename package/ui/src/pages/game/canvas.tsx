@@ -175,13 +175,27 @@ function render(
 
           if (plant.can_water) {
             ctx.drawImage(
+              gs.panelImg,
+              col * CELL_SIZE + (CELL_SIZE / 2 - gs.panelImg.width / 2),
+              row * CELL_SIZE + (CELL_SIZE / 2 - gs.panelImg.height / 2)
+            );
+            ctx.drawImage(
               gs.wateringCanImg,
-              col * CELL_SIZE + (CELL_SIZE / 2 - gs.wateringCanImg.width / 2),
-              row * CELL_SIZE + (CELL_SIZE / 2 - gs.wateringCanImg.height / 2)
+              col * CELL_SIZE +
+                (CELL_SIZE / 2 - gs.wateringCanImg.width / 2) -
+                4,
+              row * CELL_SIZE +
+                (CELL_SIZE / 2 - gs.wateringCanImg.height / 2) +
+                4
             );
           }
 
           if (plant.can_harvest) {
+            ctx.drawImage(
+              gs.panelImg,
+              col * CELL_SIZE + (CELL_SIZE / 2 - gs.panelImg.width / 2),
+              row * CELL_SIZE + (CELL_SIZE / 2 - gs.panelImg.height / 2)
+            );
             ctx.drawImage(
               gs.sickleImg,
               col * CELL_SIZE + (CELL_SIZE / 2 - gs.sickleImg.width / 2),
