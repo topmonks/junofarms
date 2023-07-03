@@ -172,6 +172,14 @@ function render(
               row * CELL_SIZE + 16 * prow
             );
           }
+
+          if (plant.can_water) {
+            ctx.drawImage(
+              gs.wateringCanImg,
+              col * CELL_SIZE + (CELL_SIZE / 2 - gs.wateringCanImg.width / 2),
+              row * CELL_SIZE + (CELL_SIZE / 2 - gs.wateringCanImg.height / 2)
+            );
+          }
         }
       }
     }
