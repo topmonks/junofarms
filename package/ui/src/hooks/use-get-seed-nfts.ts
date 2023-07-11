@@ -32,7 +32,7 @@ export default function useGetSeedNfts(
       owner: address!,
     },
     options: {
-      staleTime: Infinity,
+      refetchInterval: 10000, // get seeds after harvest
       suspense: true,
       enabled: Boolean(address),
       keepPreviousData: true,
