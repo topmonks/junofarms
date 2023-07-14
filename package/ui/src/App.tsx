@@ -22,6 +22,7 @@ import Loading from "./components/loading";
 
 const Game = lazy(() => import("./pages/game/index"));
 const Preview = lazy(() => import("./pages/game/preview"));
+const Leaderboard = lazy(() => import("./pages/game/leaderboard"));
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loading />}>
                 <Preview />
+              </Suspense>
+            ),
+          },
+          {
+            path: "leaderboard",
+            element: (
+              <Suspense fallback={<Loading />}>
+                <Leaderboard />
               </Suspense>
             ),
           },
