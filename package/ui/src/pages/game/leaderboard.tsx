@@ -26,13 +26,15 @@ export default function Leaderboard() {
       <Table>
         <Thead>
           <Tr>
+            <Th>Rank</Th>
             <Th>Address</Th>
             <Th>Score</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {leaderboard.data?.map(([address, total]) => (
+          {leaderboard.data?.map(([address, total], idx) => (
             <Tr key={address}>
+              <Td>{idx + 1}</Td>
               <Td>{address}</Td>
               <Td>{total}</Td>
             </Tr>
