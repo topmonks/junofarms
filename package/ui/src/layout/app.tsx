@@ -1,5 +1,14 @@
-import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
-import { Fragment, Suspense, lazy, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import {
+  Fragment,
+  MouseEvent,
+  MouseEventHandler,
+  Suspense,
+  lazy,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import Loading from "../components/loading";
 import {
   Box,
@@ -29,8 +38,16 @@ const WalletButton = lazy(() => import("../components/wallet-button"));
 function Navigation() {
   const location = useLocation();
   const path = location.pathname;
-  const { isOpen, onToggle, onClose } = useDisclosure();
+  const { isOpen, onToggle: _onToggle, onClose } = useDisclosure();
+  const onToggle = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      _onToggle();
+    },
+    [_onToggle]
+  );
   const [address, setAddress] = useState("");
+  const addressRef = useRef(null);
 
   return (
     <>
@@ -54,20 +71,28 @@ function Navigation() {
           </MenuItem>
           <MenuItem as={Link} onClick={onToggle}>
             Watch game
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Address</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <Input onChange={(e) => setAddress(e.target.value)} />
-                </ModalBody>
-                <ModalFooter>
-                  {address.length > 0 && (
-                    <Link to={`/game/${address}`}>Watch</Link>
-                  )}
-                </ModalFooter>
-              </ModalContent>
+            <Modal
+              initialFocusRef={addressRef}
+              isOpen={isOpen}
+              onClose={onClose}
+            >
+              <form action={`/game/${address}`}>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Address</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <Input
+                      ref={addressRef}
+                      defaultValue={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  </ModalBody>
+                  <ModalFooter>
+                    {address.length > 0 && <Button type="submit">Watch</Button>}
+                  </ModalFooter>
+                </ModalContent>
+              </form>
             </Modal>
           </MenuItem>
         </MenuList>
