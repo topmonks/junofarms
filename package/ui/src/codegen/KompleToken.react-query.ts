@@ -53,7 +53,7 @@ export const kompleTokenQueryKeys = {
     ] as const,
   locks: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -64,7 +64,7 @@ export const kompleTokenQueryKeys = {
     ] as const,
   tokenLocks: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -75,7 +75,7 @@ export const kompleTokenQueryKeys = {
     ] as const,
   mintedTokensPerAddress: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -86,7 +86,7 @@ export const kompleTokenQueryKeys = {
     ] as const,
   subModules: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -97,7 +97,7 @@ export const kompleTokenQueryKeys = {
     ] as const,
   config: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -108,7 +108,7 @@ export const kompleTokenQueryKeys = {
     ] as const,
   moduleOperators: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -165,7 +165,7 @@ export const kompleTokenQueries = {
   > => ({
     queryKey: kompleTokenQueryKeys.mintedTokensPerAddress(
       client?.contractAddress,
-      args
+      args,
     ),
     queryFn: () =>
       client
@@ -241,7 +241,7 @@ export type KompleTokenModuleOperatorsQuery<TData> = KompleTokenReactQuery<
   TData
 >;
 export function useKompleTokenModuleOperatorsQuery<
-  TData = ResponseWrapperForArrayOfString
+  TData = ResponseWrapperForArrayOfString,
 >({ client, options }: KompleTokenModuleOperatorsQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfString, Error, TData>(
     kompleTokenQueryKeys.moduleOperators(client?.contractAddress),
@@ -253,7 +253,7 @@ export function useKompleTokenModuleOperatorsQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleTokenConfigQuery<TData> = KompleTokenReactQuery<
@@ -272,7 +272,7 @@ export function useKompleTokenConfigQuery<TData = ResponseWrapperForConfig>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleTokenSubModulesQuery<TData> = KompleTokenReactQuery<
@@ -280,7 +280,7 @@ export type KompleTokenSubModulesQuery<TData> = KompleTokenReactQuery<
   TData
 >;
 export function useKompleTokenSubModulesQuery<
-  TData = ResponseWrapperForSubModules
+  TData = ResponseWrapperForSubModules,
 >({ client, options }: KompleTokenSubModulesQuery<TData>) {
   return useQuery<ResponseWrapperForSubModules, Error, TData>(
     kompleTokenQueryKeys.subModules(client?.contractAddress),
@@ -292,7 +292,7 @@ export function useKompleTokenSubModulesQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleTokenMintedTokensPerAddressQuery<TData>
@@ -302,7 +302,7 @@ export interface KompleTokenMintedTokensPerAddressQuery<TData>
   };
 }
 export function useKompleTokenMintedTokensPerAddressQuery<
-  TData = ResponseWrapperForUint32
+  TData = ResponseWrapperForUint32,
 >({ client, args, options }: KompleTokenMintedTokensPerAddressQuery<TData>) {
   return useQuery<ResponseWrapperForUint32, Error, TData>(
     kompleTokenQueryKeys.mintedTokensPerAddress(client?.contractAddress, args),
@@ -316,7 +316,7 @@ export function useKompleTokenMintedTokensPerAddressQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleTokenTokenLocksQuery<TData>
@@ -342,7 +342,7 @@ export function useKompleTokenTokenLocksQuery<TData = ResponseWrapperForLocks>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleTokenLocksQuery<TData> = KompleTokenReactQuery<
@@ -361,7 +361,7 @@ export function useKompleTokenLocksQuery<TData = ResponseWrapperForLocks>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleTokenInitWhitelistContractMutation {
@@ -384,7 +384,7 @@ export function useKompleTokenInitWhitelistContractMutation(
       KompleTokenInitWhitelistContractMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -393,7 +393,7 @@ export function useKompleTokenInitWhitelistContractMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.initWhitelistContract(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenUpdateCollectionConfigMutation {
@@ -415,7 +415,7 @@ export function useKompleTokenUpdateCollectionConfigMutation(
       KompleTokenUpdateCollectionConfigMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -424,7 +424,7 @@ export function useKompleTokenUpdateCollectionConfigMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateCollectionConfig(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenUpdateTokenLocksMutation {
@@ -447,12 +447,12 @@ export function useKompleTokenUpdateTokenLocksMutation(
       KompleTokenUpdateTokenLocksMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenUpdateTokenLocksMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateTokenLocks(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenUpdateLocksMutation {
@@ -470,12 +470,12 @@ export function useKompleTokenUpdateLocksMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleTokenUpdateLocksMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenUpdateLocksMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateLocks(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenAdminTransferNftMutation {
@@ -498,12 +498,12 @@ export function useKompleTokenAdminTransferNftMutation(
       KompleTokenAdminTransferNftMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenAdminTransferNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.adminTransferNft(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenUpdateModuleOperatorsMutation {
@@ -525,7 +525,7 @@ export function useKompleTokenUpdateModuleOperatorsMutation(
       KompleTokenUpdateModuleOperatorsMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -534,7 +534,7 @@ export function useKompleTokenUpdateModuleOperatorsMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateModuleOperators(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenBurnMutation {
@@ -552,12 +552,12 @@ export function useKompleTokenBurnMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleTokenBurnMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenBurnMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.burn(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenMintMutation {
@@ -576,12 +576,12 @@ export function useKompleTokenMintMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleTokenMintMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenMintMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.mint(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenSendNftMutation {
@@ -601,12 +601,12 @@ export function useKompleTokenSendNftMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleTokenSendNftMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenSendNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.sendNft(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleTokenTransferNftMutation {
@@ -625,11 +625,11 @@ export function useKompleTokenTransferNftMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleTokenTransferNftMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleTokenTransferNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.transferNft(msg, fee, memo, funds),
-    options
+    options,
   );
 }

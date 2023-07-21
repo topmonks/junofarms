@@ -123,7 +123,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   sendNft: (
     {
@@ -137,7 +137,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   mint: (
     {
@@ -149,7 +149,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   burn: (
     {
@@ -159,7 +159,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateModuleOperators: (
     {
@@ -169,7 +169,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   adminTransferNft: (
     {
@@ -181,7 +181,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateLocks: (
     {
@@ -191,7 +191,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateTokenLocks: (
     {
@@ -203,7 +203,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateCollectionConfig: (
     {
@@ -213,7 +213,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   initWhitelistContract: (
     {
@@ -225,7 +225,7 @@ export interface KompleTokenInterface extends KompleTokenReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
 }
 export class KompleTokenClient
@@ -239,7 +239,7 @@ export class KompleTokenClient
   constructor(
     client: SigningCosmWasmClient,
     sender: string,
-    contractAddress: string
+    contractAddress: string,
   ) {
     super(client, contractAddress);
     this.client = client;
@@ -267,7 +267,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -280,7 +280,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   sendNft = async (
@@ -295,7 +295,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -309,7 +309,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   mint = async (
@@ -322,7 +322,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -335,7 +335,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   burn = async (
@@ -346,7 +346,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -358,7 +358,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateModuleOperators = async (
@@ -369,7 +369,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -381,7 +381,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   adminTransferNft = async (
@@ -394,7 +394,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -407,7 +407,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateLocks = async (
@@ -418,7 +418,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -430,7 +430,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateTokenLocks = async (
@@ -443,7 +443,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -456,7 +456,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateCollectionConfig = async (
@@ -467,7 +467,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -479,7 +479,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   initWhitelistContract = async (
@@ -492,7 +492,7 @@ export class KompleTokenClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -505,7 +505,7 @@ export class KompleTokenClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
 }

@@ -52,7 +52,7 @@ export const kompleMintQueryKeys = {
     [{ ...kompleMintQueryKeys.contract[0], address: contractAddress }] as const,
   config: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -63,7 +63,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   collectionAddress: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -74,7 +74,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   collectionInfo: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -85,7 +85,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   operators: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -96,7 +96,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   linkedCollections: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -107,7 +107,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   collections: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -118,7 +118,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   creators: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -129,7 +129,7 @@ export const kompleMintQueryKeys = {
     ] as const,
   mintLock: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -166,7 +166,7 @@ export const kompleMintQueries = {
   > => ({
     queryKey: kompleMintQueryKeys.collectionAddress(
       client?.contractAddress,
-      args
+      args,
     ),
     queryFn: () =>
       client
@@ -224,7 +224,7 @@ export const kompleMintQueries = {
   > => ({
     queryKey: kompleMintQueryKeys.linkedCollections(
       client?.contractAddress,
-      args
+      args,
     ),
     queryFn: () =>
       client
@@ -326,7 +326,7 @@ export function useKompleMintMintLockQuery<TData = ResponseWrapperForBoolean>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleMintCreatorsQuery<TData> = KompleMintReactQuery<
@@ -334,7 +334,7 @@ export type KompleMintCreatorsQuery<TData> = KompleMintReactQuery<
   TData
 >;
 export function useKompleMintCreatorsQuery<
-  TData = ResponseWrapperForArrayOfString
+  TData = ResponseWrapperForArrayOfString,
 >({ client, options }: KompleMintCreatorsQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfString, Error, TData>(
     kompleMintQueryKeys.creators(client?.contractAddress),
@@ -344,7 +344,7 @@ export function useKompleMintCreatorsQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMintCollectionsQuery<TData>
@@ -359,7 +359,7 @@ export interface KompleMintCollectionsQuery<TData>
   };
 }
 export function useKompleMintCollectionsQuery<
-  TData = ResponseWrapperForArrayOfCollectionsResponse
+  TData = ResponseWrapperForArrayOfCollectionsResponse,
 >({ client, args, options }: KompleMintCollectionsQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfCollectionsResponse, Error, TData>(
     kompleMintQueryKeys.collections(client?.contractAddress, args),
@@ -375,7 +375,7 @@ export function useKompleMintCollectionsQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMintLinkedCollectionsQuery<TData>
@@ -385,7 +385,7 @@ export interface KompleMintLinkedCollectionsQuery<TData>
   };
 }
 export function useKompleMintLinkedCollectionsQuery<
-  TData = ResponseWrapperForArrayOfUint32
+  TData = ResponseWrapperForArrayOfUint32,
 >({ client, args, options }: KompleMintLinkedCollectionsQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfUint32, Error, TData>(
     kompleMintQueryKeys.linkedCollections(client?.contractAddress, args),
@@ -399,7 +399,7 @@ export function useKompleMintLinkedCollectionsQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleMintOperatorsQuery<TData> = KompleMintReactQuery<
@@ -407,7 +407,7 @@ export type KompleMintOperatorsQuery<TData> = KompleMintReactQuery<
   TData
 >;
 export function useKompleMintOperatorsQuery<
-  TData = ResponseWrapperForArrayOfString
+  TData = ResponseWrapperForArrayOfString,
 >({ client, options }: KompleMintOperatorsQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfString, Error, TData>(
     kompleMintQueryKeys.operators(client?.contractAddress),
@@ -417,7 +417,7 @@ export function useKompleMintOperatorsQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMintCollectionInfoQuery<TData>
@@ -427,7 +427,7 @@ export interface KompleMintCollectionInfoQuery<TData>
   };
 }
 export function useKompleMintCollectionInfoQuery<
-  TData = ResponseWrapperForCollectionInfo
+  TData = ResponseWrapperForCollectionInfo,
 >({ client, args, options }: KompleMintCollectionInfoQuery<TData>) {
   return useQuery<ResponseWrapperForCollectionInfo, Error, TData>(
     kompleMintQueryKeys.collectionInfo(client?.contractAddress, args),
@@ -441,7 +441,7 @@ export function useKompleMintCollectionInfoQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMintCollectionAddressQuery<TData>
@@ -451,7 +451,7 @@ export interface KompleMintCollectionAddressQuery<TData>
   };
 }
 export function useKompleMintCollectionAddressQuery<
-  TData = ResponseWrapperForString
+  TData = ResponseWrapperForString,
 >({ client, args, options }: KompleMintCollectionAddressQuery<TData>) {
   return useQuery<ResponseWrapperForString, Error, TData>(
     kompleMintQueryKeys.collectionAddress(client?.contractAddress, args),
@@ -465,7 +465,7 @@ export function useKompleMintCollectionAddressQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleMintConfigQuery<TData> = KompleMintReactQuery<
@@ -484,7 +484,7 @@ export function useKompleMintConfigQuery<TData = ResponseWrapperForConfig>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMintReceiveMutation {
@@ -504,12 +504,12 @@ export function useKompleMintReceiveMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintReceiveMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintReceiveMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.receive(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintUpdateCreatorsMutation {
@@ -527,12 +527,12 @@ export function useKompleMintUpdateCreatorsMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintUpdateCreatorsMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintUpdateCreatorsMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateCreators(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintLockExecuteMutation {
@@ -547,12 +547,12 @@ export function useKompleMintLockExecuteMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintLockExecuteMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintLockExecuteMutation>(
     ({ client, args: { fee, memo, funds } = {} }) =>
       client.lockExecute(fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintUpdateCollectionStatusMutation {
@@ -575,7 +575,7 @@ export function useKompleMintUpdateCollectionStatusMutation(
       KompleMintUpdateCollectionStatusMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -584,7 +584,7 @@ export function useKompleMintUpdateCollectionStatusMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateCollectionStatus(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintUpdateLinkedCollectionsMutation {
@@ -607,7 +607,7 @@ export function useKompleMintUpdateLinkedCollectionsMutation(
       KompleMintUpdateLinkedCollectionsMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -616,7 +616,7 @@ export function useKompleMintUpdateLinkedCollectionsMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateLinkedCollections(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintUpdateOperatorsMutation {
@@ -634,12 +634,12 @@ export function useKompleMintUpdateOperatorsMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintUpdateOperatorsMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintUpdateOperatorsMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateOperators(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintPermissionMintMutation {
@@ -658,12 +658,12 @@ export function useKompleMintPermissionMintMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintPermissionMintMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintPermissionMintMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.permissionMint(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintAdminMintMutation {
@@ -683,12 +683,12 @@ export function useKompleMintAdminMintMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintAdminMintMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintAdminMintMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.adminMint(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintMintMutation {
@@ -707,12 +707,12 @@ export function useKompleMintMintMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMintMintMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintMintMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.mint(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintUpdateCollectionMintLockMutation {
@@ -735,7 +735,7 @@ export function useKompleMintUpdateCollectionMintLockMutation(
       KompleMintUpdateCollectionMintLockMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -744,7 +744,7 @@ export function useKompleMintUpdateCollectionMintLockMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateCollectionMintLock(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintUpdatePublicCollectionCreationMutation {
@@ -766,7 +766,7 @@ export function useKompleMintUpdatePublicCollectionCreationMutation(
       KompleMintUpdatePublicCollectionCreationMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -775,7 +775,7 @@ export function useKompleMintUpdatePublicCollectionCreationMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updatePublicCollectionCreation(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMintCreateCollectionMutation {
@@ -803,11 +803,11 @@ export function useKompleMintCreateCollectionMutation(
       KompleMintCreateCollectionMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMintCreateCollectionMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.createCollection(msg, fee, memo, funds),
-    options
+    options,
   );
 }

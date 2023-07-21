@@ -148,7 +148,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   linkMetadata: (
     {
@@ -160,7 +160,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   unlinkMetadata: (
     {
@@ -170,7 +170,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateMetaInfo: (
     {
@@ -184,7 +184,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   addAttribute: (
     {
@@ -198,7 +198,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateAttribute: (
     {
@@ -212,7 +212,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   removeAttribute: (
     {
@@ -226,7 +226,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateOperators: (
     {
@@ -236,7 +236,7 @@ export interface KompleMetadataInterface
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
 }
 export class KompleMetadataClient
@@ -250,7 +250,7 @@ export class KompleMetadataClient
   constructor(
     client: SigningCosmWasmClient,
     sender: string,
-    contractAddress: string
+    contractAddress: string,
   ) {
     super(client, contractAddress);
     this.client = client;
@@ -276,7 +276,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -289,7 +289,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   linkMetadata = async (
@@ -302,7 +302,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -315,7 +315,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   unlinkMetadata = async (
@@ -326,7 +326,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -338,7 +338,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateMetaInfo = async (
@@ -353,7 +353,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -367,7 +367,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   addAttribute = async (
@@ -382,7 +382,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -396,7 +396,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateAttribute = async (
@@ -411,7 +411,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -425,7 +425,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   removeAttribute = async (
@@ -440,7 +440,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -454,7 +454,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateOperators = async (
@@ -465,7 +465,7 @@ export class KompleMetadataClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -477,7 +477,7 @@ export class KompleMetadataClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
 }

@@ -316,7 +316,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   sendNft: (
     {
@@ -330,7 +330,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   approve: (
     {
@@ -344,7 +344,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   revoke: (
     {
@@ -356,7 +356,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   approveAll: (
     {
@@ -368,7 +368,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   revokeAll: (
     {
@@ -378,7 +378,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   mint: (
     {
@@ -394,7 +394,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   burn: (
     {
@@ -404,7 +404,7 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   extension: (
     {
@@ -414,13 +414,13 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<Null>;
   updateOwnership: (
     action: Action,
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
 }
 export class Cw721BaseClient
@@ -434,7 +434,7 @@ export class Cw721BaseClient
   constructor(
     client: SigningCosmWasmClient,
     sender: string,
-    contractAddress: string
+    contractAddress: string,
   ) {
     super(client, contractAddress);
     this.client = client;
@@ -462,7 +462,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -475,7 +475,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   sendNft = async (
@@ -490,7 +490,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -504,7 +504,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   approve = async (
@@ -519,7 +519,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -533,7 +533,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   revoke = async (
@@ -546,7 +546,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -559,7 +559,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   approveAll = async (
@@ -572,7 +572,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -585,7 +585,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   revokeAll = async (
@@ -596,7 +596,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -608,7 +608,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   mint = async (
@@ -625,7 +625,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -640,7 +640,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   burn = async (
@@ -651,7 +651,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -663,7 +663,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   extension = async (
@@ -674,7 +674,7 @@ export class Cw721BaseClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<Null> => {
     await this.client.execute(
       this.sender,
@@ -686,7 +686,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
 
     return null;
@@ -695,7 +695,7 @@ export class Cw721BaseClient
     action: Action,
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -705,7 +705,7 @@ export class Cw721BaseClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
 }

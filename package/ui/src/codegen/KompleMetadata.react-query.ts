@@ -45,7 +45,7 @@ export const kompleMetadataQueryKeys = {
     ] as const,
   config: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -56,7 +56,7 @@ export const kompleMetadataQueryKeys = {
     ] as const,
   rawMetadata: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -67,7 +67,7 @@ export const kompleMetadataQueryKeys = {
     ] as const,
   metadata: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -78,7 +78,7 @@ export const kompleMetadataQueryKeys = {
     ] as const,
   rawMetadatas: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -89,7 +89,7 @@ export const kompleMetadataQueryKeys = {
     ] as const,
   metadatas: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -100,7 +100,7 @@ export const kompleMetadataQueryKeys = {
     ] as const,
   operators: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -137,7 +137,7 @@ export const kompleMetadataQueries = {
   > => ({
     queryKey: kompleMetadataQueryKeys.rawMetadata(
       client?.contractAddress,
-      args
+      args,
     ),
     queryFn: () =>
       client
@@ -180,7 +180,7 @@ export const kompleMetadataQueries = {
   > => ({
     queryKey: kompleMetadataQueryKeys.rawMetadatas(
       client?.contractAddress,
-      args
+      args,
     ),
     queryFn: () =>
       client
@@ -244,7 +244,7 @@ export type KompleMetadataOperatorsQuery<TData> = KompleMetadataReactQuery<
   TData
 >;
 export function useKompleMetadataOperatorsQuery<
-  TData = ResponseWrapperForArrayOfString
+  TData = ResponseWrapperForArrayOfString,
 >({ client, options }: KompleMetadataOperatorsQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfString, Error, TData>(
     kompleMetadataQueryKeys.operators(client?.contractAddress),
@@ -254,7 +254,7 @@ export function useKompleMetadataOperatorsQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMetadataMetadatasQuery<TData>
@@ -268,7 +268,7 @@ export interface KompleMetadataMetadatasQuery<TData>
   };
 }
 export function useKompleMetadataMetadatasQuery<
-  TData = ResponseWrapperForArrayOfMetadataResponse
+  TData = ResponseWrapperForArrayOfMetadataResponse,
 >({ client, args, options }: KompleMetadataMetadatasQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfMetadataResponse, Error, TData>(
     kompleMetadataQueryKeys.metadatas(client?.contractAddress, args),
@@ -283,7 +283,7 @@ export function useKompleMetadataMetadatasQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMetadataRawMetadatasQuery<TData>
@@ -297,7 +297,7 @@ export interface KompleMetadataRawMetadatasQuery<TData>
   };
 }
 export function useKompleMetadataRawMetadatasQuery<
-  TData = ResponseWrapperForArrayOfMetadataResponse
+  TData = ResponseWrapperForArrayOfMetadataResponse,
 >({ client, args, options }: KompleMetadataRawMetadatasQuery<TData>) {
   return useQuery<ResponseWrapperForArrayOfMetadataResponse, Error, TData>(
     kompleMetadataQueryKeys.rawMetadatas(client?.contractAddress, args),
@@ -312,7 +312,7 @@ export function useKompleMetadataRawMetadatasQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMetadataMetadataQuery<TData>
@@ -322,7 +322,7 @@ export interface KompleMetadataMetadataQuery<TData>
   };
 }
 export function useKompleMetadataMetadataQuery<
-  TData = ResponseWrapperForMetadataResponse
+  TData = ResponseWrapperForMetadataResponse,
 >({ client, args, options }: KompleMetadataMetadataQuery<TData>) {
   return useQuery<ResponseWrapperForMetadataResponse, Error, TData>(
     kompleMetadataQueryKeys.metadata(client?.contractAddress, args),
@@ -336,7 +336,7 @@ export function useKompleMetadataMetadataQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMetadataRawMetadataQuery<TData>
@@ -346,7 +346,7 @@ export interface KompleMetadataRawMetadataQuery<TData>
   };
 }
 export function useKompleMetadataRawMetadataQuery<
-  TData = ResponseWrapperForMetadata
+  TData = ResponseWrapperForMetadata,
 >({ client, args, options }: KompleMetadataRawMetadataQuery<TData>) {
   return useQuery<ResponseWrapperForMetadata, Error, TData>(
     kompleMetadataQueryKeys.rawMetadata(client?.contractAddress, args),
@@ -360,7 +360,7 @@ export function useKompleMetadataRawMetadataQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type KompleMetadataConfigQuery<TData> = KompleMetadataReactQuery<
@@ -379,7 +379,7 @@ export function useKompleMetadataConfigQuery<TData = ResponseWrapperForConfig>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface KompleMetadataUpdateOperatorsMutation {
@@ -401,7 +401,7 @@ export function useKompleMetadataUpdateOperatorsMutation(
       KompleMetadataUpdateOperatorsMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -410,7 +410,7 @@ export function useKompleMetadataUpdateOperatorsMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateOperators(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataRemoveAttributeMutation {
@@ -434,7 +434,7 @@ export function useKompleMetadataRemoveAttributeMutation(
       KompleMetadataRemoveAttributeMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -443,7 +443,7 @@ export function useKompleMetadataRemoveAttributeMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.removeAttribute(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataUpdateAttributeMutation {
@@ -467,7 +467,7 @@ export function useKompleMetadataUpdateAttributeMutation(
       KompleMetadataUpdateAttributeMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -476,7 +476,7 @@ export function useKompleMetadataUpdateAttributeMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateAttribute(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataAddAttributeMutation {
@@ -500,12 +500,12 @@ export function useKompleMetadataAddAttributeMutation(
       KompleMetadataAddAttributeMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMetadataAddAttributeMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.addAttribute(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataUpdateMetaInfoMutation {
@@ -529,7 +529,7 @@ export function useKompleMetadataUpdateMetaInfoMutation(
       KompleMetadataUpdateMetaInfoMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -538,7 +538,7 @@ export function useKompleMetadataUpdateMetaInfoMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateMetaInfo(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataUnlinkMetadataMutation {
@@ -560,7 +560,7 @@ export function useKompleMetadataUnlinkMetadataMutation(
       KompleMetadataUnlinkMetadataMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -569,7 +569,7 @@ export function useKompleMetadataUnlinkMetadataMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.unlinkMetadata(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataLinkMetadataMutation {
@@ -592,12 +592,12 @@ export function useKompleMetadataLinkMetadataMutation(
       KompleMetadataLinkMetadataMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMetadataLinkMetadataMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.linkMetadata(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface KompleMetadataAddMetadataMutation {
@@ -616,11 +616,11 @@ export function useKompleMetadataAddMetadataMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, KompleMetadataAddMetadataMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, KompleMetadataAddMetadataMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.addMetadata(msg, fee, memo, funds),
-    options
+    options,
   );
 }

@@ -42,7 +42,7 @@ export const junofarmsQueryKeys = {
     [{ ...junofarmsQueryKeys.contract[0], address: contractAddress }] as const,
   contractInfo: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -53,7 +53,7 @@ export const junofarmsQueryKeys = {
     ] as const,
   getFarmProfile: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -64,7 +64,7 @@ export const junofarmsQueryKeys = {
     ] as const,
   leaderboard: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -139,12 +139,10 @@ export interface JunofarmsReactQuery<TResponse, TData = TResponse> {
     initialData?: undefined;
   };
 }
-export type JunofarmsLeaderboardQuery<TData> = JunofarmsReactQuery<
-  ArrayOfTupleOfUint64AndString,
-  TData
->;
+export interface JunofarmsLeaderboardQuery<TData>
+  extends JunofarmsReactQuery<ArrayOfTupleOfUint64AndString, TData> {}
 export function useJunofarmsLeaderboardQuery<
-  TData = ArrayOfTupleOfUint64AndString
+  TData = ArrayOfTupleOfUint64AndString,
 >({ client, options }: JunofarmsLeaderboardQuery<TData>) {
   return useQuery<ArrayOfTupleOfUint64AndString, Error, TData>(
     junofarmsQueryKeys.leaderboard(client?.contractAddress),
@@ -156,7 +154,7 @@ export function useJunofarmsLeaderboardQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface JunofarmsGetFarmProfileQuery<TData>
@@ -182,13 +180,11 @@ export function useJunofarmsGetFarmProfileQuery<TData = FarmProfileDto>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
-export type JunofarmsContractInfoQuery<TData> = JunofarmsReactQuery<
-  ContractInformation,
-  TData
->;
+export interface JunofarmsContractInfoQuery<TData>
+  extends JunofarmsReactQuery<ContractInformation, TData> {}
 export function useJunofarmsContractInfoQuery<TData = ContractInformation>({
   client,
   options,
@@ -203,7 +199,7 @@ export function useJunofarmsContractInfoQuery<TData = ContractInformation>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface JunofarmsReceiveNftMutation {
@@ -223,12 +219,12 @@ export function useJunofarmsReceiveNftMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsReceiveNftMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsReceiveNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.receiveNft(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsUpdateContractInformationMutation {
@@ -250,7 +246,7 @@ export function useJunofarmsUpdateContractInformationMutation(
       JunofarmsUpdateContractInformationMutation
     >,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<
     ExecuteResult,
@@ -259,7 +255,7 @@ export function useJunofarmsUpdateContractInformationMutation(
   >(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateContractInformation(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsHarvestMutation {
@@ -278,12 +274,12 @@ export function useJunofarmsHarvestMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsHarvestMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsHarvestMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.harvest(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsWaterPlantMutation {
@@ -302,12 +298,12 @@ export function useJunofarmsWaterPlantMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsWaterPlantMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsWaterPlantMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.waterPlant(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsTillGroundMutation {
@@ -326,12 +322,12 @@ export function useJunofarmsTillGroundMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsTillGroundMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsTillGroundMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.tillGround(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsStopMutation {
@@ -346,12 +342,12 @@ export function useJunofarmsStopMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsStopMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsStopMutation>(
     ({ client, args: { fee, memo, funds } = {} }) =>
       client.stop(fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsSetupFarmMutation {
@@ -370,12 +366,12 @@ export function useJunofarmsSetupFarmMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsSetupFarmMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsSetupFarmMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.setupFarm(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface JunofarmsStartMutation {
@@ -390,11 +386,11 @@ export function useJunofarmsStartMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, JunofarmsStartMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, JunofarmsStartMutation>(
     ({ client, args: { fee, memo, funds } = {} }) =>
       client.start(fee, memo, funds),
-    options
+    options,
   );
 }

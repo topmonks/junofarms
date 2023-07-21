@@ -191,7 +191,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updatePublicCollectionCreation: (
     {
@@ -201,7 +201,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateCollectionMintLock: (
     {
@@ -213,7 +213,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   mint: (
     {
@@ -225,7 +225,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   adminMint: (
     {
@@ -239,7 +239,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   permissionMint: (
     {
@@ -251,7 +251,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateOperators: (
     {
@@ -261,7 +261,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateLinkedCollections: (
     {
@@ -273,7 +273,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateCollectionStatus: (
     {
@@ -285,12 +285,12 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   lockExecute: (
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateCreators: (
     {
@@ -300,7 +300,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   receive: (
     {
@@ -314,7 +314,7 @@ export interface KompleMintInterface extends KompleMintReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
 }
 export class KompleMintClient
@@ -328,7 +328,7 @@ export class KompleMintClient
   constructor(
     client: SigningCosmWasmClient,
     sender: string,
-    contractAddress: string
+    contractAddress: string,
   ) {
     super(client, contractAddress);
     this.client = client;
@@ -369,7 +369,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -387,7 +387,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updatePublicCollectionCreation = async (
@@ -398,7 +398,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -410,7 +410,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateCollectionMintLock = async (
@@ -423,7 +423,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -436,7 +436,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   mint = async (
@@ -449,7 +449,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -462,7 +462,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   adminMint = async (
@@ -477,7 +477,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -491,7 +491,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   permissionMint = async (
@@ -504,7 +504,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -517,7 +517,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateOperators = async (
@@ -528,7 +528,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -540,7 +540,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateLinkedCollections = async (
@@ -553,7 +553,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -566,7 +566,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateCollectionStatus = async (
@@ -579,7 +579,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -592,13 +592,13 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   lockExecute = async (
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -608,7 +608,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateCreators = async (
@@ -619,7 +619,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -631,7 +631,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   receive = async (
@@ -646,7 +646,7 @@ export class KompleMintClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -660,7 +660,7 @@ export class KompleMintClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
 }

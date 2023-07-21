@@ -48,7 +48,7 @@ export const cw721BaseQueryKeys = {
     [{ ...cw721BaseQueryKeys.contract[0], address: contractAddress }] as const,
   ownerOf: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -59,7 +59,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   approval: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -70,7 +70,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   approvals: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -81,7 +81,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   operator: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -92,7 +92,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   allOperators: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -103,7 +103,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   numTokens: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -114,7 +114,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   contractInfo: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -125,7 +125,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   nftInfo: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -136,7 +136,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   allNftInfo: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -147,7 +147,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   tokens: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -158,7 +158,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   allTokens: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -169,7 +169,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   minter: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -180,7 +180,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   extension: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -191,7 +191,7 @@ export const cw721BaseQueryKeys = {
     ] as const,
   ownership: (
     contractAddress: string | undefined,
-    args?: Record<string, unknown>
+    args?: Record<string, unknown>,
   ) =>
     [
       {
@@ -499,7 +499,7 @@ export function useCw721BaseOwnershipQuery<TData = OwnershipForString>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseExtensionQuery<TData>
@@ -525,7 +525,7 @@ export function useCw721BaseExtensionQuery<TData = Null>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type Cw721BaseMinterQuery<TData> = Cw721BaseReactQuery<
@@ -544,7 +544,7 @@ export function useCw721BaseMinterQuery<TData = MinterResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseAllTokensQuery<TData>
@@ -572,7 +572,7 @@ export function useCw721BaseAllTokensQuery<TData = TokensResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseTokensQuery<TData>
@@ -602,7 +602,7 @@ export function useCw721BaseTokensQuery<TData = TokensResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseAllNftInfoQuery<TData>
@@ -613,7 +613,7 @@ export interface Cw721BaseAllNftInfoQuery<TData>
   };
 }
 export function useCw721BaseAllNftInfoQuery<
-  TData = AllNftInfoResponseForEmpty
+  TData = AllNftInfoResponseForEmpty,
 >({ client, args, options }: Cw721BaseAllNftInfoQuery<TData>) {
   return useQuery<AllNftInfoResponseForEmpty, Error, TData>(
     cw721BaseQueryKeys.allNftInfo(client?.contractAddress, args),
@@ -628,7 +628,7 @@ export function useCw721BaseAllNftInfoQuery<
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseNftInfoQuery<TData>
@@ -654,7 +654,7 @@ export function useCw721BaseNftInfoQuery<TData = NftInfoResponseForEmpty>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type Cw721BaseContractInfoQuery<TData> = Cw721BaseReactQuery<
@@ -675,7 +675,7 @@ export function useCw721BaseContractInfoQuery<TData = ContractInfoResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export type Cw721BaseNumTokensQuery<TData> = Cw721BaseReactQuery<
@@ -694,7 +694,7 @@ export function useCw721BaseNumTokensQuery<TData = NumTokensResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseAllOperatorsQuery<TData>
@@ -726,7 +726,7 @@ export function useCw721BaseAllOperatorsQuery<TData = OperatorsResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseOperatorQuery<TData>
@@ -756,7 +756,7 @@ export function useCw721BaseOperatorQuery<TData = OperatorResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseApprovalsQuery<TData>
@@ -784,7 +784,7 @@ export function useCw721BaseApprovalsQuery<TData = ApprovalsResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseApprovalQuery<TData>
@@ -814,7 +814,7 @@ export function useCw721BaseApprovalQuery<TData = ApprovalResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseOwnerOfQuery<TData>
@@ -842,7 +842,7 @@ export function useCw721BaseOwnerOfQuery<TData = OwnerOfResponse>({
       ...options,
       enabled:
         !!client && (options?.enabled != undefined ? options.enabled : true),
-    }
+    },
   );
 }
 export interface Cw721BaseUpdateOwnershipMutation {
@@ -858,12 +858,12 @@ export function useCw721BaseUpdateOwnershipMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseUpdateOwnershipMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseUpdateOwnershipMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.updateOwnership(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseExtensionMutation {
@@ -904,12 +904,12 @@ export function useCw721BaseBurnMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseBurnMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseBurnMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.burn(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseMintMutation {
@@ -930,12 +930,12 @@ export function useCw721BaseMintMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseMintMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseMintMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.mint(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseRevokeAllMutation {
@@ -953,12 +953,12 @@ export function useCw721BaseRevokeAllMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseRevokeAllMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseRevokeAllMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.revokeAll(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseApproveAllMutation {
@@ -977,12 +977,12 @@ export function useCw721BaseApproveAllMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseApproveAllMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseApproveAllMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.approveAll(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseRevokeMutation {
@@ -1001,12 +1001,12 @@ export function useCw721BaseRevokeMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseRevokeMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseRevokeMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.revoke(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseApproveMutation {
@@ -1026,12 +1026,12 @@ export function useCw721BaseApproveMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseApproveMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseApproveMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.approve(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseSendNftMutation {
@@ -1051,12 +1051,12 @@ export function useCw721BaseSendNftMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseSendNftMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseSendNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.sendNft(msg, fee, memo, funds),
-    options
+    options,
   );
 }
 export interface Cw721BaseTransferNftMutation {
@@ -1075,11 +1075,11 @@ export function useCw721BaseTransferNftMutation(
   options?: Omit<
     UseMutationOptions<ExecuteResult, Error, Cw721BaseTransferNftMutation>,
     "mutationFn"
-  >
+  >,
 ) {
   return useMutation<ExecuteResult, Error, Cw721BaseTransferNftMutation>(
     ({ client, msg, args: { fee, memo, funds } = {} }) =>
       client.transferNft(msg, fee, memo, funds),
-    options
+    options,
   );
 }

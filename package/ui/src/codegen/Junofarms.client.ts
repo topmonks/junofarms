@@ -75,7 +75,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
   start: (
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   setupFarm: (
     {
@@ -87,12 +87,12 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   stop: (
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   tillGround: (
     {
@@ -104,7 +104,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   waterPlant: (
     {
@@ -116,7 +116,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   harvest: (
     {
@@ -128,7 +128,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   updateContractInformation: (
     {
@@ -138,7 +138,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
   receiveNft: (
     {
@@ -152,7 +152,7 @@ export interface JunofarmsInterface extends JunofarmsReadOnlyInterface {
     },
     fee?: number | StdFee | "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ) => Promise<ExecuteResult>;
 }
 export class JunofarmsClient
@@ -166,7 +166,7 @@ export class JunofarmsClient
   constructor(
     client: SigningCosmWasmClient,
     sender: string,
-    contractAddress: string
+    contractAddress: string,
   ) {
     super(client, contractAddress);
     this.client = client;
@@ -185,7 +185,7 @@ export class JunofarmsClient
   start = async (
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -195,7 +195,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   setupFarm = async (
@@ -208,7 +208,7 @@ export class JunofarmsClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -221,13 +221,13 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   stop = async (
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -237,7 +237,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   tillGround = async (
@@ -250,7 +250,7 @@ export class JunofarmsClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -263,7 +263,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   waterPlant = async (
@@ -276,7 +276,7 @@ export class JunofarmsClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -289,7 +289,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   harvest = async (
@@ -302,7 +302,7 @@ export class JunofarmsClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -315,7 +315,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   updateContractInformation = async (
@@ -326,7 +326,7 @@ export class JunofarmsClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -338,7 +338,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
   receiveNft = async (
@@ -353,7 +353,7 @@ export class JunofarmsClient
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
-    _funds?: Coin[]
+    _funds?: Coin[],
   ): Promise<ExecuteResult> => {
     return await this.client.execute(
       this.sender,
@@ -367,7 +367,7 @@ export class JunofarmsClient
       },
       fee,
       memo,
-      _funds
+      _funds,
     );
   };
 }
