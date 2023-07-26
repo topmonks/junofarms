@@ -18,7 +18,7 @@
     "@cosmjs/encoding": "0.31.0",
     "@cosmos-kit/core": "1.5.8",
     "@cosmos-kit/cosmostation-extension": "0.16.11",
-    "@cosmos-kit/keplr": "0.33.38",
+    "@cosmos-kit/keplr": "0.33.42",
     "@cosmos-kit/leap-extension": "0.16.11",
     "@cosmos-kit/react": "1.3.31",
     "@cosmwasm/ts-codegen": "^0.33.0",
