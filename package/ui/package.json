@@ -20,7 +20,7 @@
     "@cosmos-kit/cosmostation-extension": "0.16.11",
     "@cosmos-kit/keplr": "0.33.38",
     "@cosmos-kit/leap-extension": "0.16.11",
-    "@cosmos-kit/react": "1.3.31",
+    "@cosmos-kit/react": "1.4.0",
     "@cosmwasm/ts-codegen": "^0.33.0",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
