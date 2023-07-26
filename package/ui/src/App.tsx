@@ -6,12 +6,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { ChainProvider } from "@cosmos-kit/react";
+import { ChainProvider } from "@cosmos-kit/react/dist/provider";
 import { GasPrice } from "@cosmjs/stargate";
 import { assets, chains } from "chain-registry";
-import { wallets as keplrWallets } from "@cosmos-kit/keplr-extension";
-import { wallets as leapWallets } from "@cosmos-kit/leap-extension";
-import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation-extension";
+import { wallets as keplrWallets } from "@cosmos-kit/keplr-extension/dist/keplr";
+import { wallets as leapWallets } from "@cosmos-kit/leap-extension/dist/leap";
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation-extension/dist/cosmostation";
+import "@interchain-ui/react/styles"
 
 import AppLayout from "./layout/app";
 import Error from "./pages/error";
