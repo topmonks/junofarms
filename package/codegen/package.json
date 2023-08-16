@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@cosmwasm/ts-codegen": "^0.33.0"
+    "@cosmwasm/ts-codegen": "^0.35.0"
   },
   "dependencies": {
     "dotenv-cli": "7.2.1"
