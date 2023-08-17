@@ -23,7 +23,7 @@
     "@cosmjs/proto-signing": "^0.31.0",
     "@cosmjs/tendermint-rpc": "^0.31.0",
     "cosmjs-types": "0.8.0",
-    "dotenv-cli": "7.2.1",
+    "dotenv-cli": "7.3.0",
     "js-yaml": "4.1.0",
     "komplejs": "1.0.3-beta"
   }
