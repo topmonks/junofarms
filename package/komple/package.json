@@ -19,7 +19,7 @@
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.31.0",
     "@cosmjs/crypto": "0.31.1",
-    "@cosmjs/encoding": "0.31.0",
+    "@cosmjs/encoding": "0.31.1",
     "@cosmjs/proto-signing": "^0.31.0",
     "@cosmjs/tendermint-rpc": "^0.31.0",
     "cosmjs-types": "0.8.0",
