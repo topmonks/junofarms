@@ -24,7 +24,7 @@
     "@cosmwasm/ts-codegen": "^0.35.0",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
-    "@keplr-wallet/types": "0.12.31",
+    "@keplr-wallet/types": "0.12.32",
     "@tanstack/react-query": "^4.32.0",
     "chain-registry": "^1.18.0",
     "cosmjs-types": "^0.8.0",
